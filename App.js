@@ -2,9 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Linking } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import 'react-native-gesture-handler';
-import { RecoilRoot } from 'recoil';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+//State
+import { RecoilRoot } from 'recoil';
+
+//Screens
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
+import MainApp from './screens/MainApp';
 
 const Stack = createStackNavigator();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
@@ -56,7 +63,6 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="RestroLogin" component={RestroLogin} />
           <Stack.Screen name="MainApp" component={MainApp} />
         </Stack.Navigator>
       </NavigationContainer>

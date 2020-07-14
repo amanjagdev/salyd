@@ -1,11 +1,20 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
+
+//Screens
+import HomeMain from './Home/HomeMain'
+import Restro from './Home/Restro'
+import Table from './Home/Table'
+
+const HomeStack = createStackNavigator();
 
 const Home = () => {
     return (
-        <View>
-            <Text>Home Screen Naviagtor</Text>
-        </View>
+        <HomeStack.Navigator>
+            <HomeStack.Screen name="HomeMain" component={HomeMain} />
+            <HomeStack.Screen name="Restro" component={Restro} />
+            <HomeStack.Screen name="Table" component={Table} />
+        </HomeStack.Navigator>
     )
 }
 
