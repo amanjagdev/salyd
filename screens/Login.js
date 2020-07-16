@@ -54,16 +54,16 @@ const Login = (props) => {
     }
     return (
 
-        <KeyboardAvoidingView behavior="position">
-            <Header>LOGIN</Header>
-            <View style={styles.container}>
+        <View style={styles.container}>
+            <KeyboardAvoidingView behavior="position">
+                <Header>LOGIN</Header>
 
                 <TextInput
                     label="Email"
                     mode="outlined"
                     value={email}
                     style={styles.inputbox}
-                    theme={{ colors: { primary: colors.accentPrimary } }}
+                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setEmail(text)}
                 />
 
@@ -73,7 +73,7 @@ const Login = (props) => {
                     value={password}
                     secureTextEntry={true}
                     style={styles.inputbox}
-                    theme={{ colors: { primary: colors.accentPrimary } }}
+                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setPassword(text)}
                 />
 
@@ -92,8 +92,8 @@ const Login = (props) => {
                     </Text>
                 </TouchableOpacity>
 
-            </View>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        </View>
 
     )
 }
