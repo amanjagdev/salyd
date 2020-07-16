@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet,Alert } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Axios from 'axios'
 
@@ -16,7 +16,6 @@ const SignUp = ({ navigation }) => {
     const [password, setPassword] = useState("");
 
     const saveDetails = () => {
-        console.log(name,email,phone,password);
         Axios.post(`${apiUrl}/signup`, {
             name,phone,email,password
         })
