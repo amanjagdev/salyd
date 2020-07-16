@@ -60,9 +60,9 @@ const App = () => {
         onStateChange={(state) =>
           AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
         } >
-        <Stack.Navigator>
-          <Stack.Screen name="Login" component={Login} />
+        <Stack.Navigator headerMode="none">
           <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainApp" component={MainApp} />
         </Stack.Navigator>
       </NavigationContainer>
