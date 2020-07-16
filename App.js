@@ -12,6 +12,7 @@ import { RecoilRoot } from 'recoil';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import MainApp from './screens/MainApp';
+import Splash from './screens/Splash';
 
 const Stack = createStackNavigator();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
@@ -61,6 +62,7 @@ const App = () => {
           AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
         } >
         <Stack.Navigator headerMode="none">
+          <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainApp" component={MainApp} />

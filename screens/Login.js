@@ -3,6 +3,7 @@ import { Button, TextInput } from "react-native-paper"
 import { CommonActions } from '@react-navigation/native';
 import {
     Text,
+    View,
     AsyncStorage,
     TouchableOpacity,
     KeyboardAvoidingView,
@@ -11,7 +12,7 @@ import {
 } from "react-native";
 import Axios from 'axios'
 
-import {apiUrl} from '../config/keys';
+import { apiUrl } from '../config/keys';
 
 //Components
 import Header from '../components/Header';
@@ -54,64 +55,68 @@ const Login = (props) => {
     return (
 
         <KeyboardAvoidingView behavior="position">
-            <Header>Login</Header>
+            <Header>LOGIN</Header>
+            <View style={styles.container}>
 
-            <TextInput
-                label="Email"
-                mode="outlined"
-                value={email}
-                style={styles.inputbox}
-                theme={{ colors: { primary: colors.accentPrimary } }}
-                onChangeText={(text) => setEmail(text)}
-            />
+                <TextInput
+                    label="Email"
+                    mode="outlined"
+                    value={email}
+                    style={styles.inputbox}
+                    theme={{ colors: { primary: colors.accentPrimary } }}
+                    onChangeText={(text) => setEmail(text)}
+                />
 
-            <TextInput
-                label="Password"
-                mode="outlined"
-                value={password}
-                secureTextEntry={true}
-                style={styles.inputbox}
-                theme={{ colors: { primary: colors.accentPrimary } }}
-                onChangeText={(text) => setPassword(text)}
-            />
+                <TextInput
+                    label="Password"
+                    mode="outlined"
+                    value={password}
+                    secureTextEntry={true}
+                    style={styles.inputbox}
+                    theme={{ colors: { primary: colors.accentPrimary } }}
+                    onChangeText={(text) => setPassword(text)}
+                />
 
-            <Button
-                mode="contained"
-                theme={{ colors: { primary: colors.accentPrimary } }}
-                style={styles.button}
-                onPress={() => signin(props)} >
-
-                Login
+                <Button
+                    mode="contained"
+                    color={colors.accentPrimary}
+                    style={styles.button}
+                    onPress={() => signin(props)}
+                >
+                    Login
                 </Button>
 
-            <TouchableOpacity onPress={() => signUpRedirect()}>
-                <Text style={styles.inputbox} >
-                    Dont Have an account ? SignUp
+                <TouchableOpacity onPress={() => signUpRedirect()}>
+                    <Text style={styles.inputbox} >
+                        Dont Have an account ? SignUp
                     </Text>
-            </TouchableOpacity>
+                </TouchableOpacity>
 
+            </View>
         </KeyboardAvoidingView>
 
     )
 }
 
 const styles = StyleSheet.create({
-    heading: {
-        fontSize: 20,
-        marginLeft: 18,
-        marginTop: 20
+    container: {
+        height: 800,
+        padding: 10,
+        backgroundColor: colors.back
     },
     inputbox: {
-        marginLeft: 18,
-        marginRight: 18,
-        marginTop: 18
+        margin: 10,
     },
     button: {
-        fontSize: 18,
-        marginLeft: 18,
-        marginRight: 18,
-        marginTop: 18
-    }
+        margin: 10,
+        borderRadius: 50,
+        marginBottom: 20,
+        color: colors.back
+    },
+    outlined: {
+        borderColor: colors.back,
+        borderWidth: 1
+    },
 })
 
 export default Login
