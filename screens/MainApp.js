@@ -8,12 +8,13 @@ const Tab = createMaterialBottomTabNavigator();
 //Screens
 import Home from './MainApp/Home'
 import Profile from './MainApp/Profile'
+import { colors } from '../constants/constant';
 
 const MainApp = () => {
     return (
         <Tab.Navigator
             initialRouteName="Home"
-            activeColor="#e91e63"
+            activeColor={colors.accentPrimary}
             style={{ backgroundColor: 'tomato' }}
         >
             <Tab.Screen

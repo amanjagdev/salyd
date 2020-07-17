@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Button, TextInput } from "react-native-paper"
 import { CommonActions } from '@react-navigation/native';
 import {
@@ -12,6 +12,10 @@ import {
 } from "react-native";
 import Axios from 'axios'
 
+//State
+import { GlobalContext } from '../context/GlobalState';
+
+//Congig
 import { apiUrl } from '../config/keys';
 
 //Components
@@ -19,17 +23,23 @@ import Header from '../components/Header';
 import { colors } from "../constants/constant";
 
 const Login = (props) => {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const { updateUser, user,token,updateToken} = useContext(GlobalContext)
+console.log(user,token)
     const signin = (props) => {
         Axios.post(`${apiUrl}/signin`, {
             "email": email,
             "password": password
         })
-            .then(async (data) => {
+            .then(async (res) => {
                 try {
-                    await AsyncStorage.setItem('token', data.token);
+                    updateToken(res.data.token)
+                    updateUser(res.data.user)
+                    await AsyncStorage.setItem('token', res.data.token);
+                    await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
                     Alert.alert("Successfully logged in");
 
                     props.navigation.dispatch(
@@ -37,7 +47,7 @@ const Login = (props) => {
                             index: 0,
                             routes: [
                                 {
-                                    name: 'profile',
+                                    name: 'MainApp',
                                 },
                             ],
                         })
@@ -47,6 +57,7 @@ const Login = (props) => {
                     Alert.alert(data.error);
                 }
             })
+            .catch(err => console.log(err))
     }
 
     const signUpRedirect = () => {
@@ -63,7 +74,7 @@ const Login = (props) => {
                     mode="outlined"
                     value={email}
                     style={styles.inputbox}
-                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
+                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setEmail(text)}
                 />
 
@@ -73,7 +84,7 @@ const Login = (props) => {
                     value={password}
                     secureTextEntry={true}
                     style={styles.inputbox}
-                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
+                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setPassword(text)}
                 />
 

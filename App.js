@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 //State
-import { RecoilRoot } from 'recoil';
+import { GlobalProvider } from './context/GlobalState'
 
 //Screens
 import Login from './screens/Login';
@@ -56,7 +56,7 @@ const App = () => {
     headerLeft: null
   }
   return (
-    <RecoilRoot>
+    <GlobalProvider>
       <NavigationContainer initialState={initialState}
         onStateChange={(state) =>
           AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
@@ -68,7 +68,7 @@ const App = () => {
           <Stack.Screen name="MainApp" component={MainApp} />
         </Stack.Navigator>
       </NavigationContainer>
-    </RecoilRoot>
+    </GlobalProvider>
 
   )
 }

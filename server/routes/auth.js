@@ -88,10 +88,10 @@ router.post('/signin',(req,res) => {
                     _id : user._id
                 },secret)
                 
-                const {_id,email,password} = user;
+                const {_id,email,password,name} = user;
                 res.json({
                     token ,
-                    user : {_id,email,password}
+                    user : {_id,email,password,name}
                 })
                 // res.json({
                 //     message : "signed in successfully"
