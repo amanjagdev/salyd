@@ -14,8 +14,8 @@ const MainApp = () => {
     return (
         <Tab.Navigator
             initialRouteName="Home"
-            activeColor={colors.accentPrimary}
-            style={{ backgroundColor: 'tomato' }}
+            activeColor={colors.back}
+            style={{ backgroundColor: colors.accentPrimary }}
         >
             <Tab.Screen
                 name="Home"

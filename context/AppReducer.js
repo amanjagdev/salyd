@@ -1,15 +1,18 @@
-import { Actions } from './GlobalState'
+const Actions = {
+    UPDATE_USER: "UPDATE_USER",
+    UPDATE_TOKEN: "UPDATE_TOKEN"
+}
 
 export default (state, action) => {
     switch (action.type) {
         case Actions.UPDATE_USER:
             return {
-                ...state,
+                token: state.token,
                 user: action.payload
             };
         case Actions.UPDATE_TOKEN:
             return {
-                ...state,
+                user: state.user,
                 token: action.payload
             };
         default:

@@ -1,25 +1,22 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import AppReducer from "./AppReducer";
 import { AsyncStorage } from 'react-native';
 
 const retrieveItem = async (key) => {
     try {
-      const retrievedItem =  await AsyncStorage.getItem(key);
-      const item = JSON.parse(retrievedItem);
-      console.log(item)
-      return item;
-    } catch (error) {
-      console.log(error.message);
+        const data = await AsyncStorage.getItem(key)
+        return data ? JSON.parse(data) : {};
+    } catch (e) {
+        console.log('Failed to fetch the data from storage');
     }
-    return
 }
 
 const initialState = {
-    user: retrieveItem('user'),
-    token: AsyncStorage.getItem('token'),
+    user: "Hi i am a user",
+    token: "Hi i am a token",
 };
 
-export const Actions = {
+const Actions = {
     UPDATE_USER: "UPDATE_USER",
     UPDATE_TOKEN: "UPDATE_TOKEN"
 }
@@ -28,6 +25,14 @@ export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initialState);
+
+    useEffect(() => {
+        async function fetchUser() {
+            const user = await retrieveItem('user');
+            dispatch({ type: Actions.UPDATE_USER, payload: user });
+        }
+        fetchUser();
+    }, [])
 
     const updateUser = (userData) => {
         dispatch({
