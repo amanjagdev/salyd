@@ -5,7 +5,7 @@ import { AsyncStorage } from 'react-native';
 const retrieveItem = async (key) => {
     try {
         const data = await AsyncStorage.getItem(key)
-        return data ? JSON.parse(data) : {};
+        return data ? JSON.parse(data) : null;
     } catch (e) {
         console.log('Failed to fetch the data from storage');
     }
@@ -31,7 +31,12 @@ export const GlobalProvider = ({ children }) => {
             const user = await retrieveItem('user');
             dispatch({ type: Actions.UPDATE_USER, payload: user });
         }
+        async function fetchToken() {
+            const token = await AsyncStorage.getItem('token');
+            dispatch({ type: Actions.UPDATE_TOKEN, payload: token });
+        }
         fetchUser();
+        fetchToken();
     }, [])
 
     const updateUser = (userData) => {

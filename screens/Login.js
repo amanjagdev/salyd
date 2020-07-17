@@ -27,8 +27,8 @@ const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { updateUser, user,token,updateToken} = useContext(GlobalContext)
-console.log(user,token)
+    const { updateUser, user, token, updateToken } = useContext(GlobalContext)
+    console.log(user, token)
     const signin = (props) => {
         Axios.post(`${apiUrl}/signin`, {
             "email": email,

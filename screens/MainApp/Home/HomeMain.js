@@ -6,11 +6,11 @@ import { GlobalContext } from '../../../context/GlobalState';
 const HomeMain = () => {
     const { user } = useContext(GlobalContext);
     console.log(user);
-    
+
     return (
         <View>
             <Text>Home Main Sceeen</Text>
-            {JSON.stringify(user)}
+            {/* {JSON.stringify(user)} */}
         </View>
     )
 }
