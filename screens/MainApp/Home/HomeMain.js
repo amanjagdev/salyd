@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Button, TextInput } from "react-native-paper";
 import { CommonActions } from '@react-navigation/native';
+import { apiUrl } from '../../../config/keys';
 
 import {
     View,
@@ -8,52 +9,54 @@ import {
     AsyncStorage,
     StyleSheet,
     Alert,
-} from "react-native"
+} from "react-native";
 
+import Header from '../../../components/Header';
+import { colors } from "../../../constants/constant";
+import Axios from "axios";
 
 const HomeMain = (props) => {
 
     const [tableId, setTableId] = useState(null);
 
-    const logout = async (props) => {
-        const token = await AsyncStorage.removeItem("token")
-        const user = await AsyncStorage.removeItem("user")
-        if (!token) {
-            props.navigation.replace("Login");
-        }
-    }
-
     const joinTable = (props) => {
-        props.navigation.navigate('jointable');
+        props.navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    {
+                        name: 'Table',
+                        params: { roomId: "TempID" }
+                    },
+                ],
+            })
+        );
     }
 
     const newTable = async (props) => {
         const token = await AsyncStorage.getItem("token");
         console.log(token);
-        fetch("http://26191dd2a3f2.ngrok.io/newtable", {
-            method: "POST",
+        Axios.post(`${apiUrl}/newtable`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
             },
-            body: JSON.stringify({
-                "tableId": tableId
-            })
-        }).then((res) => res.json())
-            .then(async (data) => {
-                if (data.error) {
+            tableId
+        })
+            .then(async (res) => {
+                if (res.data.error) {
                     Alert.alert("Sorry, Incorrect Table Id");
                 }
                 else {
-                    await AsyncStorage.setItem('tableId', data._id);
+                    await AsyncStorage.setItem('tableId', res.data._id);
                     Alert.alert("Table Created Successfully");
                     props.navigation.dispatch(
                         CommonActions.reset({
                             index: 0,
                             routes: [
                                 {
-                                    name: 'permission',
-                                    params: { roomId: data.roomId }
+                                    name: 'Table',
+                                    params: { roomId: res.data.roomId }
                                 },
                             ],
                         })
@@ -61,55 +64,62 @@ const HomeMain = (props) => {
                 }
             })
     }
+
     return (
         <View>
-            <Button
-                mode="contained"
-                theme={{ colors: { primary: "#0bb016" } }}
-                style={styles.button}
-                onPress={() => logout(props)} >
+            <Header>Home</Header>
+            <View style={styles.container}>
 
-                Logout
-        </Button>
+                <Button
+                    mode="contained"
+                    color={colors.accentPrimary}
+                    style={styles.button}
+                    onPress={() => scanQrc()}
+                >
+                    Scan QR Code
+                </Button>
 
-            <Button
-                mode="contained"
-                theme={{ colors: { primary: "#0bb016" } }}
-                style={styles.button}
-                onPress={() => joinTable(props)} >
+                <Text style={{ margin: 15 }}> Please enter the tableId mentioned below the QR code placed on your table</Text>
 
-                Join Table
-        </Button>
+                <TextInput
+                    label="Table ID"
+                    mode="outlined"
+                    value={tableId}
+                    style={{ margin: 15 }}
+                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
+                    onChangeText={(text) => setTableId(text)}
+                />
 
-            <Button
-                mode="contained"
-                theme={{ colors: { primary: "#0bb016" } }}
-                style={styles.button}
-                onPress={() => scanQrc(props)} >
+                <Button
+                    mode="contained"
+                    color={colors.accentPrimary}
+                    style={styles.button}
+                    onPress={() => newTable()}
+                >
+                    Proceed
+                </Button>
+                <Text style={{
+                    fontSize: 25, fontWeight: "bold", marginLeft: 15, color: colors.accentPrimary
+                }}>Join A Table</Text>
 
-                Scan QR Code
-        </Button>
+                <TextInput
+                    label="Enter table id"
+                    mode="outlined"
+                    value={tableId}
+                    style={{ margin: 15 }}
+                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
+                    onChangeText={(text) => setTableId(text)}
+                />
+                <Button
+                    mode="contained"
+                    color={colors.accentPrimary}
+                    style={styles.button}
+                    onPress={() => joinTable(props)}
+                >
+                    Join Table
+                </Button>
 
-            <Text style={{ margin: 15 }}> Please enter the tableId mentioned below the QR code placed on your table</Text>
-            <TextInput
-                label="Enter table id"
-                mode="outlined"
-                value={tableId}
-                style={{ margin: 15 }}
-                theme={{ colors: { primary: "#0bb016" } }}
-                onChangeText={(text) => setTableId(text)}
-            />
-
-            <Button
-                mode="contained"
-                theme={{ colors: { primary: "#0bb016" } }}
-                style={styles.button}
-                onPress={() => newTable(props)} >
-
-                Proceed
-        </Button>
-
-
+            </View>
         </View>
     )
 }
@@ -120,6 +130,19 @@ const styles = StyleSheet.create({
         marginLeft: 18,
         marginRight: 18,
         marginTop: 18
-    }
+    },
+    container: {
+        backgroundColor: colors.back
+    },
+    button: {
+        margin: 10,
+        borderRadius: 50,
+        marginBottom: 20,
+        color: colors.back
+    },
+    outlined: {
+        borderColor: colors.back,
+        borderWidth: 1
+    },
 })
 export default HomeMain;
