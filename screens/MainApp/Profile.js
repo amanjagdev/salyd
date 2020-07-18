@@ -9,7 +9,7 @@ const ProfileStack = createStackNavigator();
 
 const Profile = () => {
     return (
-        <ProfileStack.Navigator>
+        <ProfileStack.Navigator headerMode="none">
             <ProfileStack.Screen name="ViewProfile" component={ViewProfile} />
             <ProfileStack.Screen name="EditProfile" component={EditProfile} />
         </ProfileStack.Navigator>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'react-native-gesture-handler';
-import { AsyncStorgae } from 'react-native'
+import { AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -20,16 +20,21 @@ const App = () => {
   const [isReady, setIsReady] = useState(false);
   const [initialScreen, setInititalScreen] = useState("Splash");
 
-  // //TODO: set initial screen on the basis of user
-  // useEffect(() => {
-  //   const checkToken = async () => {
-  //     return (await AsyncStorage.getItem('user') 
-  //   }
-  // }, []);
+  useEffect(() => {
+    const checkToken = async () => {
+      const user = await AsyncStorage.getItem('user');
+      console.log(user)
+      if(user){
+        setInititalScreen("MainApp"); 
+      }
+      setIsReady(true);
+    }
+    checkToken()
+  }, []);
 
-  // if (!isReady) {
-  //   return null;
-  // }
+  if (!isReady) {
+    return null;
+  }
 
   return (
     <GlobalProvider>
