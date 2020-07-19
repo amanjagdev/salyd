@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
-
+import { GlobalContext } from '../../../context/GlobalState'
 import {
   StyleSheet,
   View,
@@ -19,10 +19,9 @@ import { colors } from "../../../constants/constant";
 
 const Table = ({ route, navigation }) => {
   const [selectedValue, setSelectedValue] = useState("View");
+  const { token, gloablRoomId, updateTable, updateRoom } = useContext(GlobalContext);
 
   const onSubmit = async () => {
-
-    const token = await AsyncStorage.getItem("token");
 
     //Granting the permission to other table members via admin
     Axios.post(`${apiUrl}/permission/grant`, {
@@ -50,16 +49,24 @@ const Table = ({ route, navigation }) => {
       })
   }
 
+  const exitTable = async () => {
+    updateRoom(null)
+    updateTable(null)
+    const tableid = await AsyncStorage.removeItem('tableId')
+    const tablei = await AsyncStorage.removeItem('roomId')
+    navigation.navigate('HomeMain')
+  }
+
   return (
     <View>
       <Header>Your Table</Header>
       <View style={styles.container}>
 
         <Text style={styles.roomId}>   Share this Id with your friends and relative to enjoy chatakedaar kahana with them
-          : {route.params.roomId} </Text>
+          : {gloablRoomId} </Text>
 
         <Text> Grant permission to the members</Text>
-        
+
         <Picker
           selectedValue={selectedValue}
           style={{ height: 50, width: 150 }}
@@ -78,6 +85,15 @@ const Table = ({ route, navigation }) => {
           onPress={() => onSubmit()}
         >
           Proceed
+        </Button>
+
+        <Button
+          mode="contained"
+          color={colors.accentPrimary}
+          style={styles.button}
+          onPress={() => exitTable()}
+        >
+          Exit Table
         </Button>
 
       </View>

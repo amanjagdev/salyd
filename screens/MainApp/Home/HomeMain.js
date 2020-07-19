@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Button, TextInput } from "react-native-paper";
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import { GlobalContext } from "../../../context/GlobalState";
 
@@ -22,7 +23,40 @@ const HomeMain = (props) => {
 
     const [tableId, setTableId] = useState(null);
     const [localRoomId, setLocalRoomID] = useState(null);
-    const { token } = useContext(GlobalContext);
+
+    const { token, globalTableId, updateTable, updateRoom } = useContext(GlobalContext);
+
+    const [hasPermission, setHasPermission] = useState(null);
+    const [scanned, setScanned] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const { status } = await BarCodeScanner.requestPermissionsAsync();
+            setHasPermission(status === 'granted');
+        })();
+    }, []);
+
+    const handleBarCodeScanned = ({ data }) => {
+        console.log("SCANEED :  >>>>>> ", scanned)
+        setScanned(true);
+        console.log("SCANEED :  >>>>>> ", scanned)
+        setTableId(data.toString());
+        // newTable()
+    };
+
+    useEffect(() => {
+        if (globalTableId)
+            props.navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        {
+                            name: 'Table'
+                        },
+                    ],
+                })
+            );
+    }, [])
 
     const joinTable = () => {
         props.navigation.dispatch(
@@ -30,8 +64,7 @@ const HomeMain = (props) => {
                 index: 0,
                 routes: [
                     {
-                        name: 'Table',
-                        params: { roomId: localRoomId }
+                        name: 'Menu'
                     },
                 ],
             })
@@ -39,6 +72,8 @@ const HomeMain = (props) => {
     }
 
     const newTable = async () => {
+        console.log(tableId)
+        console.log(scanned)
         Axios({
             url: `${apiUrl}/newtable`,
             method: 'post',
@@ -53,7 +88,11 @@ const HomeMain = (props) => {
                     Alert.alert("Sorry, Incorrect Table Id");
                 }
                 else {
-                    await AsyncStorage.setItem('tableId', res.data._id);
+                    updateTable(res.data._id);
+                    updateRoom(res.data.roomId);
+                    console.log(res.data.roomId)
+                    await AsyncStorage.setItem('tableId', res.data._id.toString());
+                    await AsyncStorage.setItem('roomId', res.data.roomId.toString());
                     Alert.alert("Table Created Successfully");
                     props.navigation.dispatch(
                         CommonActions.reset({
@@ -61,6 +100,7 @@ const HomeMain = (props) => {
                             routes: [
                                 {
                                     name: 'Table',
+                                    //TODO: remove this
                                     params: { roomId: res.data.roomId }
                                 },
                             ],
@@ -70,20 +110,27 @@ const HomeMain = (props) => {
             })
     }
 
+    if (hasPermission === null) {
+        return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+
     return (
         <View>
             <Header>Home</Header>
             <View style={styles.container}>
 
-                <Button
-                    mode="contained"
-                    color={colors.accentPrimary}
-                    style={styles.button}
-                    onPress={() => scanQrc()}
-                >
-                    Scan QR Code
-                </Button>
-
+                <View style={{
+                    height: 500
+                }}>
+                    <BarCodeScanner
+                        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                        style={StyleSheet.absoluteFill}
+                    />
+                    {scanned && <Button onPress={() => setScanned(false)}>Tap to Scan Again</Button>}
+                </View>
                 <Text style={{ margin: 15 }}> Please enter the tableId mentioned below the QR code placed on your table</Text>
 
                 <TextInput
@@ -125,7 +172,7 @@ const HomeMain = (props) => {
                 </Button>
 
             </View>
-        </View>
+        </View >
     )
 }
 

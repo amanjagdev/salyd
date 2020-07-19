@@ -12,13 +12,17 @@ const retrieveItem = async (key) => {
 }
 
 const initialState = {
-    user: "Hi i am a user",
-    token: "Hi i am a token",
+    user: null,
+    token: null,
+    tableId: null,
+    roomId: null,
 };
 
 const Actions = {
     UPDATE_USER: "UPDATE_USER",
-    UPDATE_TOKEN: "UPDATE_TOKEN"
+    UPDATE_TOKEN: "UPDATE_TOKEN",
+    UPDATE_TABLE_ID: "UPDATE_TABLE_ID",
+    UPDATE_ROOM_ID: "UPDATE_ROOM_ID"
 }
 
 export const GlobalContext = createContext(initialState);
@@ -35,8 +39,18 @@ export const GlobalProvider = ({ children }) => {
             const token = await AsyncStorage.getItem('token');
             dispatch({ type: Actions.UPDATE_TOKEN, payload: token });
         }
+        async function fetchTable() {
+            const data = await AsyncStorage.getItem('tableId');
+            dispatch({ type: Actions.UPDATE_TABLE_ID, payload: data });
+        }
+        async function fetchRoom() {
+            const data = await AsyncStorage.getItem('roomId');
+            dispatch({ type: Actions.UPDATE_ROOM_ID, payload: data });
+        }
         fetchUser();
         fetchToken();
+        fetchTable();
+        fetchRoom();
     }, [])
 
     const updateUser = (userData) => {
@@ -53,13 +67,31 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
+    const updateTable = (tableId) => {
+        dispatch({
+            type: Actions.UPDATE_TABLE_ID,
+            payload: tableId
+        });
+    }
+
+    const updateRoom = (roomId) => {
+        dispatch({
+            type: Actions.UPDATE_ROOM_ID,
+            payload: roomId
+        });
+    }
+
     return (
         <GlobalContext.Provider
             value={{
                 user: state.user,
                 token: state.token,
+                globalTableId: state.tableId,
+                gloablRoomId: state.roomId,
                 updateUser,
-                updateToken
+                updateToken,
+                updateTable,
+                updateRoom
             }}
         >
             {children}
