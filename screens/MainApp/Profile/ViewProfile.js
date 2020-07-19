@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions ,AsyncStorage} from 'react-native';
 import { Button } from 'react-native-paper';
 
 //Components
@@ -18,7 +18,7 @@ const ViewProfile = ({ navigation }) => {
         const token = await AsyncStorage.removeItem("token")
         const user = await AsyncStorage.removeItem("user")
         if (!token) {
-            props.navigation.replace("Login");
+            navigation.replace("Login");
         }
     }
 

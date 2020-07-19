@@ -1,7 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Button, TextInput } from "react-native-paper";
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
+
+import { GlobalContext } from "../../../context/GlobalState";
 
 import {
     View,
@@ -9,6 +11,7 @@ import {
     AsyncStorage,
     StyleSheet,
     Alert,
+    Dimensions,
 } from "react-native";
 
 import Header from '../../../components/Header';
@@ -18,32 +21,34 @@ import Axios from "axios";
 const HomeMain = (props) => {
 
     const [tableId, setTableId] = useState(null);
+    const [localRoomId, setLocalRoomID] = useState(null);
+    const { token } = useContext(GlobalContext);
 
-    const joinTable = (props) => {
+    const joinTable = () => {
         props.navigation.dispatch(
             CommonActions.reset({
                 index: 0,
                 routes: [
                     {
                         name: 'Table',
-                        params: { roomId: "TempID" }
+                        params: { roomId: localRoomId }
                     },
                 ],
             })
         );
     }
 
-    const newTable = async (props) => {
-        const token = await AsyncStorage.getItem("token");
-        console.log(token);
-        Axios.post(`${apiUrl}/newtable`, {
+    const newTable = async () => {
+        Axios({
+            url: `${apiUrl}/newtable`,
+            method: 'post',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": `Bearer ${token}`
             },
-            tableId
+            data: { tableId }
         })
-            .then(async (res) => {
+            .then(async res => {
                 if (res.data.error) {
                     Alert.alert("Sorry, Incorrect Table Id");
                 }
@@ -103,18 +108,18 @@ const HomeMain = (props) => {
                 }}>Join A Table</Text>
 
                 <TextInput
-                    label="Enter table id"
+                    label="Enter Room Id"
                     mode="outlined"
-                    value={tableId}
+                    value={localRoomId}
                     style={{ margin: 15 }}
                     theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
-                    onChangeText={(text) => setTableId(text)}
+                    onChangeText={(text) => setLocalRoomID(text)}
                 />
                 <Button
                     mode="contained"
                     color={colors.accentPrimary}
                     style={styles.button}
-                    onPress={() => joinTable(props)}
+                    onPress={() => joinTable()}
                 >
                     Join Table
                 </Button>
@@ -132,7 +137,8 @@ const styles = StyleSheet.create({
         marginTop: 18
     },
     container: {
-        backgroundColor: colors.back
+        backgroundColor: colors.back,
+        height: Dimensions.get("window").height
     },
     button: {
         margin: 10,

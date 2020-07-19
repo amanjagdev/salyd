@@ -9,11 +9,13 @@ import {
   Text,
   Alert,
   Picker,
-  AsyncStorage
+  AsyncStorage,
+  Dimensions
 } from "react-native"
 import Axios from "axios";
 
 import Header from '../../../components/Header'
+import { colors } from "../../../constants/constant";
 
 const Table = ({ route, navigation }) => {
   const [selectedValue, setSelectedValue] = useState("View");
@@ -50,46 +52,45 @@ const Table = ({ route, navigation }) => {
 
   return (
     <View>
-      <Header>H</Header>
-      {/* <Text style={styles.roomId}>   Share this Id with your friends and relative to enjoy chatakedaar kahana with them
-          : {route.params.roomId} </Text> */}
+      <Header>Your Table</Header>
+      <View style={styles.container}>
 
-      <Button
-        mode="contained"
-        theme={{ colors: { primary: "#0bb016" } }}
-        style={styles.button}
-        onPress={() => logout()} >
+        <Text style={styles.roomId}>   Share this Id with your friends and relative to enjoy chatakedaar kahana with them
+          : {route.params.roomId} </Text>
 
-        Logout
+        <Text> Grant permission to the members</Text>
+        
+        <Picker
+          selectedValue={selectedValue}
+          style={{ height: 50, width: 150 }}
+          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        >
+          <Picker.Item label="View" value="view" />
+          <Picker.Item label="Add" value="add" />
+          <Picker.Item label="Edit" value="edit" />
+
+        </Picker>
+
+        <Button
+          mode="contained"
+          color={colors.accentPrimary}
+          style={styles.button}
+          onPress={() => onSubmit()}
+        >
+          Proceed
         </Button>
 
-      <Text> Grant permission to the members</Text>
-      <Picker
-        selectedValue={selectedValue}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="View" value="view" />
-        <Picker.Item label="Add" value="add" />
-        <Picker.Item label="Edit" value="edit" />
-
-      </Picker>
-
-      <Button
-        mode="contained"
-        theme={{ colors: { primary: "#0bb016" } }}
-        style={styles.button}
-        onPress={() => onSubmit()} >
-
-        Proceed
-        </Button>
-
+      </View>
     </View>
   )
 }
 
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.back,
+    height: Dimensions.get("window").height
+  },
   button: {
     fontSize: 18,
     marginLeft: 18,
