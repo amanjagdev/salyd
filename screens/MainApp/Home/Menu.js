@@ -24,7 +24,7 @@ const socket =  socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
 
-    const {token} = useContext(GlobalContext);
+    const {token,globalRoomId} = useContext(GlobalContext);
     const [menu,setMenu] = useState([]);
     const [permission,setPermission] = useState("");
     const [user,setUser] = useState({});
@@ -86,7 +86,7 @@ const Menu = (props) => {
 
         const getMenu = async () => {
             
-            const roomId = await AsyncStorage.getItem("roomId");
+            const roomId = globalRoomId;
             
             console.log(roomId,"roomId");
 
