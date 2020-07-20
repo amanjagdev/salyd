@@ -9,10 +9,13 @@ import { GlobalContext } from "../../../context/GlobalState";
 import {
     View,
     Text,
+    ScrollView,
     AsyncStorage,
     StyleSheet,
     Alert,
     Dimensions,
+    Platform,
+    KeyboardAvoidingView
 } from "react-native";
 
 import Header from '../../../components/Header';
@@ -56,24 +59,42 @@ const HomeMain = (props) => {
                     ],
                 })
             );
-    }, [])
+    }, [globalTableId])
 
     const joinTable = () => {
-        props.navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [
-                    {
-                        name: 'Menu'
-                    },
-                ],
-            })
-        );
+        fetch(`${apiUrl}/addmember`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    "roomId": localRoomId
+                })
+            }).then((res) => res.json())
+                .then(async (data) => {
+                    if (data.error) {
+                        Alert.alert("Wrong roomId");
+                    }
+                    else {
+                        //Storing the roomId
+                        await AsyncStorage.setItem("roomId", (data.roomId).toString());
+                        Alert.alert("Successfully added to the table");
+                        props.navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [
+                                    {
+                                        name: 'Menu',
+                                    },
+                                ],
+                            })
+                        );
+                    }
+                })
     }
 
     const newTable = async () => {
-        console.log(tableId)
-        console.log(scanned)
         Axios({
             url: `${apiUrl}/newtable`,
             method: 'post',
@@ -118,9 +139,11 @@ const HomeMain = (props) => {
     }
 
     return (
-        <View>
+        <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
             <Header>Home</Header>
-            <View style={styles.container}>
+            <ScrollView contentInset={{ bottom: 120 }} style={styles.container}>
 
                 <View style={{
                     height: 500
@@ -171,8 +194,8 @@ const HomeMain = (props) => {
                     Join Table
                 </Button>
 
-            </View>
-        </View >
+            </ScrollView>
+        </KeyboardAvoidingView >
     )
 }
 
@@ -185,7 +208,9 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: colors.back,
-        height: Dimensions.get("window").height
+        // flex: 1
+        // height: 1700,
+        marginBottom: 120
     },
     button: {
         margin: 10,

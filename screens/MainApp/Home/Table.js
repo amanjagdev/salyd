@@ -17,21 +17,23 @@ import Axios from "axios";
 import Header from '../../../components/Header'
 import { colors } from "../../../constants/constant";
 
-const Table = ({ route, navigation }) => {
-  const [selectedValue, setSelectedValue] = useState("View");
+const Table = ({ navigation }) => {
+
+  const [selectedValue, setSelectedValue] = useState("view");
   const { token, gloablRoomId, updateTable, updateRoom } = useContext(GlobalContext);
 
-  const onSubmit = async () => {
-
-    //Granting the permission to other table members via admin
-    Axios.post(`${apiUrl}/permission/grant`, {
+  const onSubmit = () => {
+    Axios({
+      url: `${apiUrl}/permission/grant`,
+      method: 'post',
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
+        "Authorization": `Bearer ${token}`
       },
-      "permission": selectedValue
+      data: { "permission": selectedValue }
     })
       .then((res) => {
+        console.log(res.data)
         Alert.alert(`Permission of all members set to ${selectedValue}`);
         navigation.dispatch(
           CommonActions.reset({
@@ -61,22 +63,54 @@ const Table = ({ route, navigation }) => {
     <View>
       <Header>Your Table</Header>
       <View style={styles.container}>
+        <Text style={{
+          color: colors.accentPrimary,
+          fontSize: 40,
+          fontWeight: "bold",
+          textAlign: "center"
+        }}>{gloablRoomId}</Text>
+        <Text style={styles.roomId}>Share this with your friends and relative to enjoy chatakedaar kahana with them</Text>
 
-        <Text style={styles.roomId}>   Share this Id with your friends and relative to enjoy chatakedaar kahana with them
-          : {gloablRoomId} </Text>
+        <Text style={{
+          fontSize: 20,
+          margin: 30,
+          textAlign: "center"
+        }}> Grant permission to the members</Text>
 
-        <Text> Grant permission to the members</Text>
-
-        <Picker
-          selectedValue={selectedValue}
-          style={{ height: 50, width: 150 }}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-          <Picker.Item label="View" value="view" />
-          <Picker.Item label="Add" value="add" />
-          <Picker.Item label="Edit" value="edit" />
-
-        </Picker>
+        <View style={{
+          margin: 0,
+          padding: 0,
+          height: 70,
+          alignItems: "center",
+          marginBottom: 10,
+          flexDirection: 'row',
+          justifyContent: "center"
+        }}>
+          <Button
+            mode="contained"
+            color={selectedValue === "view" ? colors.accentPrimary : colors.back}
+            style={styles.button}
+            onPress={() => setSelectedValue("view")}
+          >
+            View
+          </Button>
+          <Button
+            mode="contained"
+            color={selectedValue === "edit" ? colors.accentPrimary : colors.back}
+            style={styles.button}
+            onPress={() => setSelectedValue("edit")}
+          >
+            Edit
+          </Button>
+          <Button
+            mode="contained"
+            color={selectedValue === "add" ? colors.accentPrimary : colors.back}
+            style={styles.button}
+            onPress={() => setSelectedValue("add")}
+          >
+            Add
+          </Button>
+        </View>
 
         <Button
           mode="contained"
@@ -108,13 +142,17 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height
   },
   button: {
-    fontSize: 18,
-    marginLeft: 18,
-    marginRight: 18,
-    marginTop: 18,
-    marginBottom: 20
+    margin: 10,
+    borderRadius: 50,
+    marginBottom: 20,
+    color: colors.back
+  },
+  outlined: {
+    borderColor: colors.back,
+    borderWidth: 1
   },
   roomId: {
+    margin: 10,
     fontSize: 20,
     marginTop: 20,
     fontWeight: "bold",

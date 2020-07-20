@@ -8,20 +8,23 @@ const {authorize} = require("../middleware/authorize");
 
 //Definning the permissions by the admin to the members
 router.post('/grant',requireLogin,(req,res) => {
+    console.log('I m in grant')
     const {permission} = req.body;
     Table.findOne({
         users : {$in : [req.user._id] }
     }).then((data) => {
-        
+        console.log("Inside then")
         const newusers=data.users.filter((users) => users.toString() !== req.user._id.toString());
-
+        console.log(newusers)
         newusers.map((id) => {
+            console.log("Inside mapping")
             User.findByIdAndUpdate(id, {
                 $set : {role : permission}
             }, {
                 new : true,
                 runValidators : true
             }).then((result) => {
+                console.log(result);
                 res.status(200).json(result);
             }).catch((err) => {
                 console.log(err);

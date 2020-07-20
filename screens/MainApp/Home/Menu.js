@@ -1,6 +1,8 @@
-import React, {useState,useEffect} from "react"
+import React, {useState,useEffect,useContext} from "react"
 import {Button,TextInput,Card} from "react-native-paper";
 import socketIOClient from 'socket.io-client';
+
+import {GlobalContext} from '../../../context/GlobalState';
 
 import {
     AsyncStorage,
@@ -9,14 +11,20 @@ import {
     TouchableOpacity,
     StyleSheet,
     Alert,
-    FlatList
-} from "react-native"
+    FlatList,
+    Dimensions
+} from "react-native";
+import Axios from 'axios';
+import {apiUrl} from '../../../config/keys';
+import Header from '../../../components/Header';
+import { colors } from "../../../constants/constant";
 
 //Initalizing client-socket instance
-const socket =  socketIOClient("http://0d191b913821.ngrok.io");
+const socket =  socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
 
+    const {token} = useContext(GlobalContext);
     const [menu,setMenu] = useState([]);
     const [permission,setPermission] = useState("");
     const [user,setUser] = useState({});
@@ -28,14 +36,12 @@ const Menu = (props) => {
     
         const getPermission = async () => {
             
-            const token = await AsyncStorage.getItem("token");
             const userId = await AsyncStorage.getItem("userId");
-            const roomId = await AsyncStorage.getItem("roomId");            
             
             console.log(token,"token from Menu.js");
             //Fetching permission role for logged in user using token
             if(token) {
-                fetch("http://0d191b913821.ngrok.io/permission/get", {
+                fetch(`${apiUrl}/permission/get`, {
                     headers : {
                         "Authorization" : "Bearer "+token
                     }
@@ -56,7 +62,7 @@ const Menu = (props) => {
 
             //Fetching permission role for guest user using userId
             else if(userId) {
-                fetch("http://0d191b913821.ngrok.io/permission/get", {
+                fetch(`${apiUrl}/permission/get`, {
                     method : "POST",
                     headers : {
                         "Content-Type" : "application/json", 
@@ -80,14 +86,13 @@ const Menu = (props) => {
 
         const getMenu = async () => {
             
-            const token = await AsyncStorage.getItem("token");
             const roomId = await AsyncStorage.getItem("roomId");
             
             console.log(roomId,"roomId");
 
             //Fetching menu for logged in user
             if(token) {
-                fetch("http://0d191b913821.ngrok.io/menu" , {
+                fetch(`${apiUrl}/menu` , {
                 headers : {
                   "Authorization" : "Bearer "+ token 
                 }
@@ -112,7 +117,7 @@ const Menu = (props) => {
             
             //Fetching menu for guest user using roomId stored in async storage
             else if(roomId) {
-                fetch("http://0d191b913821.ngrok.io/menu/guest" , {
+                fetch(`${apiUrl}/menu/guest` , {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json", 
@@ -145,31 +150,9 @@ const Menu = (props) => {
     
     },[])
 
-    console.log(room,"tableId");
-
-      //Emitting the joinRoom event to the server 
+    //Emitting the joinRoom event to the server 
     //Event emitted @Server
     socket.emit("joinRoom" ,user.name,room);
-
-    const clearToken = async (props) => {
-        const roomId = await AsyncStorage.removeItem("roomId");
-        const tableId = await AsyncStorage.removeItem("tableId");
-        const token = await AsyncStorage.removeItem("token");
-        const userId = await AsyncStorage.removeItem("userId");
-
-        if(!tableId) {
-            props.navigation.replace("home");
-        }
-        if(!roomId) {
-            props.navigation.replace("home");
-        }
-        if(!token) {
-            props.navigation.replace("home");
-        }
-        if(!userId) {
-            props.navigation.replace("home");
-        }
-    }
     
     //Increasing the no of items
     const incrementCounter = (id,index) => {
@@ -202,26 +185,9 @@ const Menu = (props) => {
         }
     }
 
-    // // Alert popup for submitting menu
-    // const alertPopup = () => {
-    //     console.log("alert alert");
-    //     Alert.alert(
-    //         "Place your order"
-    //         [
-    //             {
-    //             text: "Cancel",
-    //             onPress: () => console.log("Cancel Pressed"),
-    //             style: "cancel"
-    //             },
-    //             { text: "OK", onPress: () => orderPlaced() }
-    //         ],
-    //         { cancelable: false }
-    //     );
-    // }
-
     //Placing order
     const orderPlaced = () => {
-        fetch("http://0d191b913821.ngrok.io/orderplace", {
+        fetch("${apiUrl}/orderplace", {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json", 
@@ -265,11 +231,11 @@ const Menu = (props) => {
                                 disabled = {permission === "view" ? true : false}
                                 
                             >
-                                <Text> - </Text>
+                                <Text style={{color: colors.back,fontSize: 20,fontWeight: "bold"}}> - </Text>
                             </TouchableOpacity>
 
                             <View style = {styles.counter}> 
-                                <Text> {menu[index].count} </Text>
+                                <Text style={{textAlign: "center"}}> {menu[index].count} </Text>
                             </View>
 
                             <TouchableOpacity
@@ -277,7 +243,7 @@ const Menu = (props) => {
                                 onPress = {() => incrementCounter(item._id,index)}
                                 disabled = {permission === "view" ? true : false}
                             >
-                                <Text> + </Text>
+                                <Text style={{color: colors.back,fontSize: 20,fontWeight: "bold"}}> + </Text>
                             </TouchableOpacity>
 
                         </View>
@@ -287,8 +253,8 @@ const Menu = (props) => {
     })
 
     return (
-        <View style = {{flex : 1}}>
-            <Text> Menu</Text>
+        <View style = {{backgroundColor: colors.back,height: Dimensions.get("window").height -50}}>
+            <Header>Menu</Header>
             <FlatList
                 data = {menu}
                 renderItem = {({item,index}) => {
@@ -300,7 +266,7 @@ const Menu = (props) => {
             {permission === "admin" ? (
                 <Button 
                     mode="contained"
-                    theme = {{colors : {primary : "#0bb016"}}}
+                    theme = {{colors : {primary : colors.accentPrimary}}}
                     style={styles.button}
                     onPress = {() => orderPlaced()} >        
            
@@ -308,17 +274,7 @@ const Menu = (props) => {
                 
                 </Button> ) : 
                     null
-            }
-
-            <Button 
-                mode="contained"
-                theme = {{colors : {primary : "#0bb016"}}}
-                style={styles.button}
-                onPress = {() => clearToken(props)} >        
-            
-                Proceed
-            </Button>
-        
+            }       
             
         </View>
 
@@ -339,15 +295,20 @@ const styles = StyleSheet.create({
         fontSize : 20,
         marginLeft : 10
     },  
-    button : {
-        fontSize : 18,
-        marginLeft : 18,
-        marginRight : 18,
-        marginTop : 18
+    button: {
+        margin: 10,
+        borderRadius: 50,
+        marginBottom: 20,
+        color: colors.back
+    },
+    outlined: {
+        borderColor: colors.back,
+        borderWidth: 1
     },
     counter : {
         height : 20,
-        width : 50
+        width : 30,
+        alignItems: "center"
     },
     container : {
         flexDirection : "row",
@@ -355,7 +316,9 @@ const styles = StyleSheet.create({
     },
     operation: {
         alignItems: "center",
-        backgroundColor: "#DDDDDD",
+        borderRadius: 40,
+        backgroundColor: colors.accentPrimary,
+        
         padding: 10
     }
 })
