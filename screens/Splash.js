@@ -47,7 +47,7 @@ const Splash = ({ navigation }) => {
                 alignItems: "center"
             }}>
                 <Image style={styles.bannerImage} source={item.image} />
-                <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold" }}>{item.title}</Text>
+                <Text style={{ textAlign: "center", color: colors.text, fontSize: 20, fontWeight: "bold" }}>{item.title}</Text>
                 <Text style={{ textAlign: "center", color: colors.text }}>{item.text}</Text>
             </View>
         );

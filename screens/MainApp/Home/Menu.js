@@ -14,21 +14,25 @@ import {
     FlatList,
     Dimensions
 } from "react-native";
+
 import Axios from 'axios';
 import {apiUrl} from '../../../config/keys';
 import Header from '../../../components/Header';
 import { colors } from "../../../constants/constant";
+import {LinearGradient} from 'expo-linear-gradient'
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 //Initalizing client-socket instance
 const socket =  socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
 
-    const {token,gloablRoomId} = useContext(GlobalContext);
+    const {token,globalRoomId} = useContext(GlobalContext);
     const [menu,setMenu] = useState([]);
     const [permission,setPermission] = useState("");
     const [user,setUser] = useState({});
-    
+    const [search,setSearch] = useState("");
+    const [data_temp,setdata_temp] = useState([]);
     //Each table has a seperate room identified by @tableId
     const [room,setRoom] = useState("");
 
@@ -86,9 +90,9 @@ const Menu = (props) => {
 
         const getMenu = async () => {
             
-            const roomId = gloablRoomId;
+            const roomId = globalRoomId;
             
-            console.log(gloablRoomId,"roomId");
+            console.log(roomId,"roomId");
 
             //Fetching menu for logged in user
             if(token) {
@@ -109,6 +113,7 @@ const Menu = (props) => {
                 
                     //Setting the menu
                     setMenu(data.tableOf.menu);
+                    setdata_temp(data.tableOf.menu);
 
                 }).catch((err) => {
                     console.log(err);
@@ -137,6 +142,7 @@ const Menu = (props) => {
 
                     //Setting the menu
                     setMenu(data.tableOf.menu);
+                    setdata_temp(data.tableOf.menu);
 
                 }).catch((err) => {
                     console.log(err);
@@ -161,7 +167,6 @@ const Menu = (props) => {
             let newMenu = [...menu];
             newMenu[index].count += 1;
             setMenu(newMenu);
-            console.log(menu);
 
             //Emitting the counter(increment) change event @Sever
             socket.emit("countChange",menu);
@@ -214,55 +219,113 @@ const Menu = (props) => {
 
     const renderList = ((item,index) => {
         return (
-            <Card 
-                style={styles.myCard} 
-                key = {item._id}
+            <LinearGradient 
+                colors={['#009245', colors.accentPrimary]}
+                start={{x:0, y:1}} end={{x:1, y:0}}
+                style={styles.item}
             >
-                <View style = {styles.cardView}> 
-                    <View>
-                        <Text style = {styles.text}> {item.item}</Text>
-                        <Text style = {styles.text}> {item.price}</Text>
-                    </View>
-                            <View style={styles.container}>
+            
+            <View style={styles.content}>
+                <Text style={styles.name}>{item.item}</Text>
+                    <View style={styles.price_container}>
+                        
+                        <View style={styles.price}>
+                            <Text style={styles.textPrice}>Rs {item.price}</Text>
+                        </View>
 
+                        <View style = {styles.counterContainer}>
                             <TouchableOpacity
-                                style={styles.operation}
                                 onPress = {() => decrementCounter(item._id,index)}
-                                disabled = {permission === "view" ? true : false}
-                                
+                                // disabled = {permission === "view" ? true : false}
                             >
-                                <Text style={{color: colors.back,fontSize: 20,fontWeight: "bold"}}> - </Text>
+                                <View style = {styles.counter}>
+                                    <Text style = {styles.textCounter}>-</Text>
+                                </View>
                             </TouchableOpacity>
 
-                            <View style = {styles.counter}> 
-                                <Text style={{textAlign: "center"}}> {menu[index].count} </Text>
-                            </View>
+                            <Text style = {styles.main_count}> {menu[index].count} </Text>
 
                             <TouchableOpacity
-                                style={styles.operation}
                                 onPress = {() => incrementCounter(item._id,index)}
-                                disabled = {permission === "view" ? true : false}
+                                // disabled = {permission === "view" ? true : false}    
                             >
-                                <Text style={{color: colors.back,fontSize: 20,fontWeight: "bold"}}> + </Text>
+                                <View style = {styles.counter}>
+                                    <Text style = {styles.textCounter}>+</Text>
+                                </View>
                             </TouchableOpacity>
 
                         </View>
-                </View>
-            </Card>
+                  
+                    </View>
+            </View>
+
+        </LinearGradient>
         )
     })
 
+    const _search = (text) => {
+        let data = [];
+        data_temp.map(function(value){
+          if(value.item.indexOf(text) > -1){
+            data.push(value);
+          }
+        });
+  
+        setMenu(data);
+        setSearch(text);
+    }
+
+    ItemSeparatorComponent = () => {
+        return(
+          <View 
+            style={{
+              height:10
+            }}
+          />
+        )
+      }
+
     return (
-        <View style = {{backgroundColor: colors.back,height: Dimensions.get("window").height -50}}>
+        <View style = {styles.container}>
             <Header>Menu</Header>
-            <FlatList
-                data = {menu}
-                renderItem = {({item,index}) => {
-                    return renderList(item,index) 
-                }}
-                keyExtractor = {(item) => item._id }
-            >
-            </FlatList>
+
+            <View style={styles.section}>
+
+              <TextInput 
+                placeholder="Search.."
+                style={{ flex:1, marginLeft:10}}
+                value={search}
+                onChangeText={(text)=> _search(text) }
+              />
+
+              <TouchableOpacity
+                onPress={()=> _search("") }
+                style={{paddingHorizontal:10}}>
+                    <Ionicons 
+                        name="ios-close"
+                        color="gray"
+                        size={20}
+                    />
+
+              </TouchableOpacity>
+
+            </View>
+
+            <View style={styles.flatList}>
+                
+                <FlatList
+                    data = {menu}
+                    renderItem = {({item,index}) => {
+                        return renderList(item,index) 
+                    }}
+                    keyExtractor = {(item) => item._id }
+                    ItemSeparatorComponent={() =>  ItemSeparatorComponent()}
+                    showsVerticalScrollIndicator={true}
+                >
+                </FlatList>
+
+            </View>
+
             {permission === "admin" ? (
                 <Button 
                     mode="contained"
@@ -282,45 +345,103 @@ const Menu = (props) => {
 }
 
 
-const styles = StyleSheet.create({
-    myCard : {
-        margin : 5
+const styles = StyleSheet.create({  
+    container: {
+        flex:1,
+        backgroundColor:'white',
+        paddingBottom:5
+      },
+    flatList: {
+        flex:1,
+        marginTop:10
     },
-    cardView : {
-        flexDirection : "row",
-        padding : 10,
-        justifyContent : "space-around"        
+    item: {
+        flex:1,
+        paddingVertical:10,
+        paddingHorizontal:10,
+        flexDirection:'row',
+        borderRadius:10
+        // backgroundColor : colors.accentPrimary
     },
-    text : {
-        fontSize : 20,
-        marginLeft : 10
-    },  
+    image_container: {
+        width: 90,
+        height: 90
+    },
+    image: {
+        width:'100%',
+        height:'100%',
+        borderWidth:5,
+        borderColor:'white',
+        borderRadius:10
+    },
+    content: {
+        flex:1,
+        justifyContent:'center',
+        paddingHorizontal:10
+    },
+    name: {
+        color:'white',
+        fontWeight:'bold',
+        fontSize:18
+    },
+    button: {
+        width:30,
+        height:30,
+        backgroundColor:'white',
+        borderRadius:15,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    price_container: {
+        flexDirection:'row',
+        marginTop:10,
+        justifyContent : "space-between"
+    },
+    price: {
+        backgroundColor:'white',
+        paddingVertical:10,
+        paddingHorizontal:20,
+        borderRadius:20
+    },
+    textPrice: {
+        color:'green',
+        fontWeight:'bold',
+        fontSize : 18
+    },
+    counterContainer : {
+        flexDirection:'row'
+    },
+    counter : {
+        backgroundColor : "white",
+        paddingVertical : 8,
+        paddingHorizontal : 20,
+        borderRadius : 10
+    },
+    main_count : {
+          color : "white",
+          paddingLeft : 5,
+          paddingRight : 5,
+          paddingTop : 8
+    },
+    textCounter : {
+          color : "green",
+          fontWeight : "bold"
+    },
+    section: {
+        flexDirection:'row',
+        alignItems:'center',
+        paddingVertical:5,
+        paddingHorizontal:10,
+        borderRadius:100,
+        backgroundColor:'#f2f2f2'
+    },
     button: {
         margin: 10,
         borderRadius: 50,
         marginBottom: 20,
         color: colors.back
     },
-    outlined: {
-        borderColor: colors.back,
-        borderWidth: 1
-    },
-    counter : {
-        height : 20,
-        width : 30,
-        alignItems: "center"
-    },
-    container : {
-        flexDirection : "row",
-        justifyContent : "flex-end"
-    },
-    operation: {
-        alignItems: "center",
-        borderRadius: 40,
-        backgroundColor: colors.accentPrimary,
-        
-        padding: 10
-    }
+
 })
 
 export default Menu
