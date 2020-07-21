@@ -54,7 +54,7 @@ const Splash = ({ navigation }) => {
     }
 
     const handleGuestLogin = () => {
-        navigation.navigate('MainApp')
+        navigation.navigate('Guest')
     }
 
     return (

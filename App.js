@@ -12,6 +12,7 @@ import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
+import Guest from './screens/Guest';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ const App = () => {
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainApp" component={MainApp} />
+          <Stack.Screen name="Guest" component={Guest} />
         </Stack.Navigator>
       </NavigationContainer>
     </GlobalProvider>

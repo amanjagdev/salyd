@@ -61,39 +61,6 @@ const HomeMain = (props) => {
             );
     }, [globalTableId])
 
-    const joinTable = () => {
-        fetch(`${apiUrl}/addmember`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token
-                },
-                body: JSON.stringify({
-                    "roomId": localRoomId
-                })
-            }).then((res) => res.json())
-                .then(async (data) => {
-                    if (data.error) {
-                        Alert.alert("Wrong roomId");
-                    }
-                    else {
-                        //Storing the roomId
-                        await AsyncStorage.setItem("roomId", (data.roomId).toString());
-                        Alert.alert("Successfully added to the table");
-                        props.navigation.dispatch(
-                            CommonActions.reset({
-                                index: 0,
-                                routes: [
-                                    {
-                                        name: 'Menu',
-                                    },
-                                ],
-                            })
-                        );
-                    }
-                })
-    }
-
     const newTable = async () => {
         Axios({
             url: `${apiUrl}/newtable`,
@@ -139,66 +106,68 @@ const HomeMain = (props) => {
     }
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
+        <React.Fragment>
             <Header>Home</Header>
-            <ScrollView contentInset={{ bottom: 120 }} style={styles.container}>
-
-                <View style={{
-                    height: 500
-                }}>
-                    <BarCodeScanner
-                        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                        style={StyleSheet.absoluteFill}
-                    />
-                    {scanned && <Button onPress={() => setScanned(false)}>Tap to Scan Again</Button>}
-                </View>
-                <Text style={{ margin: 15 }}> Please enter the tableId mentioned below the QR code placed on your table</Text>
-
-                <TextInput
-                    label="Table ID"
-                    mode="outlined"
-                    value={tableId}
-                    style={{ margin: 15 }}
-                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
-                    onChangeText={(text) => setTableId(text)}
-                />
-
-                <Button
-                    mode="contained"
-                    color={colors.accentPrimary}
-                    style={styles.button}
-                    onPress={() => newTable()}
+            <ScrollView>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS == "ios" ? "padding" : "position"}
                 >
-                    Proceed
-                </Button>
-                <Text style={{
-                    fontSize: 25, fontWeight: "bold", marginLeft: 15, color: colors.accentPrimary
-                }}>Join A Table</Text>
+                    <View style={styles.container}>
 
-                <TextInput
-                    label="Enter Room Id"
-                    mode="outlined"
-                    value={localRoomId}
-                    style={{ margin: 15 }}
-                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
-                    onChangeText={(text) => setLocalRoomID(text)}
-                />
-                <Button
-                    mode="contained"
-                    color={colors.accentPrimary}
-                    style={styles.button}
-                    onPress={() => joinTable()}
-                >
-                    Join Table
+                        <View style={{ alignItems: "center" }}>
+                            <BarCodeScanner
+                                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                                style={{ height: 340, width: 340, alignItems: "center", justifyContent: "space-around" }}
+                            >
+                                <View style={styles.qrBox} />
+                                {scanned && <Button color={colors.accentPrimary} onPress={() => setScanned(false)}>Tap to Scan Again</Button>}
+                            </BarCodeScanner>
+                        </View>
+
+                        <Text style={{
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            margin: 10
+                        }}> OR</Text>
+
+                        <Text style={{
+                            textAlign: "center",
+                            margin: 10
+                        }}> Please enter the tableId mentioned below the QR code placed on your table</Text>
+
+                        <TextInput
+                            label="Table ID"
+                            mode="outlined"
+                            value={tableId}
+                            style={{ margin: 15 }}
+                            theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
+                            onChangeText={(text) => setTableId(text)}
+                        />
+
+                        <Button
+                            mode="contained"
+                            color={colors.accentPrimary}
+                            style={styles.button}
+                            onPress={() => newTable()}
+                        >
+                            Proceed
                 </Button>
 
+                        <Button
+                            mode="contained"
+                            color={colors.accentPrimary}
+                            style={styles.button}
+                            onPress={() => props.navigation.navigate('JoinTable')}
+                        >
+                            Join Table
+                </Button>
+
+                    </View>
+                </KeyboardAvoidingView >
             </ScrollView>
-        </KeyboardAvoidingView >
+        </React.Fragment>
     )
 }
-
 const styles = StyleSheet.create({
     button: {
         fontSize: 18,
@@ -208,9 +177,7 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: colors.back,
-        // flex: 1
-        // height: 1700,
-        marginBottom: 120
+        // height: 4000
     },
     button: {
         margin: 10,
@@ -222,5 +189,12 @@ const styles = StyleSheet.create({
         borderColor: colors.back,
         borderWidth: 1
     },
+    qrBox: {
+        height: 200,
+        width: 200,
+        borderRadius: 20,
+        borderColor: colors.accentPrimary,
+        borderWidth: 3
+    }
 })
 export default HomeMain;

@@ -24,7 +24,7 @@ const socket =  socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
 
-    const {token,globalRoomId} = useContext(GlobalContext);
+    const {token,gloablRoomId} = useContext(GlobalContext);
     const [menu,setMenu] = useState([]);
     const [permission,setPermission] = useState("");
     const [user,setUser] = useState({});
@@ -86,9 +86,9 @@ const Menu = (props) => {
 
         const getMenu = async () => {
             
-            const roomId = globalRoomId;
+            const roomId = gloablRoomId;
             
-            console.log(roomId,"roomId");
+            console.log(gloablRoomId,"roomId");
 
             //Fetching menu for logged in user
             if(token) {
