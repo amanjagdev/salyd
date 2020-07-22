@@ -1,5 +1,5 @@
 import React, {useState,useEffect,useContext} from "react"
-import {Button,TextInput,Card} from "react-native-paper";
+import {Button,TextInput,Searchbar } from "react-native-paper";
 import socketIOClient from 'socket.io-client';
 
 import {GlobalContext} from '../../../context/GlobalState';
@@ -18,7 +18,7 @@ import {
 import Axios from 'axios';
 import {apiUrl} from '../../../config/keys';
 import Header from '../../../components/Header';
-import { colors } from "../../../constants/constant";
+import { colors, colorsOld } from "../../../constants/constant";
 import {LinearGradient} from 'expo-linear-gradient'
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -217,51 +217,43 @@ const Menu = (props) => {
         setMenu(menu);
     })
 
-    const renderList = ((item,index) => {
-        return (
-            <LinearGradient 
-                colors={['#009245', colors.accentPrimary]}
-                start={{x:0, y:1}} end={{x:1, y:0}}
+    const renderList = ((item,index) => (
+            <View
                 style={styles.item}
             >
             
-            <View style={styles.content}>
-                <Text style={styles.name}>{item.item}</Text>
-                    <View style={styles.price_container}>
-                        
+                <View style={styles.content}>
+                        <Text style={styles.name}>{item.item}</Text>
+                        <Text style={styles.desc}>Lorem ipsum, quos</Text>
+                            
                         <View style={styles.price}>
-                            <Text style={styles.textPrice}>Rs {item.price}</Text>
+                            <Text style={styles.textPrice}>₹ {item.price}</Text>
                         </View>
+                </View>
+                <View style = {styles.counterContainer}>
+                        <TouchableOpacity
+                            onPress = {() => decrementCounter(item._id,index)}
+                            // disabled = {permission === "view" ? true : false}
+                        >
+                            <View style = {styles.counter}>
+                                <Text style = {styles.textCounter}>-</Text>
+                            </View>
+                        </TouchableOpacity>
 
-                        <View style = {styles.counterContainer}>
-                            <TouchableOpacity
-                                onPress = {() => decrementCounter(item._id,index)}
-                                // disabled = {permission === "view" ? true : false}
-                            >
-                                <View style = {styles.counter}>
-                                    <Text style = {styles.textCounter}>-</Text>
-                                </View>
-                            </TouchableOpacity>
+                        <Text style = {styles.main_count}> {menu[index].count} </Text>
 
-                            <Text style = {styles.main_count}> {menu[index].count} </Text>
-
-                            <TouchableOpacity
-                                onPress = {() => incrementCounter(item._id,index)}
-                                // disabled = {permission === "view" ? true : false}    
-                            >
-                                <View style = {styles.counter}>
-                                    <Text style = {styles.textCounter}>+</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                        </View>
+                        <TouchableOpacity
+                            onPress = {() => incrementCounter(item._id,index)}
+                            // disabled = {permission === "view" ? true : false}    
+                        >
+                            <View style = {styles.counter}>
+                                <Text style = {styles.textCounter}>+</Text>
+                            </View>
+                        </TouchableOpacity>
+                </View>
                   
-                    </View>
             </View>
-
-        </LinearGradient>
-        )
-    })
+        ));
 
     const _search = (text) => {
         let data = [];
@@ -289,27 +281,15 @@ const Menu = (props) => {
         <View style = {styles.container}>
             <Header>Menu</Header>
 
-            <View style={styles.section}>
-
-              <TextInput 
-                placeholder="Search.."
-                style={{ flex:1, marginLeft:10}}
-                value={search}
-                onChangeText={(text)=> _search(text) }
-              />
-
-              <TouchableOpacity
-                onPress={()=> _search("") }
-                style={{paddingHorizontal:10}}>
-                    <Ionicons 
-                        name="ios-close"
-                        color="gray"
-                        size={20}
-                    />
-
-              </TouchableOpacity>
-
-            </View>
+            <Searchbar
+            style={{
+                margin: 15,
+                borderRadius: 40
+            }}
+            placeholder="Search"
+            onChangeText={_search}
+            value={search}
+            />
 
             <View style={styles.flatList}>
                 
@@ -356,12 +336,23 @@ const styles = StyleSheet.create({
         marginTop:10
     },
     item: {
-        flex:1,
-        paddingVertical:10,
-        paddingHorizontal:10,
+        justifyContent: "space-around",
+        alignItems: "center",
+        margin:10,
+        marginTop: 5,
+        marginBottom: 7,
+        padding:10,
         flexDirection:'row',
-        borderRadius:10
-        // backgroundColor : colors.accentPrimary
+        backgroundColor: colors.back,
+        borderRadius: 10,
+        padding: 10,
+        shadowOffset: {
+            width: 1,
+            height: 1
+        },
+        shadowRadius: 5,
+        shadowOpacity: 1.0,
+        elevation: 5
     },
     image_container: {
         width: 90,
@@ -380,7 +371,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:10
     },
     name: {
-        color:'white',
+        color:colors.accentPrimary,
         fontWeight:'bold',
         fontSize:18
     },
@@ -398,34 +389,36 @@ const styles = StyleSheet.create({
         justifyContent : "space-between"
     },
     price: {
-        backgroundColor:'white',
         paddingVertical:10,
-        paddingHorizontal:20,
         borderRadius:20
     },
     textPrice: {
-        color:'green',
+        color: colors.accentPrimary,
         fontWeight:'bold',
-        fontSize : 18
+        fontSize : 13
     },
     counterContainer : {
-        flexDirection:'row'
+        flexDirection:'row',
+        marginRight: 20
     },
     counter : {
-        backgroundColor : "white",
-        paddingVertical : 8,
-        paddingHorizontal : 20,
-        borderRadius : 10
+        backgroundColor : colors.accentPrimary,
+        alignItems: "center",
+        justifyContent: "center",
+        height: 40,
+        width: 40,
+        borderRadius : 50
     },
     main_count : {
-          color : "white",
+          color : colors.text,
           paddingLeft : 5,
           paddingRight : 5,
           paddingTop : 8
     },
     textCounter : {
-          color : "green",
-          fontWeight : "bold"
+          color : colors.back,
+          fontWeight : "bold",
+          fontSize: 14
     },
     section: {
         flexDirection:'row',
