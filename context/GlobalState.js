@@ -87,7 +87,7 @@ export const GlobalProvider = ({ children }) => {
                 user: state.user,
                 token: state.token,
                 globalTableId: state.tableId,
-                gloablRoomId: state.roomId,
+                globalRoomId: state.roomId,
                 updateUser,
                 updateToken,
                 updateTable,

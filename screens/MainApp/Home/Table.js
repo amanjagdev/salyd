@@ -20,7 +20,7 @@ import { colors } from "../../../constants/constant";
 const Table = ({ navigation }) => {
 
   const [selectedValue, setSelectedValue] = useState("view");
-  const { token, gloablRoomId, updateTable, updateRoom } = useContext(GlobalContext);
+  const { token, globalRoomId, updateTable, updateRoom } = useContext(GlobalContext);
 
   const onSubmit = () => {
     Axios({
@@ -68,7 +68,7 @@ const Table = ({ navigation }) => {
           fontSize: 40,
           fontWeight: "bold",
           textAlign: "center"
-        }}>{gloablRoomId}</Text>
+        }}>{globalRoomId}</Text>
         <Text style={styles.roomId}>Share this with your friends and relative to enjoy chatakedaar kahana with them</Text>
 
         <Text style={{
