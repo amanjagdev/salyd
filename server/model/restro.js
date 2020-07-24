@@ -5,14 +5,17 @@ const restroSchema = new Schema({
     _id : {
         type : String
     },
+    fullname : {
+        type : String
+    },
     name : {
         type :String
     },
-    city : {
-        type : String
-    },
     address : {
         type : String
+    },
+    phone : {
+        type : Number
     },
     password : {
         type : String

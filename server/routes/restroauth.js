@@ -18,13 +18,13 @@ router.get("/getrestro",(req,res) => {
 
 //SignUp Route
 router.post("/signup",(req,res) => {
-    const {_id,name,city,address,password} = req.body;
+    const {_id,fullname,name,address,phone,password} = req.body;
 
-    if(!_id || !name || !city || !address || !password) {
-        res.json({
-            error : "Please enter all the fields"
-        })
-    }
+    // if(!_id || !name || !city || !address || !password) {
+    //     res.json({
+    //         error : "Please enter all the fields"
+    //     })
+    // }
 
     Restro.findOne({
         _id
@@ -38,9 +38,10 @@ router.post("/signup",(req,res) => {
         bcrypt.hash(password,10).then((hashedPass) => {
             newRestro = new Restro({
                 _id,
+                fullname,
                 name,
-                city,
                 address,
+                phone,
                 password : hashedPass
             })
 
