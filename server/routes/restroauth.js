@@ -18,7 +18,7 @@ router.get("/getrestro",(req,res) => {
 
 //SignUp Route
 router.post("/signup",(req,res) => {
-    const {_id,fullname,name,address,phone,password} = req.body;
+    const {_id,fullname,name,address,phone,email,password} = req.body;
 
     // if(!_id || !name || !city || !address || !password) {
     //     res.json({
@@ -42,6 +42,7 @@ router.post("/signup",(req,res) => {
                 name,
                 address,
                 phone,
+                email,
                 password : hashedPass
             })
 
@@ -95,7 +96,7 @@ router.post('/signin',(req,res) => {
             }
             else {
                 res.json({
-                    error : "Sorry Incorrect Email/Password"
+                    error : "Sorry Incorrect Username/Password"
                 })
             }
         }).catch((err) => {

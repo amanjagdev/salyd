@@ -17,6 +17,9 @@ const restroSchema = new Schema({
     phone : {
         type : Number
     },
+    email : {
+        type : String
+    },
     password : {
         type : String
     },
