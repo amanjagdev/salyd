@@ -25,6 +25,7 @@ router.post("/signup",(req,res) => {
     //         error : "Please enter all the fields"
     //     })
     // }
+    console.log("ID : ",_id);
 
     Restro.findOne({
         _id
@@ -73,7 +74,7 @@ router.post('/signin',(req,res) => {
 
         if(!restro) {
             return res.status(422).json({
-                error : "Your restaurant is already registered with us"
+                error : "Your restaurant is not registered with us"
             })
         }
 
@@ -85,10 +86,9 @@ router.post('/signin',(req,res) => {
                     _id : restro._id
                 },secret)
                 
-                const {_id,password} = restro;
                 res.json({
                     token ,
-                    restro : {_id,password}
+                    restro
                 })
                 // res.json({
                 //     message : "signed in successfully"

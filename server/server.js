@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const db = require('./config/keys').MongoURI;
+const cors = require('cors');
 
 //Requiring routes
 const signupRoute = require("./routes/auth");
@@ -25,6 +26,8 @@ app.use(express.urlencoded({
 }));
 
 app.use(bodyParser.json());
+app.use(cors());
+
 app.use("/",signupRoute);
 app.use("/restro",restroauthRoute);
 app.use("/restro",restroRoute);
