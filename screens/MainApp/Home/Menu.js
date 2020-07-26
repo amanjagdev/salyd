@@ -27,14 +27,12 @@ const socket =  socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
 
-    const {token,globalRoomId} = useContext(GlobalContext);
+    const {token,globalRoomId,globalTableId} = useContext(GlobalContext);
     const [menu,setMenu] = useState([]);
     const [permission,setPermission] = useState("");
     const [user,setUser] = useState({});
     const [search,setSearch] = useState("");
     const [data_temp,setdata_temp] = useState([]);
-    //Each table has a seperate room identified by @tableId
-    const [room,setRoom] = useState("");
 
     useEffect( () => {
     
@@ -104,7 +102,8 @@ const Menu = (props) => {
                 .then((data) => {
                     
                     //Providing the rooms with unique id
-                    setRoom(data._id);
+                    
+                    socket.emit("joinRoom" ,user.name,globalTableId);
 
                     //Initializing the counter
                     data.tableOf.menu.map((elem) => {
@@ -133,8 +132,7 @@ const Menu = (props) => {
                 }).then((res) => res.json())
                 .then((data) => {
                     //Providing the rooms with unique id
-                    setRoom(data._id);
-
+                    socket.emit("joinRoom" ,user.name,globalTableId);
                     //Initializing the counter
                     data.tableOf.menu.map((elem) => {
                         elem.count = 0;
@@ -153,12 +151,12 @@ const Menu = (props) => {
 
         getPermission();
         getMenu();
+        
     
     },[])
 
     //Emitting the joinRoom event to the server 
     //Event emitted @Server
-    socket.emit("joinRoom" ,user.name,room);
     
     //Increasing the no of items
     const incrementCounter = (id,index) => {
@@ -169,7 +167,7 @@ const Menu = (props) => {
             setMenu(newMenu);
 
             //Emitting the counter(increment) change event @Sever
-            socket.emit("countChange",menu);
+            socket.emit("countChange",menu,globalTableId);
         }
     }
     //Decreasing the no of items
@@ -186,30 +184,31 @@ const Menu = (props) => {
             setMenu(newMenu);
 
             //Emitting the counter(decrement) change event @Sever
-            socket.emit("countChange",menu);
+            socket.emit("countChange",menu,globalTableId);
         }
     }
 
     //Placing order
     const orderPlaced = () => {
-        fetch("${apiUrl}/orderplace", {
-            method : "POST",
-            headers : {
-                "Content-Type" : "application/json", 
-            },
-            body : JSON.stringify({
-                "tableId" : room,
-                "menu" : menu
-            })
-        }).then((res) => res.json())
-        .then((data) => {
-            if(data.error) {
-                Alert.alert("Sorry, something went wrong");
-            }
-            else {
-                Alert.alert("Order Placed successfully");
-            }
-        })
+        // fetch("${apiUrl}/orderplace", {
+        //     method : "POST",
+        //     headers : {
+        //         "Content-Type" : "application/json", 
+        //     },
+        //     body : JSON.stringify({
+        //         "tableId" : room,
+        //         "menu" : menu
+        //     })
+        // }).then((res) => res.json())
+        // .then((data) => {
+        //     if(data.error) {
+        //         Alert.alert("Sorry, something went wrong");
+        //     }
+        //     else {
+        //         Alert.alert("Order Placed successfully");
+        //     }
+        // })
+        socket.emit('orderPlaced',"Hi");
     }
 
     //Listening for the menuChange event from @Sever
