@@ -5,6 +5,7 @@ const http = require('http');
 const mongoose = require('mongoose');
 const db = require('./config/keys').MongoURI;
 const cors = require('cors');
+const webpush = require("web-push");
 
 //Requiring routes
 const signupRoute = require("./routes/auth");
@@ -13,6 +14,7 @@ const tableRoute = require("./routes/table");
 const restroRoute = require("./routes/restro");
 const menuRoute = require("./routes/menu");
 const permissionRoute = require("./routes/permissions");
+const subscribeRoute = require("./routes/subscribe");
 
 mongoose.connect(db, {
     useNewUrlParser: true,
@@ -53,16 +55,30 @@ io.on("connection", (socket) => {
         console.log("Table Id on joining room:  ",tableId);
         socket.join(tableId);
     })
+
+    //Listening for count change event and then sending menu updates to all the clients
     socket.on("countChange", (menu,tableId) => {
         console.log("Menu changed ");
         console.log("Table Id :  ",tableId);
         io.to(tableId).emit("menuChange", menu);
     })
+
+    //Emitting the event to the restro side on placing the order
     socket.on("orderPlaced", eve => {
         console.log("Final emit");
         io.emit('updateToWeb',eve);
     })
 })
+
+//Web push notifications -->
+const publicVapidKey = "BAfI4ESJesvpP45uii_K1OK4p33kspY-kNydrM1nPTdUvUpLbsTFY6UspWyDFQJIt-QHfMEtrOdFiMViT7E8EGc";
+
+const privateVapidKey = "FJotabmZnmmZhCaaMxw_yjY5ztsHm3jDnZX7SRGf2KY";
+
+webpush.setVapidDetails("mailto:salyd@support.com",publicVapidKey,privateVapidKey);
+
+//Subscribe route
+app.use("/subscribe",subscribeRoute);
 
 server.listen(PORT, () => {
     console.log(`Server started on ${PORT}`);
