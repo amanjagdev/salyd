@@ -13,10 +13,10 @@ const HomeStack = createStackNavigator();
 
 const Home = () => {
     return (
-        <HomeStack.Navigator headerMode="none">
+        <HomeStack.Navigator headerMode="none" initialRouteName="HomeMain">
+            <HomeStack.Screen name="HomeMain" component={HomeMain} />
             <HomeStack.Screen name="OrderConfirmed" component={OrderConfirmed} />
             <HomeStack.Screen name="Checkout" component={Checkout} />
-            <HomeStack.Screen name="HomeMain" component={HomeMain} />
             <HomeStack.Screen name="Menu" component={Menu} />
             <HomeStack.Screen name="Table" component={Table} />
             <HomeStack.Screen name="JoinTable" component={JoinTable} />

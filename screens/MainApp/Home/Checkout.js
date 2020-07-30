@@ -5,11 +5,14 @@ import { CommonActions } from '@react-navigation/native';
 
 import Header from '../../../components/Header';
 import { colors } from '../../../constants/constant';
-
+import { GlobalContext } from '../../../context/GlobalState';
+import { apiUrl } from '../../../config/keys'
 const Checkout = ({ navigation }) => {
     const [visible, setVisible] = React.useState(false);
     const [content, setContent] = React.useState(true)
     const [processing, setProcessing] = React.useState(false)
+
+    const { order, globalTableId } = React.useContext(GlobalContext)
 
     const OfflineContent = {
         title: "Offline",
@@ -19,101 +22,39 @@ const Checkout = ({ navigation }) => {
         title: "Online",
         content: ['Step 1 : Lorem ipsum dolor sit amet ', 'Step 2 : Lorem ipsum dolor sit amet ', 'Step 3 : Lorem ipsum dolor sit amet ']
     }
-    const order = {
-        orderID: "urwir93234",
-        menu: [
-            {
-                item: "Pav Bhaji",
-                qty: 1,
-                price: 43,
-            },
-            {
-                item: "Bhaji",
-                qty: 3,
-                price: 430,
-            },
-            {
-                item: "Pizza",
-                qty: 5,
-                price: 483,
-            },
-            {
-                item: "Pav Bhaji",
-                qty: 1,
-                price: 43,
-            },
-            {
-                item: "Bhaji",
-                qty: 3,
-                price: 430,
-            },
-            {
-                item: "Pizza",
-                qty: 5,
-                price: 483,
-            },
-            {
-                item: "Pav Bhaji",
-                qty: 1,
-                price: 43,
-            },
-            {
-                item: "Bhaji",
-                qty: 3,
-                price: 430,
-            },
-            {
-                item: "Pizza",
-                qty: 5,
-                price: 483,
-            },
-            {
-                item: "Pav Bhaji",
-                qty: 1,
-                price: 43,
-            },
-            {
-                item: "Bhaji",
-                qty: 3,
-                price: 430,
-            },
-            {
-                item: "Pizza",
-                qty: 5,
-                price: 483,
-            },
-            {
-                item: "Pav Bhaji",
-                qty: 1,
-                price: 43,
-            },
-            {
-                item: "Bhaji",
-                qty: 3,
-                price: 430,
-            },
-            {
-                item: "Pizza",
-                qty: 5,
-                price: 483,
-            },
-        ]
-    }
 
     const checkIfPaid = () => {
         setProcessing(true)
-        setTimeout(() => {
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [
-                        {
-                            name: 'OrderConfirmed',
-                        },
-                    ],
-                })
-            );
-        }, 3000);
+        fetch(`${apiUrl}/orderplace`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "tableId": globalTableId,
+                "menu": order.menu
+            })
+        }).then((res) => res.json())
+            .then((data) => {
+                if (data.error) {
+                    Alert.alert("Sorry, something went wrong");
+                }
+                else {
+                    console.log("Order data : >>>  ", data)
+                    setTimeout(() => {
+                        navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [
+                                    {
+                                        name: 'OrderConfirmed',
+                                    },
+                                ],
+                            })
+                        );
+                    }, 3000);
+                }
+            })
     }
 
     return (
@@ -168,12 +109,13 @@ const Checkout = ({ navigation }) => {
                         <FlatList
                             data={order.menu}
                             renderItem={({ item }) => (
-                                <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                                    <Text style={{ flex: 1 }}>{item.item}</Text>
-                                    <Text style={{ flex: 1 }}>{item.qty}</Text>
-                                    <Text style={{ flex: 1 }}>{item.price}</Text>
-                                    <Text style={{ flex: 1 }}>{item.price * item.qty}</Text>
-                                </View>
+                                item.count ?
+                                    <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                                        <Text style={{ flex: 1 }}>{item.item}</Text>
+                                        <Text style={{ flex: 1 }}>{item.count}</Text>
+                                        <Text style={{ flex: 1 }}>{item.price}</Text>
+                                        <Text style={{ flex: 1 }}>{item.price * item.count}</Text>
+                                    </View> : null
                             )}
                         />
                     </View>
