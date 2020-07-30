@@ -20,7 +20,7 @@ const App = () => {
 
   const [isReady, setIsReady] = useState(false);
   const [initialScreen, setInititalScreen] = useState("Splash");
-
+  console.disableYellowBox = true; 
   useEffect(() => {
     const checkToken = async () => {
       const user = await AsyncStorage.getItem('user');

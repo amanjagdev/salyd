@@ -1,7 +1,7 @@
 import React, {useState,useEffect,useContext} from "react"
-import {Button,TextInput,Searchbar } from "react-native-paper";
+import {Button,Searchbar } from "react-native-paper";
 import socketIOClient from 'socket.io-client';
-
+import {CommonActions} from '@react-navigation/native';
 import {GlobalContext} from '../../../context/GlobalState';
 
 import {
@@ -18,8 +18,7 @@ import {
 import Axios from 'axios';
 import {apiUrl} from '../../../config/keys';
 import Header from '../../../components/Header';
-import { colors, colorsOld } from "../../../constants/constant";
-import {LinearGradient} from 'expo-linear-gradient'
+import { colors } from "../../../constants/constant";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 //Initalizing client-socket instance
@@ -208,7 +207,17 @@ const Menu = (props) => {
         //         Alert.alert("Order Placed successfully");
         //     }
         // })
-        socket.emit('orderPlaced',"Hi");
+        // socket.emit('orderPlaced',"Hi");
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    {
+                        name: 'Checkout',
+                    },
+                ],
+            })
+        );
     }
 
     //Listening for the menuChange event from @Sever
