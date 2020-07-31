@@ -2,11 +2,16 @@ import React from 'react'
 import { FlatList, View, Dimensions, Modal, StyleSheet } from 'react-native'
 import { ActivityIndicator, Text, Button, Divider } from 'react-native-paper';
 import { CommonActions } from '@react-navigation/native';
+import socketIOClient from "socket.io-client";
 
 import Header from '../../../components/Header';
 import { colors } from '../../../constants/constant';
 import { GlobalContext } from '../../../context/GlobalState';
 import { apiUrl } from '../../../config/keys'
+
+//Initalizing client-socket instance
+const socket = socketIOClient(`${apiUrl}`);
+
 const Checkout = ({ navigation }) => {
     const [visible, setVisible] = React.useState(false);
     const [content, setContent] = React.useState(true)
@@ -41,7 +46,9 @@ const Checkout = ({ navigation }) => {
                 }
                 else {
                     console.log("Order data : >>>  ", data)
-                    setTimeout(() => {
+                    socket.emit("orderPlaced",globalTableId);
+                    socket.on("paid",(tableId) => {
+                        console.log("hello",tableId);
                         navigation.dispatch(
                             CommonActions.reset({
                                 index: 0,
@@ -52,7 +59,7 @@ const Checkout = ({ navigation }) => {
                                 ],
                             })
                         );
-                    }, 3000);
+                    })                    
                 }
             })
     }
