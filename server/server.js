@@ -64,21 +64,27 @@ io.on("connection", (socket) => {
     })
 
     //Emitting the event to the restro side on placing the order
-    socket.on("orderPlaced", eve => {
-        console.log("Final emit");
-        io.emit('updateToWeb',eve);
+    socket.on("orderPlaced", (tableId) => {
+        console.log("order placed event from server");
+        io.emit("confirmOrder",tableId);
+    })
+
+    //Listening for the approve Order event from restro side
+    socket.on("approveOrder",(tableId) => {
+        console.log("approve order server side",tableId);
+        io.emit("paid",tableId);
     })
 })
 
-//Web push notifications -->
-const publicVapidKey = "BAfI4ESJesvpP45uii_K1OK4p33kspY-kNydrM1nPTdUvUpLbsTFY6UspWyDFQJIt-QHfMEtrOdFiMViT7E8EGc";
+// //Web push notifications -->
+// const publicVapidKey = "BAfI4ESJesvpP45uii_K1OK4p33kspY-kNydrM1nPTdUvUpLbsTFY6UspWyDFQJIt-QHfMEtrOdFiMViT7E8EGc";
 
-const privateVapidKey = "FJotabmZnmmZhCaaMxw_yjY5ztsHm3jDnZX7SRGf2KY";
+// const privateVapidKey = "FJotabmZnmmZhCaaMxw_yjY5ztsHm3jDnZX7SRGf2KY";
 
-webpush.setVapidDetails("mailto:salyd@support.com",publicVapidKey,privateVapidKey);
+// webpush.setVapidDetails("mailto:salyd@support.com",publicVapidKey,privateVapidKey);
 
-//Subscribe route
-app.use("/subscribe",subscribeRoute);
+// //Subscribe route
+// app.use("/subscribe",subscribeRoute);
 
 server.listen(PORT, () => {
     console.log(`Server started on ${PORT}`);
