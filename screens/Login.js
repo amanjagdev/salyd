@@ -11,6 +11,7 @@ import {
     Alert
 } from "react-native";
 import Axios from 'axios'
+import GenerateBill from "../screens/MainApp/Home/GenerateBill";
 
 //State
 import { GlobalContext } from '../context/GlobalState';
@@ -102,6 +103,7 @@ const Login = (props) => {
                         Dont Have an account ? SignUp
                     </Text>
                 </TouchableOpacity>
+                <GenerateBill />
 
             </KeyboardAvoidingView>
         </View>
