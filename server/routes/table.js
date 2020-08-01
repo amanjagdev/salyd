@@ -4,8 +4,6 @@ const requireLogin = require("../middleware/requireLogin");
 const Restro = require("../model/restro");
 const Table = require("../model/tables");
 const User = require("../model/user");
-const {authorize} = require("../middleware/authorize");
-
 
 //Saving tabledetails to the db
 router.post('/tabledetails',(req,res) => {
@@ -137,4 +135,81 @@ router.post("/orderplace",(req,res) => {
 
 })
 
+//Fetching the order placed menu for bill generation
+router.post("/generatebill",(req,res) => {
+    const {tableId} = req.body;
+    Table.findById(tableId)
+    .then((table) => {
+        res.status(200).json(table.menu);
+    }).catch((err) => {
+        console.log(err);
+    })
+})
+
+// router.post("/orderplace",(req,res) => {
+//     const {tableId,menu} = req.body;
+//     var changedMenu;
+//     var newChangedMenu;
+//     Table.findById(tableId)
+//     .then((table) => {
+//         var dbmenu = table.menu;
+//         for(let i=0;i<dbmenu.length;i++) {
+//             for(let j=0;j<menu.length;j++) {
+//                 if(dbmenu[i].item === menu[j].item) {
+//                     changedMenu = {
+//                         item : menu[i].item,
+//                         price : menu[i].price,
+//                         count : dbmenu[i].count+menu[j].count
+//                     }
+//                     //Deleting the previous object and replacing with changed Menu
+
+//                     const index = dbmenu.indexOf(dbmenu[i].item);
+//                     if(index > -1) {
+//                         dbmenu.splice(index,1);
+//                     }
+//                     console.log(changedMenu);
+//                     dbmenu.push(changedMenu);
+//                     break;
+//                 }
+//                 else {
+//                     newChangedMenu = menu[i];
+//                     dbmenu.push(newChangedMenu);
+//                     console.log(newChangedMenu);
+//                     break;
+//                 }
+//             }
+//         }
+//         console.log(dbmenu,"new array");
+        
+//         // Table.findByIdAndUpdate(tableId,{
+//         //     menu
+//         // },{
+//         //     new : true,
+//         //     runValidators : true
+//         // }).then((table) => {
+//         //     res.status(200).json(table);
+//         // }).catch((err) => {
+//         //     res.status(422).json(err);
+//         // })
+//     }).catch((err) => {
+//         console.log(err);
+//     })
+// })
+
+// router.post("/orderplace",(req,res) => {
+//     const {tableId,menu} = req.body;
+//     Table.findById(tableId)
+//     .then((table) => {
+//         menu.map((menuitem) => {
+//             const found = table.menu.some((elem) => {
+//                 elem.item === menuitem.item
+//             })
+//             if(!found) {
+//                 table.menu.push(menuitem)
+//             }
+//         })
+//         console.log(table.menu);
+        
+//     })
+// })
 module.exports = router;
