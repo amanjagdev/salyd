@@ -135,16 +135,6 @@ router.post("/orderplace",(req,res) => {
 
 })
 
-//Fetching the order placed menu for bill generation
-router.post("/generatebill",(req,res) => {
-    const {tableId} = req.body;
-    Table.findById(tableId)
-    .then((table) => {
-        res.status(200).json(table.menu);
-    }).catch((err) => {
-        console.log(err);
-    })
-})
 
 // router.post("/orderplace",(req,res) => {
 //     const {tableId,menu} = req.body;

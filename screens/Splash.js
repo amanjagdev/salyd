@@ -8,8 +8,8 @@ import Header from '../components/Header'
 const Splash = ({ navigation }) => {
     const [carouselItems, setCarouselItems] = useState([
         {
-            title: "Fastest Service",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, sit!",
+            title: "Contactless Dinning",
+            text: "Scan the qr code on the table and get the instant menu on your screens",
             image: require("../assets/carousel0.png")
         },
         {

@@ -43,7 +43,7 @@ const SignUp = ({ navigation }) => {
                 <Header>Sign Up</Header>
 
                 <TextInput
-                    label="Name"
+                    label="Full Name"
                     mode="outlined"
                     value={name}
                     style={styles.inputbox}
@@ -52,7 +52,7 @@ const SignUp = ({ navigation }) => {
                 />
 
                 <TextInput
-                    label="Phone"
+                    label="Phone Number"
                     mode="outlined"
                     value={phone}
                     style={styles.inputbox}
@@ -61,7 +61,7 @@ const SignUp = ({ navigation }) => {
                 />
 
                 <TextInput
-                    label="Email"
+                    label="Email Address"
                     mode="outlined"
                     value={email}
                     style={styles.inputbox}
@@ -84,7 +84,7 @@ const SignUp = ({ navigation }) => {
                     theme={{ colors: { primary: colors.accentPrimary } }}
                     style={styles.button}
                     onPress={() => saveDetails()} >
-                    SignUp
+                    Sign Up
                 </Button>
 
                 <TouchableOpacity onPress={() => loginRedirect()}>
@@ -102,19 +102,24 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 20,
         marginLeft: 18,
-        marginTop: 20
+        marginTop: 20,
+        fontFamily : "monospace"
     },
     inputbox: {
-        marginLeft: 18,
-        marginRight: 18,
-        marginTop: 18
+        marginHorizontal : 25,
+        marginTop: 25,
+        height : 46,
+        fontFamily : "monospace"
     },
     button: {
         margin: 10,
-        borderRadius: 50,
-        marginTop: 20,
+        width : 300,
+        borderRadius: 30,
+        marginTop: 30,
+        marginHorizontal : 50,
         marginBottom: 10,
-        color: colors.back
+        color: colors.back,
+        fontFamily : "monospace"
     },
     outlined: {
         borderColor: colors.back,

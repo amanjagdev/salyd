@@ -108,6 +108,32 @@ router.post('/signin',(req,res) => {
     })
 })
 
+//Edit Profile
+router.post("/editprofile",requireLogin,(req,res) => {
+    const newDetails = {};
+    if(req.body.name) {
+        newDetails.name = req.body.name;
+    }
+    if(req.body.email) {
+        newDetails.email = req.body.email;
+    }
+    if(req.body.phone) {
+        newDetails.phone = req.body.phone;
+    }
+    if(req.body.password) {
+        newDetails.password = req.body.password;
+    }
+
+    new User(newDetails)
+    .then((user) => {
+        res.status(200).json(user);
+    }).catch((err) => {
+        res.status(401).json({
+            "error" : "Could not edit"
+        })
+    })
+})
+
 // router.post('/forgotpass',(req,res) => {
 //     const {phone} = req.body;
 //     const otp = Math.floor(Math.random() * 100000);

@@ -55,7 +55,6 @@ const Table = ({ navigation }) => {
     updateRoom(null)
     updateTable(null)
     const tableid = await AsyncStorage.removeItem('tableId')
-    const tablei = await AsyncStorage.removeItem('roomId')
     navigation.navigate('HomeMain')
   }
 
@@ -68,8 +67,8 @@ const Table = ({ navigation }) => {
           fontSize: 40,
           fontWeight: "bold",
           textAlign: "center"
-        }}>{globalRoomId}</Text>
-        <Text style={styles.roomId}>Share this with your friends and relative to enjoy chatakedaar kahana with them</Text>
+        }}>Room Id : {globalRoomId}</Text>
+        <Text style={styles.roomId}>Share this Room Id with your colleagues to let them join the table</Text>
 
         <Text style={{
           fontSize: 20,
@@ -102,14 +101,7 @@ const Table = ({ navigation }) => {
           >
             Edit
           </Button>
-          <Button
-            mode="contained"
-            color={selectedValue === "add" ? colors.accentPrimary : colors.back}
-            style={styles.button}
-            onPress={() => setSelectedValue("add")}
-          >
-            Add
-          </Button>
+          
         </View>
 
         <Button
@@ -129,9 +121,9 @@ const Table = ({ navigation }) => {
         >
           Exit Table
         </Button>
-
+        </View>
       </View>
-    </View>
+
   )
 }
 
@@ -155,7 +147,6 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 20,
     marginTop: 20,
-    fontWeight: "bold",
     textAlign: "center"
   }
 })

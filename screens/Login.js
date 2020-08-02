@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     StyleSheet,
-    Alert
+    Alert,
+    Image
 } from "react-native";
 import Axios from 'axios'
 import GenerateBill from "../screens/MainApp/Home/GenerateBill";
@@ -69,7 +70,10 @@ const Login = (props) => {
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="position">
                 <Header>LOGIN</Header>
-
+                
+                <Image 
+                    source={require("../assets/login.png")}
+                    style = {styles.image} />
                 <TextInput
                     label="Email"
                     mode="outlined"
@@ -103,7 +107,7 @@ const Login = (props) => {
                         Dont Have an account ? SignUp
                     </Text>
                 </TouchableOpacity>
-                <GenerateBill />
+
 
             </KeyboardAvoidingView>
         </View>
@@ -114,17 +118,28 @@ const Login = (props) => {
 const styles = StyleSheet.create({
     container: {
         height: 800,
-        padding: 10,
         backgroundColor: colors.back
     },
     inputbox: {
-        margin: 10,
+        marginHorizontal : 25,
+        height : 46,
+        marginTop : 25,
+        fontFamily : "monospace"
+    },
+    image : {
+        width : 200,
+        height : 200,
+        marginHorizontal : 100
     },
     button: {
         margin: 10,
-        borderRadius: 50,
-        marginBottom: 20,
-        color: colors.back
+        width : 300,
+        borderRadius: 30,
+        marginTop: 30,
+        marginHorizontal : 50,
+        marginBottom: 10,
+        color: colors.back,
+        fontFamily : "monospace"
     },
     outlined: {
         borderColor: colors.back,

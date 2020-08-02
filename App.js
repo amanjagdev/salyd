@@ -13,6 +13,7 @@ import SignUp from './screens/SignUp';
 import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
 import Guest from './screens/Guest';
+import Header from "./components/Header"
 
 const Stack = createStackNavigator();
 
