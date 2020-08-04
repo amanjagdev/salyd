@@ -20,8 +20,27 @@ import { colors } from "../../../constants/constant";
 const Table = ({ navigation }) => {
 
   const [selectedValue, setSelectedValue] = useState("view");
-  const { token, globalRoomId, updateTable, updateRoom } = useContext(GlobalContext);
+  const [restro,setRestro] = useState({});
+  const { token, globalRoomId, updateTable, updateRoom,globalTableId,updateRestro } = useContext(GlobalContext);
 
+  useEffect(() => {
+    Axios({
+      url: `${apiUrl}/getrestro`,
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: { "tableId": globalTableId}
+    }).then((res) => {
+      console.log(res.data);
+      setRestro(res.data);
+      //Updating the restro in global state
+      updateRestro(res.data);
+    }).catch((err) => {
+      res.status(422).json(err);
+    })  
+  },[])
+  
   const onSubmit = () => {
     Axios({
       url: `${apiUrl}/permission/grant`,

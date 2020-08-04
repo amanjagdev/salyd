@@ -18,7 +18,7 @@ const Checkout = ({ navigation }) => {
     const [content, setContent] = React.useState(true)
     const [processing, setProcessing] = React.useState(false)
 
-    const { order, globalTableId, user } = React.useContext(GlobalContext)
+    const { order, globalTableId, user,restro } = React.useContext(GlobalContext)
 
     const OfflineContent = {
         title: "Offline",
@@ -49,7 +49,8 @@ const Checkout = ({ navigation }) => {
                 }
                 else {
                     console.log("Order data : >>>  ", data)
-                    socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId });
+                    console.log(restro,"global restro")
+                    socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId,"restroId" : restro._id });
                     socket.on("paid", (oID) => {
                         if (oID === orderId) {
                             navigation.dispatch(
