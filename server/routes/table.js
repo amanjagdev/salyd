@@ -120,8 +120,8 @@ router.post("/registerandaddmember",(req,res) => {
 //Menu to be posted by admin
 router.post("/orderplace",(req,res) => {
 
-    const {tableId,menu} = req.body;
-
+    const {tableId,menu,username,orderId} = req.body;
+    //TODO: Add the leftover fields into databse
     Table.findByIdAndUpdate(tableId,{
         menu
     },{

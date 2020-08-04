@@ -14,10 +14,11 @@ const socket = socketIOClient(`${apiUrl}`);
 
 const Checkout = ({ navigation }) => {
     const [visible, setVisible] = React.useState(false);
+    const [orderId, setOrderId] = React.useState(Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5));
     const [content, setContent] = React.useState(true)
     const [processing, setProcessing] = React.useState(false)
 
-    const { order, globalTableId } = React.useContext(GlobalContext)
+    const { order, globalTableId, user } = React.useContext(GlobalContext)
 
     const OfflineContent = {
         title: "Offline",
@@ -37,7 +38,9 @@ const Checkout = ({ navigation }) => {
             },
             body: JSON.stringify({
                 "tableId": globalTableId,
-                "menu": order.menu
+                "orderId": orderId,
+                "menu": order.menu,
+                "username": user.name
             })
         }).then((res) => res.json())
             .then((data) => {
@@ -46,20 +49,21 @@ const Checkout = ({ navigation }) => {
                 }
                 else {
                     console.log("Order data : >>>  ", data)
-                    socket.emit("orderPlaced",globalTableId);
-                    socket.on("paid",(tableId) => {
-                        console.log("hello",tableId);
-                        navigation.dispatch(
-                            CommonActions.reset({
-                                index: 0,
-                                routes: [
-                                    {
-                                        name: 'OrderConfirmed',
-                                    },
-                                ],
-                            })
-                        );
-                    })                    
+                    socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId });
+                    socket.on("paid", (oID) => {
+                        if (oID === orderId) {
+                            navigation.dispatch(
+                                CommonActions.reset({
+                                    index: 0,
+                                    routes: [
+                                        {
+                                            name: 'OrderConfirmed',
+                                        },
+                                    ],
+                                })
+                            );
+                        }
+                    })
                 }
             })
     }
