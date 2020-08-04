@@ -5,7 +5,6 @@ const http = require('http');
 const mongoose = require('mongoose');
 const db = require('./config/keys').MongoURI;
 const cors = require('cors');
-const webpush = require("web-push");
 
 //Requiring routes
 const signupRoute = require("./routes/auth");
@@ -14,7 +13,6 @@ const tableRoute = require("./routes/table");
 const restroRoute = require("./routes/restro");
 const menuRoute = require("./routes/menu");
 const permissionRoute = require("./routes/permissions");
-const subscribeRoute = require("./routes/subscribe");
 
 mongoose.connect(db, {
     useNewUrlParser: true,
@@ -65,6 +63,7 @@ io.on("connection", (socket) => {
     
     //Emitting the event to the restro side on placing the order
     socket.on("orderPlaced", (myData) => {
+        console.log(myData.restroId,"hello")
         console.log("order placed event from server");
         io.emit("confirmOrder",myData);
     })
@@ -74,6 +73,7 @@ io.on("connection", (socket) => {
         io.emit("paid",orderId);
         // io.to(tableId).emit("menuChange", menu);
     })
+
 })
 
 server.listen(PORT, () => {

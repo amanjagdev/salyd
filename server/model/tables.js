@@ -18,7 +18,7 @@ const tableSchema = new Schema({
     roomId : {
         type : Number
     },
-    menu : [
+    menu : [  
         {
             item : {
                 type : String
@@ -29,8 +29,9 @@ const tableSchema = new Schema({
             count : {
                 type : Number
             }
-        }
-    ]
+        },
+    ],
+
     
 })
 

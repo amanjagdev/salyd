@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Restro = require("../model/restro"); 
 const Table= require("../model/tables");
-const restroRequireLogin = require("../middleware/restroRequireLogin");
 const requireLogin = require("../middleware/requireLogin");
-
 
 //Fetching menu for logged in user
 router.get('/',requireLogin,(req,res) => {  
