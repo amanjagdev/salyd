@@ -17,6 +17,7 @@ const initialState = {
     tableId: null,
     roomId: null,
     order: null,
+    restro : null
 };
 
 const Actions = {
@@ -25,6 +26,7 @@ const Actions = {
     UPDATE_TABLE_ID: "UPDATE_TABLE_ID",
     UPDATE_ROOM_ID: "UPDATE_ROOM_ID",
     UPDATE_ORDER: "UPDATE_ORDER",
+    UPDATE_RESTRO : "UPDATE_RESTRO"
 }
 
 export const GlobalContext = createContext(initialState);
@@ -90,6 +92,13 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
+    const updateRestro = (restro) => {
+        dispatch({
+            type : Actions.UPDATE_RESTRO,
+            payload : restro
+        })
+    }
+
     return (
         <GlobalContext.Provider
             value={{
@@ -98,11 +107,13 @@ export const GlobalProvider = ({ children }) => {
                 order: state.order,
                 globalTableId: state.tableId,
                 globalRoomId: state.roomId,
+                restro : state.restro,
                 updateUser,
                 updateToken,
                 updateTable,
                 updateRoom,
-                updateOrder
+                updateOrder,
+                updateRestro
             }}
         >
             {children}

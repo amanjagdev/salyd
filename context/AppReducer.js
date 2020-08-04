@@ -4,6 +4,7 @@ const Actions = {
     UPDATE_TABLE_ID: "UPDATE_TABLE_ID",
     UPDATE_ROOM_ID: "UPDATE_ROOM_ID",
     UPDATE_ORDER: "UPDATE_ORDER",
+    UPDATE_RESTRO : "UPDATE_RESTRO"
 }
 
 export default (state, action) => {
@@ -14,7 +15,8 @@ export default (state, action) => {
                 order: state.order,
                 tableId: state.tableId,
                 roomId: state.roomId,
-                user: action.payload
+                user: action.payload,
+                restro : state.restro
             };
         case Actions.UPDATE_TOKEN:
             return {
@@ -22,7 +24,8 @@ export default (state, action) => {
                 tableId: state.tableId,
                 roomId: state.roomId,
                 user: state.user,
-                token: action.payload
+                token: action.payload,
+                restro : state.restro
             };
         case Actions.UPDATE_ROOM_ID:
             return {
@@ -30,7 +33,8 @@ export default (state, action) => {
                 token: state.token,
                 roomId: action.payload,
                 user: state.user,
-                tableId: state.tableId
+                tableId: state.tableId,
+                restro : state.restro
             };
         case Actions.UPDATE_TABLE_ID:
             return {
@@ -38,7 +42,8 @@ export default (state, action) => {
                 token: state.token,
                 roomId: state.roomId,
                 user: state.user,
-                tableId: action.payload
+                tableId: action.payload,
+                restro : state.restro
             };
         case Actions.UPDATE_ORDER:
             return {
@@ -46,8 +51,18 @@ export default (state, action) => {
                 token: state.token,
                 roomId: state.roomId,
                 user: state.user,
-                tableId: state.tableId
+                tableId: state.tableId,
+                restro : state.restro
             };
+        case Actions.UPDATE_RESTRO : 
+            return {
+                restro : action.payload,
+                order: state.order,
+                token: state.token,
+                roomId: state.roomId,
+                user: state.user,
+                tableId: state.tableId,                
+            }
         default:
             return state;
     }
