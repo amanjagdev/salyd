@@ -118,18 +118,26 @@ router.post("/registerandaddmember",(req,res) => {
 })
 
 //Menu to be posted by admin
-router.post("/orderplace",(req,res) => {
+router.post("/orderplace",requireLogin,(req,res) => {
 
-    const {tableId,menu} = req.body;
-
+    const {menu,tableId,orderId,name,address,date} = req.body;
     //TODO : Add the ordered menu to the users and restro collection
-    Table.findByIdAndUpdate(tableId,{
-        menu
+    User.findByIdAndUpdate(req.user._id,{
+        $push : {recentOrders : {
+            menu,
+            tableId,
+            orderId,
+            restroDetails : {
+                name,
+                address
+            },
+            date
+        }}
     },{
         new : true,
         runValidators : true
-    }).then((table) => {
-        res.status(200).json(table);
+    }).then((user) => {
+        res.status(200).json(user.recentOrders);
     }).catch((err) => {
         res.status(422).json(err);
     })

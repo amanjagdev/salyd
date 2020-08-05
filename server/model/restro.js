@@ -45,6 +45,9 @@ const restroSchema = new Schema({
         },
         tableId : {
             type : String
+        },
+        date : {
+            type : Date
         }
     }]
 })

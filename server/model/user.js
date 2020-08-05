@@ -18,7 +18,31 @@ const userSchma = new Schema({
         type : String,
         enum : ['admin','view','add','edit'],
         default : "view"
-    }
+    },
+    recentOrders : [{
+        menu : [  
+            {
+                item : {
+                    type : String
+                },
+                price : {
+                    type : Number
+                },
+                count : {
+                    type : Number
+                }
+            },
+        ],
+        orderId : {
+            type : String
+        },
+        restroDetails : {
+            
+        },
+        date : {
+            type : Date
+        }
+    }]
 })
 
 const userModel = mongoose.model('userModel',userSchma);

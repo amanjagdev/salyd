@@ -32,14 +32,16 @@ router.post("/menu",restroRequireLogin,(req,res) => {
 //Saving the orders from restro side on completion
 router.post("/saveorder",restroRequireLogin,(req,res) => {
 
-    const {menu,username,orderId,tableId} = req.body;
+    const {menu,username,orderId,tableId,date} = req.body;
+
     console.log(req.restro._id);
     Restro.findByIdAndUpdate(req.restro._id,{
         $push : {placedOrders : {
             menu,
             username,
             orderId,
-            tableId
+            tableId,
+            date
         }}
     },{
         new : true,
