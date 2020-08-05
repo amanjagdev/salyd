@@ -33,9 +33,11 @@ const Table = ({ navigation }) => {
       data: { "tableId": globalTableId}
     }).then((res) => {
       console.log(res.data);
-      setRestro(res.data);
+      setRestro(res.data.tableOf);
+      
       //Updating the restro in global state
-      updateRestro(res.data);
+      updateRestro(res.data.tableOf);    
+
     }).catch((err) => {
       res.status(422).json(err);
     })  

@@ -3,6 +3,7 @@ const Actions = {
     UPDATE_TOKEN: "UPDATE_TOKEN",
     UPDATE_TABLE_ID: "UPDATE_TABLE_ID",
     UPDATE_ROOM_ID: "UPDATE_ROOM_ID",
+    UPDATE_LOCAL_ROOM_ID : "UPDATE_LOCAL_ROOM_ID",
     UPDATE_ORDER: "UPDATE_ORDER",
     UPDATE_RESTRO : "UPDATE_RESTRO"
 }
@@ -34,7 +35,7 @@ export default (state, action) => {
                 roomId: action.payload,
                 user: state.user,
                 tableId: state.tableId,
-                restro : state.restro
+                restro : state.restro,
             };
         case Actions.UPDATE_TABLE_ID:
             return {
@@ -43,7 +44,7 @@ export default (state, action) => {
                 roomId: state.roomId,
                 user: state.user,
                 tableId: action.payload,
-                restro : state.restro
+                restro : state.restro,
             };
         case Actions.UPDATE_ORDER:
             return {
@@ -61,7 +62,7 @@ export default (state, action) => {
                 token: state.token,
                 roomId: state.roomId,
                 user: state.user,
-                tableId: state.tableId,                
+                tableId: state.tableId        
             }
         default:
             return state;

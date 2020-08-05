@@ -21,7 +21,7 @@ const JoinTable = (props) => {
     const [localRoomId, setLocalRoomID] = useState(null);
     const [name, setName] = useState(null);
 
-    const { token, updateRoom, updateTable } = useContext(GlobalContext)
+    const { token, updateRoom} = useContext(GlobalContext)
 
     const enterId = async () => {
         //If user has token(logged in) then let him/her enter only the roomId
@@ -78,7 +78,6 @@ const JoinTable = (props) => {
                     }
                     else {
                         updateRoom(data.result.roomId)
-                        updateTable("123456123");
                         await AsyncStorage.setItem("userId", (data.id).toString());
 
                         Alert.alert("Successfully added to the table");

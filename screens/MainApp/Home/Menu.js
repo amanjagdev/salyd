@@ -25,7 +25,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const socket = socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
-    const { token, globalRoomId, globalTableId, updateOrder, order } = useContext(
+    const { token, globalRoomId, globalTableId, updateOrder, order,localroomId } = useContext(
         GlobalContext
     );
     const [menu, setMenu] = useState([]);
@@ -147,7 +147,7 @@ const Menu = (props) => {
         getPermission();
         getMenu();
     }, []);
-
+    
     //Emitting the joinRoom event to the server
     //Event emitted @Server
 
@@ -198,6 +198,7 @@ const Menu = (props) => {
     };
 
     //Listening for the menuChange event from @Sever
+
     socket.on("menuChange", (menu) => {
         setMenu(menu);
     });
@@ -215,7 +216,7 @@ const Menu = (props) => {
             <View style={styles.counterContainer}>
                 <TouchableOpacity
                     onPress={() => decrementCounter(item._id, index)}
-                // disabled = {permission === "view" ? true : false}
+                    disabled = {permission === "view" ? true : false}
                 >
                     <View style={styles.counter}>
                         <Text style={styles.textCounter}>-</Text>
@@ -226,7 +227,7 @@ const Menu = (props) => {
 
                 <TouchableOpacity
                     onPress={() => incrementCounter(item._id, index)}
-                // disabled = {permission === "view" ? true : false}
+                    disabled = {permission === "view" ? true : false}
                 >
                     <View style={styles.counter}>
                         <Text style={styles.textCounter}>+</Text>
@@ -248,7 +249,7 @@ const Menu = (props) => {
         setSearch(text);
     };
 
-    ItemSeparatorComponent = () => {
+    const ItemSeparatorComponent = () => {
         return (
             <View
                 style={{
