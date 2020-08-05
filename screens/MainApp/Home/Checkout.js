@@ -18,7 +18,7 @@ const Checkout = ({ navigation }) => {
     const [content, setContent] = React.useState(true)
     const [processing, setProcessing] = React.useState(false)
 
-    const { order, globalTableId, user,restro } = React.useContext(GlobalContext)
+    const { order, globalTableId, user,restro,token } = React.useContext(GlobalContext)
 
     const OfflineContent = {
         title: "Offline",
@@ -30,17 +30,22 @@ const Checkout = ({ navigation }) => {
     }
 
     const checkIfPaid = () => {
+
         setProcessing(true)
+        const newDate = new Date();
         fetch(`${apiUrl}/orderplace`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + token                
             },
             body: JSON.stringify({
                 "tableId": globalTableId,
                 "orderId": orderId,
                 "menu": order.menu,
-                "username": user.name
+                "name" : restro.name,
+                "address" : restro.address,
+                "date" : newDate
             })
         }).then((res) => res.json())
             .then((data) => {
@@ -49,7 +54,6 @@ const Checkout = ({ navigation }) => {
                 }
                 else {
                     console.log("Order data : >>>  ", data)
-                    console.log(restro,"global restro")
                     socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId,"restroId" : restro._id });
                     socket.on("paid", (oID) => {
                         if (oID === orderId) {

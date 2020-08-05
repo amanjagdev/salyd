@@ -25,7 +25,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const socket = socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
-    const { token, globalRoomId, globalTableId, updateOrder, order,localroomId } = useContext(
+    const { token, globalRoomId, globalTableId, updateOrder, order,localroomId,restro } = useContext(
         GlobalContext
     );
     const [menu, setMenu] = useState([]);
@@ -148,6 +148,7 @@ const Menu = (props) => {
         getMenu();
     }, []);
     
+    console.log(restro,"restro global state")
     //Emitting the joinRoom event to the server
     //Event emitted @Server
 
