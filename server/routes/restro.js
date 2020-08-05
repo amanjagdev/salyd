@@ -29,6 +29,28 @@ router.post("/menu",restroRequireLogin,(req,res) => {
     })
 })
 
+//Saving the orders from restro side on completion
+router.post("/saveorder",restroRequireLogin,(req,res) => {
+
+    const {menu,username,orderId,tableId} = req.body;
+    console.log(req.restro._id);
+    Restro.findByIdAndUpdate(req.restro._id,{
+        $push : {placedOrders : {
+            menu,
+            username,
+            orderId,
+            tableId
+        }}
+    },{
+        new : true,
+        runValidators : true
+    }).then((restro) => {
+        res.status(200).json(restro);
+    }).catch((err) => {
+        res.status(422).json(err);
+    })
+})
+
 //Fetching menu
 router.get("/getmenu",restroRequireLogin,(req,res) => {
     Restro.findById(req.restro._id)

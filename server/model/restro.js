@@ -23,16 +23,30 @@ const restroSchema = new Schema({
     password : {
         type : String
     },
-    menu : [
-        {
-            item : {
-                type : String
+    placedOrders : [{
+        menu : [  
+            {
+                item : {
+                    type : String
+                },
+                price : {
+                    type : Number
+                },
+                count : {
+                    type : Number
+                }
             },
-            price : {
-                type : Number
-            }
+        ],
+        username : {
+            type : String
+        },
+        orderId : {
+            type : String
+        },
+        tableId : {
+            type : String
         }
-    ]
+    }]
 })
 
 const restroModel = mongoose.model("restroModel",restroSchema)

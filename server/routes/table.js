@@ -120,8 +120,8 @@ router.post("/registerandaddmember",(req,res) => {
 //Menu to be posted by admin
 router.post("/orderplace",(req,res) => {
 
-    const {tableId,menu,username,orderId} = req.body;
-    //TODO: Add the leftover fields into databse
+    const {tableId,menu} = req.body;
+
     //TODO : Add the ordered menu to the users and restro collection
     Table.findByIdAndUpdate(tableId,{
         menu
@@ -133,8 +133,8 @@ router.post("/orderplace",(req,res) => {
     }).catch((err) => {
         res.status(422).json(err);
     })
-
 })
+
 
 //Getting the restaurant details 
 router.post("/getrestro",(req,res) => {
@@ -142,7 +142,7 @@ router.post("/getrestro",(req,res) => {
     Table.findById(tableId)
     .populate("tableOf",["id","name","address"])
     .then((restro) => {
-        res.status(200).json(restro.tableOf);
+        res.status(200).json(restro);
     }).catch((err) => {
         res.status(401).json(err);
     })
