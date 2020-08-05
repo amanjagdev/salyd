@@ -142,7 +142,7 @@ const Checkout = ({ navigation }) => {
                     <Button
                         mode="contained"
                         color={colors.accentPrimary}
-                        style={{ ...styles.button }}
+                        dark style={{ ...styles.button }}
                         onPress={() => { setContent(true); setVisible(true) }}
                     >
                         Pay Offline
@@ -153,6 +153,7 @@ const Checkout = ({ navigation }) => {
                         color={colors.accentPrimary}
                         style={{ ...styles.button }}
                         onPress={() => { setContent(false); setVisible(true) }}
+                        dark
                     >
                         Pay Online
                     </Button>
@@ -169,7 +170,8 @@ const Checkout = ({ navigation }) => {
                         <Button
                             mode="contained"
                             color={colors.accentPrimary}
-                            style={{ ...styles.button, ...styles.outlined }}
+                            dark
+                            style={{ ...styles.button }}
                             onPress={() => checkIfPaid()}
                         >
                             Confirm
@@ -190,10 +192,6 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 50,
         color: colors.back
-    },
-    outlined: {
-        borderColor: colors.back,
-        borderWidth: 1
     },
     modalView: {
         margin: 20,
