@@ -3,4 +3,6 @@ const localIPS = {
     aman : "http://192.168.43.205:5000"
 }
 
-export const apiUrl = localIPS.aman; 
+const prodAddress = "https://salyd.herokuapp.com"
+
+export const apiUrl = prodAddress; 
