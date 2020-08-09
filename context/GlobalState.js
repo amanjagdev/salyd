@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import AppReducer from "./AppReducer";
 import { AsyncStorage } from 'react-native';
+import { Actions } from './ActionsOverview';
 
 const retrieveItem = async (key) => {
     try {
@@ -17,17 +18,9 @@ const initialState = {
     tableId: null,
     roomId: null,
     order: null,
-    restro : null
+    restro: null,
+    currentTheme: 'light'
 };
-
-const Actions = {
-    UPDATE_USER: "UPDATE_USER",
-    UPDATE_TOKEN: "UPDATE_TOKEN",
-    UPDATE_TABLE_ID: "UPDATE_TABLE_ID",
-    UPDATE_ROOM_ID: "UPDATE_ROOM_ID",
-    UPDATE_ORDER: "UPDATE_ORDER",
-    UPDATE_RESTRO : "UPDATE_RESTRO"
-}
 
 export const GlobalContext = createContext(initialState);
 
@@ -94,8 +87,14 @@ export const GlobalProvider = ({ children }) => {
 
     const updateRestro = (restro) => {
         dispatch({
-            type : Actions.UPDATE_RESTRO,
-            payload : restro
+            type: Actions.UPDATE_RESTRO,
+            payload: restro
+        })
+    }
+
+    const changeTheme = () => {
+        dispatch({
+            type: Actions.CHANGE_THEME,
         })
     }
 
@@ -107,13 +106,15 @@ export const GlobalProvider = ({ children }) => {
                 order: state.order,
                 globalTableId: state.tableId,
                 globalRoomId: state.roomId,
-                restro : state.restro,
+                restro: state.restro,
+                currentTheme: state.currentTheme,
                 updateUser,
                 updateToken,
                 updateTable,
                 updateRoom,
                 updateOrder,
-                updateRestro
+                updateRestro,
+                changeTheme
             }}
         >
             {children}

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { Button, TextInput } from "react-native-paper"
+import { TextInput } from "react-native-paper"
+import { Button } from "@ui-kitten/components"
 import { CommonActions } from '@react-navigation/native';
 import {
     Text,
@@ -70,10 +71,10 @@ const Login = (props) => {
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="position">
                 <Header>LOGIN</Header>
-                
-                <Image 
+
+                <Image
                     source={require("../assets/login.png")}
-                    style = {styles.image} />
+                    style={styles.image} />
                 <TextInput
                     label="Email"
                     mode="outlined"
@@ -92,15 +93,18 @@ const Login = (props) => {
                     theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setPassword(text)}
                 />
-
-                <Button
-                    mode="contained"
-                    color={colors.accentPrimary}
-                    style={styles.button}
-                    onPress={() => signin(props)}
-                >
-                    Login
+                <View style={{
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}>
+                    <Button
+                        status="success"
+                        style={styles.button}
+                        onPress={() => signin(props)}
+                    >
+                        LOGIN
                 </Button>
+                </View>
 
                 <TouchableOpacity onPress={() => signUpRedirect()}>
                     <Text style={styles.inputbox} >
@@ -121,25 +125,25 @@ const styles = StyleSheet.create({
         backgroundColor: colors.back
     },
     inputbox: {
-        marginHorizontal : 25,
-        height : 46,
-        marginTop : 25,
-        fontFamily : "monospace"
+        marginHorizontal: 25,
+        height: 46,
+        marginTop: 25,
+        fontFamily: "monospace"
     },
-    image : {
-        width : 200,
-        height : 200,
-        marginHorizontal : 100
+    image: {
+        width: 200,
+        height: 200,
+        marginHorizontal: 100
     },
     button: {
         margin: 10,
-        width : 300,
+        width: 150,
         borderRadius: 30,
         marginTop: 30,
-        marginHorizontal : 50,
+        marginHorizontal: 50,
         marginBottom: 10,
         color: colors.back,
-        fontFamily : "monospace"
+        fontFamily: "monospace"
     },
     outlined: {
         borderColor: colors.back,

@@ -1,12 +1,4 @@
-const Actions = {
-    UPDATE_USER: "UPDATE_USER",
-    UPDATE_TOKEN: "UPDATE_TOKEN",
-    UPDATE_TABLE_ID: "UPDATE_TABLE_ID",
-    UPDATE_ROOM_ID: "UPDATE_ROOM_ID",
-    UPDATE_LOCAL_ROOM_ID : "UPDATE_LOCAL_ROOM_ID",
-    UPDATE_ORDER: "UPDATE_ORDER",
-    UPDATE_RESTRO : "UPDATE_RESTRO"
-}
+import { Actions } from './ActionsOverview';
 
 export default (state, action) => {
     switch (action.type) {
@@ -17,7 +9,8 @@ export default (state, action) => {
                 tableId: state.tableId,
                 roomId: state.roomId,
                 user: action.payload,
-                restro : state.restro
+                restro: state.restro,
+                currentTheme: state.currentTheme
             };
         case Actions.UPDATE_TOKEN:
             return {
@@ -26,7 +19,8 @@ export default (state, action) => {
                 roomId: state.roomId,
                 user: state.user,
                 token: action.payload,
-                restro : state.restro
+                restro: state.restro,
+                currentTheme: state.currentTheme
             };
         case Actions.UPDATE_ROOM_ID:
             return {
@@ -35,7 +29,8 @@ export default (state, action) => {
                 roomId: action.payload,
                 user: state.user,
                 tableId: state.tableId,
-                restro : state.restro,
+                restro: state.restro,
+                currentTheme: state.currentTheme
             };
         case Actions.UPDATE_TABLE_ID:
             return {
@@ -44,7 +39,8 @@ export default (state, action) => {
                 roomId: state.roomId,
                 user: state.user,
                 tableId: action.payload,
-                restro : state.restro,
+                restro: state.restro,
+                currentTheme: state.currentTheme
             };
         case Actions.UPDATE_ORDER:
             return {
@@ -53,16 +49,28 @@ export default (state, action) => {
                 roomId: state.roomId,
                 user: state.user,
                 tableId: state.tableId,
-                restro : state.restro
+                restro: state.restro,
+                currentTheme: state.currentTheme
             };
-        case Actions.UPDATE_RESTRO : 
+        case Actions.UPDATE_RESTRO:
             return {
-                restro : action.payload,
+                restro: action.payload,
                 order: state.order,
                 token: state.token,
                 roomId: state.roomId,
                 user: state.user,
-                tableId: state.tableId        
+                tableId: state.tableId,
+                currentTheme: state.currentTheme
+            }
+        case Actions.CHANGE_THEME:
+            return {
+                restro: state.restro,
+                order: state.order,
+                token: state.token,
+                roomId: state.roomId,
+                user: state.user,
+                tableId: state.tableId,
+                currentTheme: 'light' ? 'dark' : 'light'
             }
         default:
             return state;

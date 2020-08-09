@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native'
-import { Button } from 'react-native-paper'
+import { View, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { Layout, Text, useTheme, Button } from '@ui-kitten/components'
 import Carousel from "react-native-snap-carousel"
 import { colors } from '../constants/constant'
 import Header from '../components/Header'
 
 const Splash = ({ navigation }) => {
+
+    const theme = useTheme();
+
     const [carouselItems, setCarouselItems] = useState([
         {
             title: "Contactless Dinning",
@@ -58,10 +61,10 @@ const Splash = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, backgroundColor: theme['background-basic-color-1'] }}>
 
             <View style={styles.banner}>
-                <Header myStyle={{marginTop: 0}}>SALYD</Header>
+                <Header myStyle={{ marginTop: 0 }}>SALYD</Header>
                 <View style={{
                     flex: 1,
                     flexDirection: 'row',
@@ -82,16 +85,16 @@ const Splash = ({ navigation }) => {
             <View style={styles.bottom}>
                 <Button
                     style={styles.button}
-                    mode="contained"
                     onPress={() => navigation.navigate('Login')}
-                    theme={{ colors: { primary: colors.back } }}
+                    status="basic"
                 >
                     Login
                 </Button>
                 <Button
                     style={{ ...styles.button, ...styles.outlined }}
+                    status="basic"
+                    appearance="outline"
                     onPress={() => navigation.navigate('SignUp')}
-                    color={colors.back}
                 >
                     Sign Up
                 </Button>
@@ -108,7 +111,6 @@ const Splash = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.back,
         marginTop: 32,
         position: 'absolute',
         top: 0,
