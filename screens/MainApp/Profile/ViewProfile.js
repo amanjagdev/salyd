@@ -30,9 +30,9 @@ const ViewProfile = ({navigation}) =>{
              
          </LinearGradient>
          <View style={{alignItems:"center"}}>
-             <Image
-            style={{width:140,height:140,borderRadius:140/2,marginTop:-50}}
-            source={require("../../../assets/carousel0.png")}
+            <Image
+                style={{width:140,height:140,borderRadius:140/2,marginTop:-50}}
+                source={require("../../../assets/slide1.png")}
             /> 
          </View>
          <View style={{alignItems:"center",margin:15}}>
