@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { useFonts } from 'expo-font';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 
@@ -23,6 +23,12 @@ const App = () => {
 
   const [isReady, setIsReady] = useState(false);
   const [initialScreen, setInititalScreen] = useState("Splash");
+  const [loaded] = useFonts({
+    'ProductSans': require('./assets/fonts/Product_Sans_Regular.ttf'),
+    'ProductSansItalic': require('./assets/fonts/Product_Sans_Italic.ttf'),
+    'ProductSansBold': require('./assets/fonts/Product_Sans_Bold.ttf'),
+    'ProductSansBoldItalic': require('./assets/fonts/Product_Sans_Bold_Italic.ttf'),
+  });
   console.disableYellowBox = true;
   useEffect(() => {
     const checkToken = async () => {
@@ -36,7 +42,7 @@ const App = () => {
     checkToken()
   }, []);
 
-  if (!isReady) {
+  if (!isReady || !loaded) {
     return null;
   }
 
