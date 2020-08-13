@@ -128,20 +128,20 @@ const Table = ({ navigation }) => {
         <Button
           mode="contained"
           color={colors.accentPrimary}
-          style={styles.button}
+          style={styles.buttonBottom}
           onPress={() => onSubmit()}
         >
           Proceed
         </Button>
 
-        <Button
+        {/* <Button
           mode="contained"
           color={colors.accentPrimary}
           style={styles.button}
           onPress={() => exitTable()}
         >
           Exit Table
-        </Button>
+        </Button> */}
         </View>
       </View>
 
@@ -160,6 +160,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: colors.back
   },
+  buttonBottom : {
+    marginBottom : 0,
+    position : "relative",
+    height : 40,
+    fontFamily : "DMSansBold"
+  },
   outlined: {
     borderColor: colors.back,
     borderWidth: 1
@@ -168,7 +174,8 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 20,
     marginTop: 20,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily : "DMSansRegular"
   }
 })
 

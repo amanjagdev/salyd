@@ -7,31 +7,28 @@ import { useTheme } from '@ui-kitten/components';
 const Header = ({ children, myStyle, navigation }) => {
     const theme = useTheme();
     return (
-        <View style={{ ...styles.container,backgroundColor: theme['background-basic-1'], ...myStyle }}>
-            <TouchableOpacity onPress={() => navigation.navigate("Splash")}>
-                <Image source={require('../assets/logo_col.png')} style={{
-                    width: 50,
-                    height: 50,
-                    marginRight: 15
-                }} />
-            </TouchableOpacity>
-
-            <Text style={{
-                color: colors.accentPrimary,
-                fontSize: 30,
-                fontWeight: "bold",
-            }}>{children}</Text>
+        <View style={{ ...styles.container, ...myStyle }}>
+            <Text style={styles.heading}>{children}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 32,
-        padding: 20,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-start"
+        justifyContent : "center",
+        backgroundColor : "#ffffff",
+        height : 70,
+        borderBottomWidth : 1,
+        borderBottomColor : "#d9d7d7"
+    },
+    heading : {
+        padding : 30,
+        fontSize : 20,
+        fontFamily : "DMSansRegular",
+        letterSpacing : 2,
+        marginTop : 20
     }
 })
 
