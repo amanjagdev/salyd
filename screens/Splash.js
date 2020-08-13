@@ -1,77 +1,37 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet ,Image} from 'react-native';
-import AppIntroSlider from 'react-native-app-intro-slider';
+import { Text, View, StyleSheet ,Image,TouchableOpacity} from 'react-native';
 
-const slides = [
-  {
-    key: 's1',
-    title: 'Order some tasty food',
-    text : "Now just scan the qr code and place orders right from your screen",
-    image: require("../assets/slide1.png")
-  }
-,  {
-    key: 's2',
-    title: 'Order some tasty food',
-    text : "Now just scan the qr code and place orders right from your screen",
-    image: require("../assets/slide1.png")
-  },
-  {
-    key: 's3',
-    title: 'Order some tasty food',
-    text : "Now just scan the qr code and place orders right from your screen",
-    image: require("../assets/slide1.png")
-  }
-];
-
-
-export default class Splash extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showRealApp: false,
-    };
-  }
-  
-    _renderItem = ({ item }) => {
-    return (
-      <View style = {styles.slideContainer}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style = {styles.text}>{item.text}</Text>
-        <View style = {styles.imagecontainer}>
-            <Image style = {styles.image} source = {item.image} />
-        </View>
-      </View>
-    );
-  }
-
-  _onDone = () => {
-    this.setState({ showRealApp: true });
-  };
-  _onSkip = () => {
-    this.setState({ showRealApp: true });
-  };
-
-  render() {
-    if (this.state.showRealApp) {
-      return (
-        <View>
-          <Text>
-          </Text>
-        </View>
-      );
-    } else {
-      return (
-        <AppIntroSlider 
-            renderItem={this._renderItem} 
-            data={slides} 
-            onDone={this._onDone}
-            activeDotStyle = {{backgroundColor : "green"}}
-            showSkipButton = {true}
-        />
-      );
+const Splash = ({navigation}) => {
+    const login = () => {
+        navigation.navigation.navigate("Login")
     }
-  }
+    const signup = () => {
+        navigation.navigation.navigate("SignUp");
+    }
+    const guestLogin = () => {
+        navigation.navigate.navigate("Guest");
+    } 
+    return (
+        <View style = {styles.slideContainer}>
+        <Text style={styles.title}>Introducing you the Salyd</Text>
+        <Text style = {styles.text}>The ultimate solution to the contactless dinning with best user experience</Text>
+        <View style = {styles.imagecontainer}>
+            <Image style = {styles.image} source = {require("../assets/logo_col_sdw.png")} />
+        </View>
+        <TouchableOpacity onPress = {() => signup()} style={styles.button}>
+            <Text style = {styles.buttonText}> Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress = {() => login()} style={styles.secondButton}>
+            <Text style = {styles.buttonText}> Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress = {() => guestLogin()}>
+            <Text style = {styles.bottomText}> Or, Use as a Guest ?</Text>
+        </TouchableOpacity>
+        
+      </View>
+    )
 }
+
 const styles = StyleSheet.create({
     slideContainer : {
         backgroundColor : "#ffffff",
@@ -85,7 +45,8 @@ const styles = StyleSheet.create({
         fontSize : 25,
         marginTop : 150,
         paddingHorizontal : 100,
-        textAlign : "center"
+        textAlign : "center",
+        color : "#1c1c1c"
     }, 
     text: { 
         color : "black",
@@ -97,15 +58,46 @@ const styles = StyleSheet.create({
         textAlign : "center"
     }, 
     imagecontainer : {
-        marginTop : 100
-    },
-    image: { 
-        width: 200, 
-        height: 200, 
-        marginTop : 100
+        marginTop : 30
     },
     image : {
-        width : 300,
-        height : 300
+        width : 250,
+        height : 250
+    },
+    button : {
+        display : "flex",
+        justifyContent : "center",
+        alignItems : "center",
+        width : 164,
+        height : 50,
+        borderRadius : 32,
+        backgroundColor : "#0ef07b",
+        marginTop : 50
+    },
+    secondButton : {
+        display : "flex",
+        justifyContent : "center",
+        alignItems : "center",
+        width : 164,
+        height : 50,
+        borderRadius : 32,
+        backgroundColor : "white",
+        borderWidth : 2,
+        marginTop : 15
+    },
+    buttonText : {
+        fontFamily : "DMSansBold",
+        fontSize : 12,
+        letterSpacing : 1,
+        color : "black"
+    },
+    bottomText : {
+        fontFamily : "DMSansRegular",
+        fontSize : 12,
+        opacity : 60,
+        marginTop : 15,
+        textDecorationLine : "underline"
     }
  });
+
+export default Splash

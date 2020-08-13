@@ -16,13 +16,14 @@ import SignUp from './screens/SignUp';
 import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
 import Guest from './screens/Guest';
+import Onboarding from "./screens/Onboarding";
 
 const Stack = createStackNavigator();
 
 const App = () => {
 
   const [isReady, setIsReady] = useState(false);
-  const [initialScreen, setInititalScreen] = useState("Splash");
+  const [initialScreen, setInititalScreen] = useState("Onboarding");
   const [loaded] = useFonts({
     'ProductSans': require('./assets/fonts/Product_Sans_Regular.ttf'),
     'ProductSansItalic': require('./assets/fonts/Product_Sans_Italic.ttf'),
@@ -53,6 +54,7 @@ const App = () => {
       <ApplicationProvider {...eva} theme={eva['dark']}>
         <NavigationContainer>
           <Stack.Navigator headerMode="none" initialRouteName={initialScreen}>
+            <Stack.Screen name = "Onboarding" component = {Onboarding} />
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Login" component={Login} />
