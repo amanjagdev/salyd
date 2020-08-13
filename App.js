@@ -28,6 +28,8 @@ const App = () => {
     'ProductSansItalic': require('./assets/fonts/Product_Sans_Italic.ttf'),
     'ProductSansBold': require('./assets/fonts/Product_Sans_Bold.ttf'),
     'ProductSansBoldItalic': require('./assets/fonts/Product_Sans_Bold_Italic.ttf'),
+    'DMSansBold' : require('./assets/fonts/DMSans-Bold.ttf'),
+    'DMSansRegular' : require('./assets/fonts/DMSans-Regular.ttf')
   });
   console.disableYellowBox = true;
   useEffect(() => {
