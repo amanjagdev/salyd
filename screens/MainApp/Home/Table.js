@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, TextInput } from "react-native-paper";
+import { Button} from "react-native-paper";
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
 import { GlobalContext } from '../../../context/GlobalState'
@@ -8,9 +8,10 @@ import {
   View,
   Text,
   Alert,
-  Picker,
+  Image,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+  ImageBackground
 } from "react-native"
 import Axios from "axios";
 
@@ -81,12 +82,14 @@ const Table = ({ navigation }) => {
 
   return (
     <View>
-      <Header>Your Table</Header>
       <View style={styles.container}>
+        <ImageBackground style = {styles.image} source = {require("../../../assets/restro.jpg")}>
+          <Text style = {styles.title}> BIKANER</Text>    
+        </ImageBackground>
         <Text style={{
-          color: colors.accentPrimary,
-          fontSize: 40,
-          fontWeight: "bold",
+          color: "black",
+          fontSize: 30,
+          fontFamily : "DMSansBold",
           textAlign: "center"
         }}>Room Id : {globalRoomId}</Text>
         <Text style={styles.roomId}>Share this Room Id with your colleagues to let them join the table</Text>
@@ -153,6 +156,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.back,
     height: Dimensions.get("window").height
+  },
+  image : {
+    flex : 0.7,
+    opacity : 0.9,
+    position: 'relative', // because it's parent
+  },
+  title : {
+    fontFamily : "DMSansBold",
+    fontSize : 20,
+    color : "white",
+    position: 'absolute', // child
+    bottom: 20, // position where you want
+    left: 10
   },
   button: {
     margin: 10,

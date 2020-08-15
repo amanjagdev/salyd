@@ -70,7 +70,7 @@ const Login = (props) => {
 
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="position">
-                <Header>LOGIN</Header>
+                <Header>SignIn</Header>
 
                 <Image
                     source={require("../assets/login.png")}

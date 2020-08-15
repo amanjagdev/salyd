@@ -329,16 +329,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 1.0,
         elevation: 5,
     },
-    image_container: {
-        width: 90,
-        height: 90,
+    desc : {
+        fontFamily : "DMSansRegular"
     },
-    image: {
-        width: "100%",
-        height: "100%",
-        borderWidth: 5,
-        borderColor: "white",
-        borderRadius: 10,
+    name : {
+        fontFamily : "DMSansRegular"
     },
     content: {
         flex: 1,
