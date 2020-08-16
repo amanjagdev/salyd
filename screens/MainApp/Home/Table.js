@@ -134,14 +134,14 @@ const Table = ({ navigation }) => {
           Proceed
         </Button>
 
-        {/* <Button
+        <Button
           mode="contained"
           color={colors.accentPrimary}
           style={styles.button}
           onPress={() => exitTable()}
         >
           Exit Table
-        </Button> */}
+        </Button>
         </View>
       </View>
 

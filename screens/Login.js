@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react"
 import { TextInput } from "react-native-paper"
-import { Button } from "@ui-kitten/components"
 import { CommonActions } from '@react-navigation/native';
 import {
     Text,
@@ -10,7 +9,8 @@ import {
     KeyboardAvoidingView,
     StyleSheet,
     Alert,
-    Image
+    Image,
+    Dimensions
 } from "react-native";
 import Axios from 'axios'
 import GenerateBill from "../screens/MainApp/Home/GenerateBill";
@@ -31,13 +31,14 @@ const Login = (props) => {
     const [password, setPassword] = useState("");
 
     const { updateUser, user, token, updateToken } = useContext(GlobalContext)
-    console.log(user, token)
+    // console.log(user, token)
     const signin = (props) => {
         Axios.post(`${apiUrl}/signin`, {
             "email": email,
             "password": password
         })
             .then(async (res) => {
+                console.log(res.data)
                 try {
                     updateToken(res.data.token)
                     updateUser(res.data.user)
@@ -68,46 +69,64 @@ const Login = (props) => {
     }
     return (
 
-        <View style={styles.container}>
+        <View style={{...styles.container,height: Dimensions.get("screen").height}}>
             <KeyboardAvoidingView behavior="position">
-                <Header>LOGIN</Header>
+                <Header isBack navigation={props.navigation}>Sign In</Header>
 
-                <Image
+                {/* <Image
                     source={require("../assets/login.png")}
-                    style={styles.image} />
+                    style={styles.image} /> */}
                 <TextInput
                     label="Email"
-                    mode="outlined"
                     value={email}
+                    underlineColor="transparent"
+                    theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
-                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setEmail(text)}
                 />
 
                 <TextInput
                     label="Password"
-                    mode="outlined"
                     value={password}
                     secureTextEntry={true}
+                    underlineColor="transparent"
+                    theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
-                    theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setPassword(text)}
                 />
                 <View style={{
                     alignItems: "center",
-                    justifyContent: "center"
+                    marginTop: 20,
                 }}>
-                    <Button
-                        status="success"
-                        style={styles.button}
-                        onPress={() => signin(props)}
-                    >
-                        LOGIN
-                </Button>
+                    <TouchableOpacity onPress={() => signin()}>
+                        <View style={{
+                            alignItems: "center",
+                            backgroundColor: colors.accentPrimary,
+                            width: 100,
+                            height: 40,
+                            justifyContent: "space-around",
+                            borderRadius: 10,
+                        }}>
+                            <Text style={{
+                                color: "white",
+                                fontSize: 16,
+                                fontFamily: "ProductSans"
+                            }}>
+                                Login
+                    </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity onPress={() => signUpRedirect()}>
-                    <Text style={styles.inputbox} >
+                    <Text style={{
+                        marginHorizontal: 25,
+                        marginTop: 25,
+                        fontSize: 16,
+                        paddingLeft: 10,
+                        borderRadius: 20,
+                        fontFamily: "ProductSans"
+                    }} >
                         Dont Have an account ? SignUp
                     </Text>
                 </TouchableOpacity>
@@ -126,9 +145,11 @@ const styles = StyleSheet.create({
     },
     inputbox: {
         marginHorizontal: 25,
-        height: 46,
         marginTop: 25,
-        fontFamily: "monospace"
+        paddingLeft: 10,
+        backgroundColor: "#ddffd9",
+        borderRadius: 20,
+        fontFamily: "ProductSans"
     },
     image: {
         width: 200,
