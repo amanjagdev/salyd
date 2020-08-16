@@ -3,13 +3,13 @@ import { Text, View, StyleSheet ,Image,TouchableOpacity} from 'react-native';
 
 const Splash = ({navigation}) => {
     const login = () => {
-        navigation.navigation.navigate("Login")
+        navigation.push("Login")
     }
     const signup = () => {
-        navigation.navigation.navigate("SignUp");
+        navigation.push("SignUp");
     }
     const guestLogin = () => {
-        navigation.navigate.navigate("Guest");
+        navigation.push("Guest");
     } 
     return (
         <View style = {styles.slideContainer}>
@@ -41,18 +41,18 @@ const styles = StyleSheet.create({
         alignItems : "center",
     },
     title: { 
-        fontFamily : "DMSansBold",
-        fontSize : 25,
-        marginTop : 150,
+        fontFamily : "ProductSans",
+        fontSize : 28,
+        marginTop : 140,
         paddingHorizontal : 100,
         textAlign : "center",
         color : "#1c1c1c"
     }, 
     text: { 
         color : "black",
-        fontSize: 12,
+        fontSize: 14,
         opacity : 60,
-        fontFamily : "DMSansRegular",
+        fontFamily : "ProductSans",
         marginTop : 20,
         paddingHorizontal : 100,
         textAlign : "center"
@@ -86,13 +86,13 @@ const styles = StyleSheet.create({
         marginTop : 15
     },
     buttonText : {
-        fontFamily : "DMSansBold",
-        fontSize : 12,
+        fontFamily : "ProductSansBold",
+        fontSize : 15,
         letterSpacing : 1,
         color : "black"
     },
     bottomText : {
-        fontFamily : "DMSansRegular",
+        fontFamily : "ProductSans",
         fontSize : 12,
         opacity : 60,
         marginTop : 15,

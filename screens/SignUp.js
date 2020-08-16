@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, KeyboardAvoidingView, Text, View, StyleSheet, Alert } from 'react-native';
+import { TouchableOpacity, KeyboardAvoidingView, Text, View, StyleSheet, Alert, Dimensions } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Axios from 'axios'
 
@@ -33,62 +33,84 @@ const SignUp = ({ navigation }) => {
     }
 
     const loginRedirect = () => {
-        navigation.navigate("Login");
+        navigation.push("Login");
     }
 
     return (
-        <View style={{ backgroundColor: colors.back, height: 800 }}>
+        <View style={{ backgroundColor: colors.back, height: Dimensions.get("screen").height }}>
 
             <KeyboardAvoidingView behavior="position">
-                <Header>Sign Up</Header>
+                <Header isBack navigation={navigation}>Sign Up</Header>
 
                 <TextInput
-                    label="Full Name"
-                    mode="outlined"
+                    label="Full name"
                     value={name}
+                    underlineColor="transparent"
+                    theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
-                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setName(text)}
                 />
 
                 <TextInput
                     label="Phone Number"
-                    mode="outlined"
                     value={phone}
+                    underlineColor="transparent"
+                    theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
-                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setPhone(text)}
                 />
 
                 <TextInput
-                    label="Email Address"
-                    mode="outlined"
+                    label="Email"
                     value={email}
+                    underlineColor="transparent"
+                    theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
-                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setEmail(text)}
                 />
 
                 <TextInput
                     label="Password"
-                    mode="outlined"
                     value={password}
                     secureTextEntry={true}
+                    underlineColor="transparent"
+                    theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
-                    theme={{roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
                     onChangeText={(text) => setPassword(text)}
                 />
-
-                <Button
-                    mode="contained"
-                    theme={{ colors: { primary: colors.accentPrimary } }}
-                    style={styles.button}
-                    onPress={() => saveDetails()} >
-                    Sign Up
-                </Button>
+                <View style={{
+                    alignItems: "center",
+                    marginTop: 20,
+                }}>
+                    <TouchableOpacity onPress={() => saveDetails()}>
+                        <View style={{
+                            alignItems: "center",
+                            backgroundColor: colors.accentPrimary,
+                            width: 100,
+                            height: 40,
+                            justifyContent: "space-around",
+                            borderRadius: 10,
+                        }}>
+                            <Text style={{
+                                color: "white",
+                                fontSize: 16,
+                                fontFamily: "ProductSans"
+                            }}>
+                                SignUp
+                    </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
 
                 <TouchableOpacity onPress={() => loginRedirect()}>
-                    <Text style={styles.inputbox} >
+                    <Text style={{
+                        marginHorizontal: 25,
+                        marginTop: 25,
+                        fontSize: 16,
+                        paddingLeft: 10,
+                        borderRadius: 20,
+                        fontFamily: "ProductSans"
+                    }}>
                         Already Have an account ? SignIn
                     </Text>
                 </TouchableOpacity>
@@ -103,23 +125,28 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 18,
         marginTop: 20,
-        fontFamily : "monospace"
+        fontFamily: "ProductSans"
     },
     inputbox: {
-        marginHorizontal : 25,
+        marginHorizontal: 25,
         marginTop: 25,
-        height : 46,
-        fontFamily : "monospace"
+        paddingLeft: 10,
+        backgroundColor: "#ddffd9",
+        borderRadius: 20,
+        fontFamily: "ProductSans"
     },
     button: {
         margin: 10,
-        width : 300,
-        borderRadius: 30,
+        borderRadius: 10,
         marginTop: 30,
-        marginHorizontal : 50,
+        height: 45,
+        width: 200,
+        alignItems: "center",
+        marginHorizontal: 50,
         marginBottom: 10,
+        backgroundColor: colors.accentPrimary,
         color: colors.back,
-        fontFamily : "monospace"
+        fontFamily: "ProductSans"
     },
     outlined: {
         borderColor: colors.back,

@@ -56,9 +56,9 @@ const App = () => {
       <ApplicationProvider {...eva} theme={eva['dark']}>
         <NavigationContainer>
           <Stack.Navigator headerMode="none" initialRouteName={initialScreen}>
+            <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name = "Onboarding" component = {Onboarding} />
             <Stack.Screen name="Splash" component={Splash} />
-            <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="MainApp" component={MainApp} />
             <Stack.Screen name="Guest" component={Guest} />
