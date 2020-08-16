@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, AsyncStorage } from 'react-native';
 import Header from '../../../components/Header';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+=======
+import React,{useContext} from 'react';
+import { StyleSheet, Text, View ,Image,Dimensions,AsyncStorage} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import {Title,Card,Button} from 'react-native-paper'
+import { MaterialCommunityIcons,FontAwesome,Feather,Ionicons} from '@expo/vector-icons'
+>>>>>>> 8586f5434df2e5da72801ae0432e34029e8453d5
 
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
