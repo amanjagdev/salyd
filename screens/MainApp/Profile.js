@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import EditProfile from './Profile/EditProfile'
 import ViewProfile from './Profile/ViewProfile'
 import Contact from "./Profile/Contact";
+import RecentOrders from './Profile/RecentOrders';
 
 const ProfileStack = createStackNavigator();
 
@@ -14,6 +15,7 @@ const Profile = () => {
             <ProfileStack.Screen name="ViewProfile" component={ViewProfile} />
             <ProfileStack.Screen name="EditProfile" component={EditProfile} />
             <ProfileStack.Screen name ="Contact" component = {Contact} />
+            <ProfileStack.Screen name = "RecentOrders" component = {RecentOrders} />
         </ProfileStack.Navigator>
     )
 }

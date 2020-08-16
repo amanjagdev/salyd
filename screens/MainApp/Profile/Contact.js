@@ -1,7 +1,7 @@
 import React,{useContext} from 'react';
-import { StyleSheet, Text, View,Dimensions,Linking,KeyboardAvoidingView} from 'react-native';
+import { StyleSheet, Text, View,Dimensions,Linking,KeyboardAvoidingView,TouchableOpacity} from 'react-native';
 import Header from '../../../components/Header';
-import {Title,Card,Button} from 'react-native-paper'
+import {Button} from 'react-native-paper'
 import { MaterialCommunityIcons,FontAwesome} from '@expo/vector-icons'
 import { GlobalContext } from '../../../context/GlobalState';
 import { colors } from '../../../constants/constant';
@@ -28,26 +28,28 @@ const Contact = () => {
 
                 <View style = {styles.cardContainer}>
                     
-                    <Card style={styles.mycard}  onPress={() => {
-                        console.log("ok")
-                    }}>
+                    <TouchableOpacity>
+                        <View style={styles.mycard}>
 
-                        <View style={styles.cardContent}>
-                            <FontAwesome name ="address-card" style= {styles.icon} />
-                            <Text style={styles.mytext}>{restro.name+" ,"+restro.address}</Text>
+                            <View style={styles.cardContent}>
+                                <FontAwesome name ="address-card" style= {styles.icon} />
+                                <Text style={styles.mytext}>{restro.name+" ,"+restro.address}</Text>
+                            </View>
+
                         </View>
+                    </TouchableOpacity>
 
-                    </Card>
-
-                    <Card style={styles.mycard} onPress={()=>{
+                    <TouchableOpacity onPress={()=>{
                         Linking.openURL(`mailto:${email}`)
                     }}>
-                        <View style={styles.cardContent}>
-                            <MaterialCommunityIcons name="email" style = {styles.icon} />
-                            <Text style={styles.mytext}>{email}</Text>
+                        <View style={styles.mycard}>
+                            <View style={styles.cardContent}>
+                                <MaterialCommunityIcons name="email" style = {styles.icon} />
+                                <Text style={styles.mytext}>{email}</Text>
+                            </View>
                         </View>
-                    </Card>
-                    
+                    </TouchableOpacity>
+
                     <Button 
                         mode="contained"
                         onPress = {() => openDial()}

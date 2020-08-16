@@ -1,7 +1,8 @@
 import React,{useContext} from 'react';
-import { StyleSheet, Text, View ,Image,Dimensions,AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View ,Image,Dimensions,AsyncStorage,TouchableOpacity} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {Title,Card,Button} from 'react-native-paper'
+import {Button} from 'react-native-paper'
+import Header from '../../../components/Header';
 import { MaterialCommunityIcons,FontAwesome,Feather,Ionicons} from '@expo/vector-icons'
 
 //Context
@@ -9,7 +10,6 @@ import { GlobalContext } from '../../../context/GlobalState';
 import { colors } from '../../../constants/constant';
 
 const width = Dimensions.get("window").width;
-
 const ViewProfile = ({navigation}) =>{
     
     const { user } = useContext(GlobalContext);
@@ -25,15 +25,16 @@ const ViewProfile = ({navigation}) =>{
 
   return (
       <View style={styles.root}>
-        <LinearGradient
+        {/* <LinearGradient
          colors={["#77f298","#00de5c"]}
          style={{height:"20%"}}
          >
              
-        </LinearGradient>
+        </LinearGradient> */}
+        <Header> View Profile </Header>
         <View style={{alignItems:"center"}}>
             <Image
-                style={{width:140,height:140,borderRadius:140/2,marginTop:-50}}
+                style={{width:140,height:140,borderRadius:140/2,marginTop:50}}
                 source={require("../../../assets/person.jpg")}
             /> 
         </View>
@@ -41,40 +42,47 @@ const ViewProfile = ({navigation}) =>{
              <Text style={styles.name}> {name} </Text>
         </View>
         
-        <View style = {styles.cardContainer}>
-            <Card style={styles.mycard}  onPress={() => {
-                navigation.navigate('EditProfile',{
-                    name,email,phone
-                })
-                }}>
-                <View style={styles.cardContent}>
-                    <FontAwesome name ="user-circle" style= {styles.icon} />
-                    <Text style={styles.mytext}>Account Details</Text>
-                    <Ionicons name="ios-arrow-forward" style={styles.arrow} />
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('EditProfile',{
+                name,email,phone
+            })
+        }}>
+            <View style = {styles.cardContainer}>
+                <View style={styles.mycard}>
+                    <View style={styles.cardContent}>
+                        <FontAwesome name ="user-circle" style= {styles.icon} />
+                        <Text style={styles.mytext}>Account Details</Text>
+                        <Ionicons name="ios-arrow-forward" style={styles.arrow} />
+                    </View>
                 </View>
-            </Card>
+            </View>
+        </TouchableOpacity>
 
-            <Card style={styles.mycard} onPress={()=>{
-                console.log("ok");
-            }}>
+        <TouchableOpacity onPress={()=>{
+            navigation.navigate('RecentOrders')
+        }}>
+            <View style={styles.mycard}>
                 <View style={styles.cardContent}>
                     <MaterialCommunityIcons name="food-variant" style = {styles.icon} />
                     <Text style={styles.mytext}>Order History</Text>
                     <Ionicons name="ios-arrow-forward" style={styles.arrow} />
                 </View>
-            </Card>
+            </View>
+        </TouchableOpacity>
             
             
-            <Card style={styles.mycard} onPress={() => {
+            <TouchableOpacity onPress={() => {
                 navigation.navigate('Contact')}}>
-                <View style={styles.cardContent}>
-                    <Feather name="phone-call" style = {styles.icon} />
-                    <Text style={styles.mytext}>Contact Us</Text>
-                    <Ionicons name="ios-arrow-forward" style={styles.arrow} />
-                </View>
-            </Card>
 
-        </View>
+                <View style={styles.mycard} onPress={() => {
+                    navigation.navigate('Contact')}}>
+                    <View style={styles.cardContent}>
+                        <Feather name="phone-call" style = {styles.icon} />
+                        <Text style={styles.mytext}>Contact Us</Text>
+                        <Ionicons name="ios-arrow-forward" style={styles.arrow} />
+                    </View>
+                </View>
+            </TouchableOpacity>
 
         <Button 
             icon="delete"
