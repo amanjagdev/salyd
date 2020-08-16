@@ -53,7 +53,6 @@ const Checkout = ({ navigation }) => {
                     Alert.alert("Sorry, something went wrong");
                 }
                 else {
-                    console.log("Order data : >>>  ", data)
                     socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId,"restroId" : restro._id });
                     socket.on("paid", (oID) => {
                         if (oID === orderId) {

@@ -151,7 +151,6 @@ const Table = ({ navigation }) => {
   )
 }
 
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.back,
