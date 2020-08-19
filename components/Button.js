@@ -2,9 +2,9 @@ import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { colors } from '../constants/constant';
 
-const Button = ({ children, onPressFunction, colorBack, colorText,style, width }) => {
+const Button = ({ children, onPressFunction, colorBack, colorText, mystyle, width }) => {
     return (
-        <TouchableOpacity onPress={onPressFunction} style={{...style}}>
+        <TouchableOpacity onPress={onPressFunction} >
             <View style={{
                 alignItems: "center",
                 backgroundColor: colorBack ? colorBack : colors.accentPrimary,
@@ -12,6 +12,7 @@ const Button = ({ children, onPressFunction, colorBack, colorText,style, width }
                 height: 40,
                 justifyContent: "space-around",
                 borderRadius: 10,
+                ...mystyle,
             }}>
                 <Text style={{
                     color: colorText ? colorText : "white",

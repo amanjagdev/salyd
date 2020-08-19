@@ -262,7 +262,7 @@ const Menu = (props) => {
 
     return (
         <View style={styles.container}>
-            <Header>Menu</Header>
+            <Header navigation={props.navigation}>Menu</Header>
 
             <Searchbar
                 style={{

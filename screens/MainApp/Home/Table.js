@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button} from "react-native-paper";
+import Button from "../../../components/Button";
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
 import { GlobalContext } from '../../../context/GlobalState'
+import { FontAwesome5 } from '@expo/vector-icons';
 import {
   StyleSheet,
   View,
@@ -21,8 +22,8 @@ import { colors } from "../../../constants/constant";
 const Table = ({ navigation }) => {
 
   const [selectedValue, setSelectedValue] = useState("view");
-  const [restro,setRestro] = useState({});
-  const { token, globalRoomId, updateTable, updateRoom,globalTableId,updateRestro } = useContext(GlobalContext);
+  const [restro, setRestro] = useState({});
+  const { token, globalRoomId, updateTable, updateRoom, globalTableId, updateRestro } = useContext(GlobalContext);
 
   useEffect(() => {
     Axios({
@@ -31,19 +32,19 @@ const Table = ({ navigation }) => {
       headers: {
         "Content-Type": "application/json"
       },
-      data: { "tableId": globalTableId}
+      data: { "tableId": globalTableId }
     }).then((res) => {
       console.log(res.data);
       setRestro(res.data.tableOf);
-      
+
       //Updating the restro in global state
-      updateRestro(res.data.tableOf);    
+      updateRestro(res.data.tableOf);
 
     }).catch((err) => {
       res.status(422).json(err);
-    })  
-  },[])
-  
+    })
+  }, [])
+
   const onSubmit = () => {
     Axios({
       url: `${apiUrl}/permission/grant`,
@@ -80,73 +81,160 @@ const Table = ({ navigation }) => {
     navigation.navigate('HomeMain')
   }
 
+  console.log()
+
   return (
     <View>
+      <Header navigation={navigation} isBack>Your Table</Header>
       <View style={styles.container}>
-        <ImageBackground style = {styles.image} source = {require("../../../assets/restro.jpg")}>
-          <Text style = {styles.title}> BIKANER</Text>    
-        </ImageBackground>
-        <Text style={{
-          color: "black",
-          fontSize: 30,
-          fontFamily : "DMSansBold",
-          textAlign: "center"
-        }}>Room Id : {globalRoomId}</Text>
-        <Text style={styles.roomId}>Share this Room Id with your colleagues to let them join the table</Text>
 
-        <Text style={{
-          fontSize: 20,
-          margin: 30,
-          textAlign: "center"
-        }}> Grant permission to the members</Text>
-
+        {/* <Text style={styles.title}> {(restro !== {}) && restro.name}</Text> */}
         <View style={{
-          margin: 0,
-          padding: 0,
-          height: 70,
-          alignItems: "center",
-          marginBottom: 10,
-          flexDirection: 'row',
-          justifyContent: "center"
+          marginTop: 30,
+          marginBottom: 50,
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center"
         }}>
-          <Button
-            mode="contained"
-            color={selectedValue === "view" ? colors.accentPrimary : colors.back}
-            style={styles.button}
-            onPress={() => setSelectedValue("view")}
-          >
-            View
-          </Button>
-          <Button
-            mode="contained"
-            color={selectedValue === "edit" ? colors.accentPrimary : colors.back}
-            style={styles.button}
-            onPress={() => setSelectedValue("edit")}
-          >
-            Edit
-          </Button>
-          
+
+          <View style={{
+            flex: 2,
+            alignItems: "center"
+          }}>
+            <Text style={{
+              color: "black",
+              fontSize: 50,
+              textAlign: "center",
+              color: colors.accentPrimary,
+              fontFamily: "ProductSansBold",
+            }}>{globalRoomId}</Text>
+            <View style={{
+              alignItems: "center",
+              flexDirection: "row"
+            }}  >
+              <View style={{
+                backgroundColor: colors.accentPrimary,
+                height: 3,
+                width: 100,
+                borderRadius: 20
+              }} />
+              <View style={{
+                backgroundColor: colors.accentPrimary,
+                height: 3,
+                marginLeft: 5,
+                width: 15,
+                borderRadius: 20
+              }} />
+            </View>
+          </View>
+
+          <View style={{
+            flex: 3,
+          }}>
+            <Image style={{
+              marginLeft: 40,
+              width: 152,
+              height: 174
+            }} source={require("../../../assets/share_Image.png")} />
+          </View>
         </View>
 
-        <Button
-          mode="contained"
-          color={colors.accentPrimary}
-          style={styles.buttonBottom}
-          onPress={() => onSubmit()}
-        >
-          Proceed
-        </Button>
-
-        <Button
-          mode="contained"
-          color={colors.accentPrimary}
-          style={styles.button}
-          onPress={() => exitTable()}
-        >
-          Exit Table
-        </Button>
+        {/* SHARE ID  */}
+        <View style={{
+          flexDirection: "row",
+          backgroundColor: "#d8ffcf",
+          borderRadius: 10,
+          padding: 20,
+          alignItems: "center"
+        }}>
+          <FontAwesome5 style={{
+            marginRight: 20
+          }} name="lightbulb" size={24} color="black" />
+          <Text style={{
+            fontFamily: "ProductSans",
+            marginRight: 30
+          }}>Share this Room Id with your colleagues to let them join the table</Text>
         </View>
+
+
+        {/* GRANT PERMISSION  */}
+        <View style={{
+          marginTop: 40
+        }}>
+          <Text style={{
+            fontSize: 20,
+            textAlign: "center",
+            fontFamily: "ProductSans"
+          }}> Grant permission to the members</Text>
+
+          <View style={{
+            margin: 0,
+            padding: 0,
+            height: 70,
+            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: "center"
+          }}>
+            <Button
+              colorBack={selectedValue === "view" ? colors.accentPrimary : "#d8ffcf"}
+              colorText={selectedValue === "view" ? colors.back : colors.accentPrimary}
+              mystyle={{
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0
+              }}
+              onPressFunction={() => setSelectedValue("view")}
+            >
+              View
+          </Button>
+            <Button
+              colorBack={selectedValue === "edit" ? colors.accentPrimary : "#d8ffcf"}
+              colorText={selectedValue === "edit" ? colors.back : colors.accentPrimary}
+              mystyle={{
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0
+              }}
+              onPressFunction={() => setSelectedValue("edit")}
+            >
+              Edit
+          </Button>
+
+          </View>
+
+          <View style={{
+            alignItems: "center",
+          }}>
+            <Button
+              mode="contained"
+              onPressFunction={() => onSubmit()}
+            >Proceed</Button>
+          </View>
+        </View>
+
+        {/* EXIT TABLE  */}
+        <View style={{
+          marginTop: 40
+        }}>
+          <Text style={{
+            fontSize: 20,
+            textAlign: "center",
+            fontFamily: "ProductSans"
+          }}> Exit Table</Text>
+
+          <View style={{
+            alignItems: "center",
+            marginTop: 15
+          }}>
+            <Button
+            colorBack="#ff6257"
+              onPressFunction={() => exitTable()}
+            >
+              Exit Table
+        </Button>
+          </View>
+        </View>
+
       </View>
+    </View>
 
   )
 }
@@ -154,17 +242,18 @@ const Table = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.back,
+    padding: 20,
     height: Dimensions.get("window").height
   },
-  image : {
-    flex : 0.7,
-    opacity : 0.9,
+  image: {
+    flex: 0.7,
+    opacity: 0.9,
     position: 'relative', // because it's parent
   },
-  title : {
-    fontFamily : "DMSansBold",
-    fontSize : 20,
-    color : "white",
+  title: {
+    fontFamily: "ProductSans",
+    fontSize: 20,
+    color: "white",
     position: 'absolute', // child
     bottom: 20, // position where you want
     left: 10
@@ -175,23 +264,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: colors.back
   },
-  buttonBottom : {
-    marginBottom : 0,
-    position : "relative",
-    height : 40,
-    fontFamily : "DMSansBold"
+  buttonBottom: {
+    marginBottom: 0,
+    position: "relative",
+    height: 40,
+    fontFamily: "ProductSans"
   },
   outlined: {
     borderColor: colors.back,
     borderWidth: 1
   },
-  roomId: {
-    margin: 10,
-    fontSize: 20,
-    marginTop: 20,
-    textAlign: "center",
-    fontFamily : "DMSansRegular"
-  }
 })
 
 export default Table

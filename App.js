@@ -17,6 +17,7 @@ import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
 import Guest from './screens/Guest';
 import Onboarding from "./screens/Onboarding";
+import { StatusBar } from "expo-status-bar";
 
 const Stack = createStackNavigator();
 
@@ -55,6 +56,7 @@ const App = () => {
     <GlobalProvider>
       <ApplicationProvider {...eva} theme={eva['dark']}>
         <NavigationContainer>
+          <StatusBar backgroundColor="white" />
           <Stack.Navigator headerMode="none" initialRouteName={initialScreen}>
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name = "Onboarding" component = {Onboarding} />

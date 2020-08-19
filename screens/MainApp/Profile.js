@@ -14,7 +14,7 @@ const Profile = () => {
         <ProfileStack.Navigator headerMode="none">
             <ProfileStack.Screen name="ViewProfile" component={ViewProfile} />
             <ProfileStack.Screen name="EditProfile" component={EditProfile} />
-            <ProfileStack.Screen name ="Contact" component = {Contact} />
+            <ProfileStack.Screen name ="Contact" component={Contact} />
             <ProfileStack.Screen name = "RecentOrders" component = {RecentOrders} />
         </ProfileStack.Navigator>
     )

@@ -37,7 +37,7 @@ const RecentOrders = (props) => {
         <ScrollView>
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="position">
-                <Header>Recent Orders</Header>
+                <Header navigation={props.navigation} isBack>Recent Orders</Header>
                 {order.map((recentorder) => (
                 <View>
                     <ImageBackground style = {styles.image} source = {require("../../../assets/order1.jpg")}>

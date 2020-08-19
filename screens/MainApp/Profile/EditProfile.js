@@ -21,7 +21,7 @@ const ViewProfile = ({ navigation }) => {
 
     return (
         <View>
-            <Header>Edit Profile</Header>
+            <Header navigation={navigation} isBack>Edit Profile</Header>
             <View style={styles.container}>
                 <Text style={{
                     fontSize: 20, fontWeight: "bold"

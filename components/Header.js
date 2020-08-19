@@ -8,7 +8,7 @@ const Header = ({ children, myStyle, navigation, isBack, isUser }) => {
     return (
         <View style={{ ...styles.container, ...myStyle }}>
             {
-                isBack ?
+                (navigation.canGoBack() && isBack) ?
                     <TouchableOpacity style={{
                         paddingRight: 40
                     }}
@@ -18,7 +18,7 @@ const Header = ({ children, myStyle, navigation, isBack, isUser }) => {
                     : <View />
             }
 
-            <Text style={{ ...styles.heading, paddingLeft: !isBack ? 50 : 0, paddingRight: !isUser ? 50 : 0 }}>{children}</Text>
+            <Text style={{ ...styles.heading, paddingLeft: !(isBack && navigation.canGoBack()) ? 50 : 0, paddingRight: !isUser ? 50 : 0 }}>{children}</Text>
 
             {
                 isUser ?
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 20,
         fontFamily: "ProductSansBold",
-        letterSpacing: 1.3,
+        letterSpacing: 0.7,
     }
 })
 
