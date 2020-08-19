@@ -99,7 +99,7 @@ const JoinTable = (props) => {
 
     return (
         <View>
-            <Header>Join Table</Header>
+            <Header navigation={props.navigation} isBack >Join Table</Header>
             {token ? (
                 <View style={styles.container}>
 

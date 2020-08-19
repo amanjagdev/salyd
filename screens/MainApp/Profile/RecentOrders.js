@@ -1,148 +1,180 @@
-import React,{useContext, useEffect,useState} from 'react';
-import { StyleSheet, Text, View ,Image,Dimensions,KeyboardAvoidingView,ImageBackground,ScrollView} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    Dimensions,
+    ScrollView,
+    Image
+} from 'react-native';
+import { Card } from 'react-native-paper'
 import Header from '../../../components/Header';
-import {Title,Card,Button} from 'react-native-paper'
 
 
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
+import { apiUrl } from "../../../config/keys";
 import { colors } from '../../../constants/constant';
-import {apiUrl} from "../../../config/keys";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 var totalPrice = [];
 
+const randomNum = () => {
+    console.log
+};
+
 const RecentOrders = (props) => {
-    const { token} = useContext(
-        GlobalContext
-    );
-    
-    const [order,setOrder] = useState([]);
-    
+    const { token } = useContext(GlobalContext);
+
+    const [order, setOrder] = useState([]);
+
     useEffect(() => {
-        fetch(`${apiUrl}/menu/getrecentorders`,{
-            headers : {
-                Authorization : "Bearer "+token
+        fetch(`${apiUrl}/menu/getrecentorders`, {
+            headers: {
+                Authorization: "Bearer " + token
             }
         }).then((res) => res.json())
-        .then((data) => {
-            setOrder(data);
-        })
-    },[])
-        
+            .then((data) => {
+                setOrder(data);
+            })
+    }, [])
 
-    console.log(order,"recent order");
+
+    console.log(order, "recent order");
     return (
-        <ScrollView>
-        <View style={styles.container}>
-            <KeyboardAvoidingView behavior="position">
-                <Header navigation={props.navigation} isBack>Recent Orders</Header>
+        <SafeAreaView>
+            <Header navigation={props.navigation} isBack>Recent Orders</Header>
+            <ScrollView style={styles.container}>
                 {order.map((recentorder) => (
-                <View>
-                    <ImageBackground style = {styles.image} source = {require("../../../assets/order1.jpg")}>
-                    <View style = {styles.titleview}>
-                        <Text style = {styles.title}>{recentorder.date}</Text>
-                        <Text style = {styles.title}>
-                            {recentorder.restroDetails.name},{recentorder.restroDetails.address}
-                        </Text>
-                    </View>
-                </ImageBackground>
-                {recentorder.menu.map((menu) => (
-                    <View>
-                        <View style = {styles.cardContainer}>
-                            <View style={styles.mycard}>
-                                <View style={styles.cardContent}>
-                                    <View style = {styles.countbox}><Text style={styles.count}>{menu.count}</Text></View>
-                                    <Text style={styles.mytext}>{menu.item}</Text>
-                                    <Text style={styles.price}>Rs {menu.price}</Text>   
-                                    <Text style = {styles.invisible}>{totalPrice.push(menu.price*menu.count)}</Text>
-                                </View>
+                    <View style={{
+                        margin: 20,
+                        backgroundColor: "#2ca062",
+                        borderRadius: 20,
+                        padding: 20,
+                    }}>
+                        <View style={{
+                            marginBottom: 15
+                        }}>
+
+                            <Text style={{
+                                color: "#fff",
+                                fontFamily: "ProductSansBold"
+                            }}>{recentorder.restroDetails.name}</Text>
+                            <Text style={{
+                                color: "#fff",
+                                fontFamily: "ProductSansBold"
+                            }}>{recentorder.restroDetails.address}</Text>
+                            <Text style={{
+                                marginTop: 5,
+                                marginBottom: 5,
+                                color: "#eee",
+                                fontFamily: "ProductSans"
+                            }}>{recentorder.date.substr(11, 5)} {recentorder.date.substr(0, 10)}</Text>
+                            <View style={{
+                                flexDirection: "row",
+                                marginTop: 5
+                            }}>
+                                <View style={{
+                                    backgroundColor: "#fff",
+                                    width: 80,
+                                    height: 3,
+                                    borderRadius: 20,
+                                }} />
+                                <View style={{
+                                    backgroundColor: "#fff",
+                                    borderRadius: 20,
+                                    marginLeft: 10,
+                                    width: 20,
+                                    height: 3
+                                }} />
                             </View>
+                        </View>
+
+                        {/* RECENT ORDER  */}
+                        <View style={{
+                            flexDirection: "row",
+                            alignItems: "center"
+                        }}>
+                            <View style={{
+                                flex: 1,
+                            }}>
+                                <Image style={{
+                                    height: 100,
+                                    width: 100
+                                }} source={require(`../../../assets/vectors/${4}.png`)} />
+                                {/* }} source={require(`../../../assets/vectors/${Math.floor(Math.random()*2 + 2).toString()}.png`)} /> */}
+                            </View>
+
+                            <View style={{
+                                flex: 2,
+                            }}>
+                                {recentorder.menu.map((menu) => (
+                                    <View style={{
+                                        margin: 10,
+                                        flexDirection: "row",
+                                        alignItems: "center"
+                                    }}>
+                                        <View style={{
+                                            flex: 1
+                                        }}>
+                                            <View style={{
+                                                width: 30,
+                                                padding: 4,
+                                                alignItems: "center",
+                                                borderRadius: 100,
+                                                borderColor: "#fff",
+                                                borderWidth: 1
+                                            }} ><Text style={{ color: "#fff", }}>{menu.count}</Text></View>
+                                        </View>
+                                        <Text style={{ flex: 2, fontFamily: "ProductSansBold", color: "#fff", }}>{menu.item}</Text>
+                                        <Text style={{ flex: 1, textAlign: "right", fontFamily: "ProductSansBold", color: "#fff", }}>₹ {menu.price}</Text>
+                                        <Text style={styles.invisible}>{totalPrice.push(menu.price * menu.count)}</Text>
+                                    </View>
+                                ))}
+                            </View>
+
+
+                        </View>
+
+
+
+                        <View style={{
+                            paddingTop: 10,
+                            paddingRight: 15,
+                        }}>
+                            <Text style={{
+                                fontFamily: "ProductSansBold",
+                                fontSize: 20,
+                                color: "#66ffa3",
+                                textAlign: "right"
+                            }}>
+                                ₹ {totalPrice.reduce((a, b) => {
+                                return (a + b)
+                            })}
+                            </Text>
                         </View>
                     </View>
                 ))}
-                    
-                    <View style = {styles.totalview}>
-                        <Text style = {{...styles.mytext,fontWeight : "bold"}}>
-                            Total : Rs {totalPrice.reduce((a,b) => {
-                                return (a+b)
-                            })}
-                        </Text>
-                    </View>
-                </View>
-                ))}
-                
-            </KeyboardAvoidingView>
-        </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView >
     );
 }
 
 const styles = StyleSheet.create({
-    container : {
-        flex : 1,
-        backgroundColor : "#ffffff"
+    container: {
+        backgroundColor: "#ffffff",
+        height: Dimensions.get("screen").height
     },
-    image : {
-        height : height*0.2,
-        opacity : 0.4
+    image: {
+        height: height * 0.2,
+        opacity: 0.4
     },
-    titleview : {
-        flexDirection : "column",
-        marginTop : height *0.1
+    titleview: {
     },
-    title : {
-        fontFamily : "DMSansBold",
-        fontSize : 20,
-        letterSpacing : 1,
-        textAlign : "center"
+    invisible: {
+        color: "transparent"
     },
-    cardContainer : {
-        marginTop : 10
-    },
-    mycard:{
-        margin:3
-    },
-    cardContent:{
-        flexDirection:"row",
-        padding:10
-    },
-    mytext:{
-        fontSize:18,
-        marginTop:3,
-        fontFamily : "PTSans",
-        marginLeft:10,
-        letterSpacing : 1
-    },
-    countbox : {
-        borderColor : "#00de5c",
-        borderWidth : 2,
-        width : 30,
-        display : "flex",
-        textAlign : "center",
-        borderRadius : 5,
-        paddingLeft : 6
-    },
-    count : {
-        fontSize: 20,
-        paddingRight : 10,
-        fontWeight : "bold",
-        color : "#00de5c"  
-    },
-    price : {
-        position : "absolute",
-        right : 20,
-        paddingTop : 10,
-        fontSize : 20
-    },
-    invisible : {
-        color : "#ffffff"
-    },
-    totalview : {
-        flexDirection : "row",
-        justifyContent : "flex-end",
-        marginRight : 10
-    }
 })
 export default RecentOrders
