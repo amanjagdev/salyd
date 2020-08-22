@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Searchbar } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import socketIOClient from "socket.io-client";
 import { CommonActions } from "@react-navigation/native";
 import { GlobalContext } from "../../../context/GlobalState";
@@ -19,13 +19,12 @@ import Axios from "axios";
 import { apiUrl } from "../../../config/keys";
 import Header from "../../../components/Header";
 import { colors } from "../../../constants/constant";
-import Ionicons from "react-native-vector-icons/Ionicons";
-
+import Button from '../../../components/Button';
 //Initalizing client-socket instance
 const socket = socketIOClient(`${apiUrl}`);
 
 const Menu = (props) => {
-    const { token, globalRoomId, globalTableId, updateOrder, order,localroomId,restro } = useContext(
+    const { token, globalRoomId, globalTableId, updateOrder, order, localroomId, restro } = useContext(
         GlobalContext
     );
     const [menu, setMenu] = useState([]);
@@ -147,8 +146,8 @@ const Menu = (props) => {
         getPermission();
         getMenu();
     }, []);
-    
-    console.log(restro,"restro global state")
+
+    console.log(restro, "restro global state")
     //Emitting the joinRoom event to the server
     //Event emitted @Server
 
@@ -183,18 +182,9 @@ const Menu = (props) => {
     const orderPlaced = () => {
         updateOrder({
             orderId: globalTableId,
-            menu 
+            menu
         })
-        props.navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [
-                    {
-                        name: "Checkout",
-                    },
-                ],
-            })
-        );
+        props.navigation.push("Checkout");
         // socket.emit('orderPlaced',"Hi");
     };
 
@@ -217,7 +207,7 @@ const Menu = (props) => {
             <View style={styles.counterContainer}>
                 <TouchableOpacity
                     onPress={() => decrementCounter(item._id, index)}
-                    disabled = {permission === "view" ? true : false}
+                    disabled={permission === "view" ? true : false}
                 >
                     <View style={styles.counter}>
                         <Text style={styles.textCounter}>-</Text>
@@ -228,7 +218,7 @@ const Menu = (props) => {
 
                 <TouchableOpacity
                     onPress={() => incrementCounter(item._id, index)}
-                    disabled = {permission === "view" ? true : false}
+                    disabled={permission === "view" ? true : false}
                 >
                     <View style={styles.counter}>
                         <Text style={styles.textCounter}>+</Text>
@@ -287,14 +277,15 @@ const Menu = (props) => {
             </View>
 
             {permission === "admin" ? (
-                <Button
-                    mode="contained"
-                    theme={{ colors: { primary: colors.accentPrimary } }}
-                    style={styles.button}
-                    onPress={() => orderPlaced()}
-                >
-                    Give order
-                </Button>
+                <View style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginBottom: 20
+                }}>
+                    <Button
+                        onPressFunction={() => orderPlaced()}
+                    >Give order</Button>
+                </View>
             ) : null}
         </View>
     );
@@ -329,11 +320,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 1.0,
         elevation: 5,
     },
-    desc : {
-        fontFamily : "DMSansRegular"
+    desc: {
+        fontFamily: "DMSansRegular"
     },
-    name : {
-        fontFamily : "DMSansRegular"
+    name: {
+        fontFamily: "DMSansRegular"
     },
     content: {
         flex: 1,

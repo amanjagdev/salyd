@@ -108,7 +108,7 @@ const Checkout = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-            <Header navigation={navigation}>Checkout</Header>
+            <Header navigation={navigation} isBack>Checkout</Header>
             <View style={{ margin: 15, marginTop: 0 }}>
                 <View>
                     <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>Your Order : {order.orderID}</Text>
