@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, KeyboardAvoidingView, Text, View, StyleSheet, Alert, Dimensions } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, ActivityIndicator } from 'react-native-paper';
 import Axios from 'axios'
 
 import { apiUrl } from '../config/keys'
@@ -8,28 +8,34 @@ import { apiUrl } from '../config/keys'
 //Componenents
 import Header from '../components/Header';
 import { colors } from '../constants/constant';
+import { cos } from 'react-native-reanimated';
 
 const SignUp = ({ navigation }) => {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [submitting, isSubmitting] = useState(false);
 
     const saveDetails = () => {
+        isSubmitting(true)
         Axios.post(`${apiUrl}/signup`, {
             name, phone, email, password
         })
-            .then((res) => {
-                console.log(res.data);
-                if (res.data.error) {
-                    Alert.alert(res.data.error)
+        .then((res) => {
+            console.log(res.data);
+            if (res.data.error) {
+                Alert.alert(res.data.error)
                 }
                 else {
-                    Alert.alert("Thanks for registering with Salyd");
+                    isSubmitting(false)
                     navigation.replace("Login")
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                isSubmitting(false);
+                console.log(err);
+            })
     }
 
     const loginRedirect = () => {
@@ -82,24 +88,26 @@ const SignUp = ({ navigation }) => {
                     alignItems: "center",
                     marginTop: 20,
                 }}>
-                    <TouchableOpacity onPress={() => saveDetails()}>
-                        <View style={{
-                            alignItems: "center",
-                            backgroundColor: colors.accentPrimary,
-                            width: 100,
-                            height: 40,
-                            justifyContent: "space-around",
-                            borderRadius: 10,
-                        }}>
-                            <Text style={{
-                                color: "white",
-                                fontSize: 16,
-                                fontFamily: "ProductSans"
+                    {
+                        submitting ? <ActivityIndicator color={colors.accentPrimary} /> : <TouchableOpacity onPress={() => saveDetails()}>
+                            <View style={{
+                                alignItems: "center",
+                                backgroundColor: colors.accentPrimary,
+                                width: 100,
+                                height: 40,
+                                justifyContent: "space-around",
+                                borderRadius: 10,
                             }}>
-                                SignUp
+                                <Text style={{
+                                    color: "white",
+                                    fontSize: 16,
+                                    fontFamily: "ProductSans"
+                                }}>
+                                    SignUp
                     </Text>
-                        </View>
-                    </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    }
                 </View>
 
                 <TouchableOpacity onPress={() => loginRedirect()}>

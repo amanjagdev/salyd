@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { TextInput } from "react-native-paper"
+import { TextInput, ActivityIndicator } from "react-native-paper"
 import { CommonActions } from '@react-navigation/native';
 import {
     Text,
@@ -25,57 +25,47 @@ import { apiUrl } from '../config/keys';
 import Header from '../components/Header';
 import { colors } from "../constants/constant";
 
-const Login = (props) => {
+const Login = ({ navigation }) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [submitting, isSubmitting] = useState(false);
 
     const { updateUser, user, token, updateToken } = useContext(GlobalContext)
-    // console.log(user, token)
-    const signin = (props) => {
+    const signin = () => {
+        isSubmitting(true)
         Axios.post(`${apiUrl}/signin`, {
             "email": email,
             "password": password
         })
             .then(async (res) => {
-                console.log(res.data)
-                try {
-                    updateToken(res.data.token)
-                    updateUser(res.data.user)
-                    await AsyncStorage.setItem('token', res.data.token);
-                    await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
-                    Alert.alert("Successfully logged in");
-
-                    props.navigation.dispatch(
-                        CommonActions.reset({
-                            index: 0,
-                            routes: [
-                                {
-                                    name: 'MainApp',
-                                },
-                            ],
-                        })
-                    );
-                }
-                catch {
-                    Alert.alert(data.error);
-                }
+                updateToken(res.data.token)
+                updateUser(res.data.user)
+                await AsyncStorage.setItem('token', res.data.token);
+                await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
+                isSubmitting(false)
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: 'MainApp',
+                            },
+                        ],
+                    })
+                );
             })
-            .catch(err => console.log(err))
+            .catch(err => { isSubmitting(false); console.log(err) })
     }
 
     const signUpRedirect = () => {
-        props.navigation.navigate("SignUp");
+        navigation.navigate("SignUp");
     }
     return (
 
-        <View style={{...styles.container,height: Dimensions.get("screen").height}}>
+        <View style={{ ...styles.container, height: Dimensions.get("screen").height }}>
             <KeyboardAvoidingView behavior="position">
-                <Header isBack navigation={props.navigation}>Sign In</Header>
-
-                {/* <Image
-                    source={require("../assets/login.png")}
-                    style={styles.image} /> */}
+                <Header isBack navigation={navigation}>Sign In</Header>
                 <TextInput
                     label="Email"
                     value={email}
@@ -98,24 +88,26 @@ const Login = (props) => {
                     alignItems: "center",
                     marginTop: 20,
                 }}>
-                    <TouchableOpacity onPress={() => signin()}>
-                        <View style={{
-                            alignItems: "center",
-                            backgroundColor: colors.accentPrimary,
-                            width: 100,
-                            height: 40,
-                            justifyContent: "space-around",
-                            borderRadius: 10,
-                        }}>
-                            <Text style={{
-                                color: "white",
-                                fontSize: 16,
-                                fontFamily: "ProductSans"
+                    {
+                        submitting ? < ActivityIndicator color={colors.accentPrimary} /> : <TouchableOpacity onPress={() => signin()}>
+                            <View style={{
+                                alignItems: "center",
+                                backgroundColor: colors.accentPrimary,
+                                width: 100,
+                                height: 40,
+                                justifyContent: "space-around",
+                                borderRadius: 10,
                             }}>
-                                Login
+                                <Text style={{
+                                    color: "white",
+                                    fontSize: 16,
+                                    fontFamily: "ProductSans"
+                                }}>
+                                    Login
                     </Text>
-                        </View>
-                    </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    }
                 </View>
 
                 <TouchableOpacity onPress={() => signUpRedirect()}>
