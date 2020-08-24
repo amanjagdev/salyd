@@ -18,11 +18,13 @@ import Axios from "axios";
 
 import Header from '../../../components/Header'
 import { colors } from "../../../constants/constant";
+import { ActivityIndicator } from "react-native-paper";
 
 const Table = ({ navigation }) => {
 
   const [selectedValue, setSelectedValue] = useState("view");
   const [restro, setRestro] = useState({});
+  const [submitting, isSubmitting] = useState(false);
   const { token, globalRoomId, updateTable, updateRoom, globalTableId, updateRestro } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ const Table = ({ navigation }) => {
   }, [])
 
   const onSubmit = () => {
+    isSubmitting(true)
     Axios({
       url: `${apiUrl}/permission/grant`,
       method: 'post',
@@ -57,7 +60,7 @@ const Table = ({ navigation }) => {
     })
       .then((res) => {
         console.log(res.data)
-        Alert.alert(`Permission of all members set to ${selectedValue}`);
+        isSubmitting(false)
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -70,6 +73,7 @@ const Table = ({ navigation }) => {
         );
 
       }).catch((err) => {
+        isSubmitting(false)
         console.log(err);
       })
   }
@@ -88,7 +92,6 @@ const Table = ({ navigation }) => {
       <Header navigation={navigation} isBack>Your Table</Header>
       <View style={styles.container}>
 
-        {/* <Text style={styles.title}> {(restro !== {}) && restro.name}</Text> */}
         <View style={{
           marginTop: 30,
           marginBottom: 50,
@@ -203,10 +206,18 @@ const Table = ({ navigation }) => {
           <View style={{
             alignItems: "center",
           }}>
-            <Button
-              mode="contained"
-              onPressFunction={() => onSubmit()}
-            >Proceed</Button>
+            {
+              submitting ?
+                <View style={{
+                  marginTop: 15
+                }}>
+                  <ActivityIndicator color={colors.accentPrimary} />
+                </View> :
+                <Button
+                  mode="contained"
+                  onPressFunction={() => onSubmit()}
+                >Proceed</Button>
+            }
           </View>
         </View>
 
@@ -225,7 +236,7 @@ const Table = ({ navigation }) => {
             marginTop: 15
           }}>
             <Button
-            colorBack="#ff6257"
+              colorBack="#ff6257"
               onPressFunction={() => exitTable()}
             >
               Exit Table

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { TextInput } from "react-native-paper";
+import { TextInput, ActivityIndicator } from "react-native-paper";
 import Button from '../../../components/Button';
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
@@ -29,6 +29,7 @@ const HomeMain = (props) => {
 
     const [tableId, setTableId] = useState(null);
     const [localRoomId, setLocalRoomID] = useState(null);
+    const [submitting, isSubmitting] = useState(false);
 
     const { user, token, globalTableId, updateTable, updateRoom } = useContext(GlobalContext);
 
@@ -65,6 +66,7 @@ const HomeMain = (props) => {
     }, [globalTableId])
 
     const newTable = async () => {
+        isSubmitting(true)
         Axios({
             url: `${apiUrl}/newtable`,
             method: 'post',
@@ -84,7 +86,7 @@ const HomeMain = (props) => {
                     console.log(res.data.roomId)
                     await AsyncStorage.setItem('tableId', res.data._id.toString());
                     await AsyncStorage.setItem('roomId', res.data.roomId.toString());
-                    Alert.alert("Table Created Successfully");
+                    isSubmitting(false)
                     props.navigation.dispatch(
                         CommonActions.reset({
                             index: 0,
@@ -98,6 +100,9 @@ const HomeMain = (props) => {
                         })
                     );
                 }
+            }).catch(err => {
+                isSubmitting(false);
+                console.log(err)
             })
     }
 
@@ -182,8 +187,15 @@ const HomeMain = (props) => {
                                 style={styles.inputbox}
                                 onChangeText={(text) => setTableId(text)}
                             />
-
-                            <Button mystyle={{ marginTop: 20 }} onPressFunction={newTable} >Proceed </Button>
+                            {
+                                submitting ?
+                                    <View style={{
+                                        marginTop : 20,alignItems: "flex-start",marginLeft: 10,marginBottom: 15
+                                    }}>
+                                        <ActivityIndicator color={colors.accentPrimary} />
+                                    </View> :
+                                    <Button mystyle={{ marginTop: 20 }} onPressFunction={newTable} >Proceed </Button>
+                            }
                         </View>
 
 
