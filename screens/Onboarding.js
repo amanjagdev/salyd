@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { colors } from '../constants/constant';
 
 const Onboarding = ({ navigation }) => {
     const slides = [
@@ -46,8 +47,62 @@ const Onboarding = ({ navigation }) => {
             renderItem={_renderItem}
             data={slides}
             onDone={_onDone}
-            activeDotStyle={{ backgroundColor: "green" }}
-            showSkipButton={true}
+            renderNextButton={() => (
+                <View style={{
+                    alignItems: "center",
+                    backgroundColor: "#b8ffb5",
+                    width: 70,
+                    height: 40,
+                    justifyContent: "space-around",
+                    borderRadius: 10,
+                }}>
+                    <Text style={{
+                        color: "#07a600",
+                        fontSize: 16,
+                        fontFamily: "ProductSans"
+                    }}>
+                        Next
+                </Text>
+                </View>
+            )}
+            renderDoneButton={() => (
+                <View style={{
+                    alignItems: "center",
+                    backgroundColor: "#b8ffb5",
+                    width: 70,
+                    height: 40,
+                    justifyContent: "space-around",
+                    borderRadius: 10,
+                }}>
+                    <Text style={{
+                        color: "#07a600",
+                        fontSize: 16,
+                        fontFamily: "ProductSans"
+                    }}>
+                        Done
+                </Text>
+                </View>
+            )}
+            renderSkipButton={() => (
+                <View style={{
+                    alignItems: "center",
+                    backgroundColor: "#b8ffb5",
+                    width: 70,
+                    height: 40,
+                    justifyContent: "space-around",
+                    borderRadius: 10,
+                }}>
+                    <Text style={{
+                        color: "#07a600",
+                        fontSize: 16,
+                        fontFamily: "ProductSans"
+                    }}>
+                        Skip
+                </Text>
+                </View>
+            )}
+            showSkipButton
+            activeDotStyle={{ backgroundColor: "#07a600" }}
         />
     );
 }
@@ -64,19 +119,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     title: {
-        fontFamily: "DMSansBold",
+        fontFamily: "ProductSansBold",
         fontSize: 25,
         marginTop: 150,
-        paddingHorizontal: 100,
+        paddingHorizontal: 70,
         textAlign: "center"
     },
     text: {
         color: "black",
-        fontSize: 12,
+        fontSize: 14,
         opacity: 60,
-        fontFamily: "DMSansRegular",
+        fontFamily: "ProductSans",
         marginTop: 20,
-        paddingHorizontal: 100,
+        paddingHorizontal: 80,
         textAlign: "center"
     },
     imagecontainer: {
