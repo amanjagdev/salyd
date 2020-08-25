@@ -13,6 +13,7 @@ import { GlobalProvider } from './context/GlobalState'
 //Screens
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
+import Otp from "./screens/Otp";
 import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
 import Guest from './screens/Guest';
@@ -59,11 +60,12 @@ const App = () => {
           <StatusBar backgroundColor="white" />
           <Stack.Navigator headerMode="none" initialRouteName={initialScreen}>
             <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name = "Onboarding" component = {Onboarding} />
+            <Stack.Screen name="Onboarding" component = {Onboarding} />
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="MainApp" component={MainApp} />
             <Stack.Screen name="Guest" component={Guest} />
+            <Stack.Screen name="Otp" component = {Otp} />
           </Stack.Navigator>
         </NavigationContainer>
       </ApplicationProvider>

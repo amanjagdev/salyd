@@ -13,7 +13,6 @@ import {
     Dimensions
 } from "react-native";
 import Axios from 'axios'
-import GenerateBill from "../screens/MainApp/Home/GenerateBill";
 
 //State
 import { GlobalContext } from '../context/GlobalState';
@@ -59,7 +58,11 @@ const Login = ({ navigation }) => {
     }
 
     const signUpRedirect = () => {
-        navigation.navigate("SignUp");
+        navigation.navigate("Signup");
+    }
+    
+    const sendOtp = () => {
+        navigation.navigate("Otp");
     }
     return (
 
@@ -123,6 +126,20 @@ const Login = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
 
+                
+                
+                <TouchableOpacity onPress={() => sendOtp()}>
+                    <Text style={{
+                        marginHorizontal: 25,
+                        marginTop: 25,
+                        fontSize: 16,
+                        paddingLeft: 10,
+                        borderRadius: 20,
+                        fontFamily: "ProductSans"
+                    }} >
+                        Send Otp
+                    </Text>
+                </TouchableOpacity>
 
             </KeyboardAvoidingView>
         </View>
