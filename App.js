@@ -18,6 +18,7 @@ import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
 import Guest from './screens/Guest';
 import Onboarding from "./screens/Onboarding";
+import ForgotPassword from "./screens/ForgotPassword";
 import { StatusBar } from "expo-status-bar";
 
 const Stack = createStackNavigator();
@@ -66,6 +67,7 @@ const App = () => {
             <Stack.Screen name="MainApp" component={MainApp} />
             <Stack.Screen name="Guest" component={Guest} />
             <Stack.Screen name="Otp" component = {Otp} />
+            <Stack.Screen name="ForgotPassword" component = {ForgotPassword} />
           </Stack.Navigator>
         </NavigationContainer>
       </ApplicationProvider>

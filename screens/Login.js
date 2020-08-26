@@ -64,6 +64,10 @@ const Login = ({ navigation }) => {
     const sendOtp = () => {
         navigation.navigate("Otp");
     }
+
+    const forgotPass = () => {
+        navigation.navigate("ForgotPassword")
+    }
     return (
 
         <View style={{ ...styles.container, height: Dimensions.get("screen").height }}>
@@ -138,6 +142,19 @@ const Login = ({ navigation }) => {
                         fontFamily: "ProductSans"
                     }} >
                         Send Otp
+                    </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => forgotPass()}>
+                    <Text style={{
+                        marginHorizontal: 25,
+                        marginTop: 25,
+                        fontSize: 16,
+                        paddingLeft: 10,
+                        borderRadius: 20,
+                        fontFamily: "ProductSans"
+                    }} >
+                        Forgot Password
                     </Text>
                 </TouchableOpacity>
 
