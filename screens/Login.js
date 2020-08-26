@@ -58,11 +58,7 @@ const Login = ({ navigation }) => {
     }
 
     const signUpRedirect = () => {
-        navigation.navigate("Signup");
-    }
-    
-    const sendOtp = () => {
-        navigation.navigate("Otp");
+        navigation.navigate("SignUp");
     }
 
     const forgotPass = () => {
@@ -130,21 +126,6 @@ const Login = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
 
-                
-                
-                <TouchableOpacity onPress={() => sendOtp()}>
-                    <Text style={{
-                        marginHorizontal: 25,
-                        marginTop: 25,
-                        fontSize: 16,
-                        paddingLeft: 10,
-                        borderRadius: 20,
-                        fontFamily: "ProductSans"
-                    }} >
-                        Send Otp
-                    </Text>
-                </TouchableOpacity>
-                
                 <TouchableOpacity onPress={() => forgotPass()}>
                     <Text style={{
                         marginHorizontal: 25,
@@ -152,6 +133,7 @@ const Login = ({ navigation }) => {
                         fontSize: 16,
                         paddingLeft: 10,
                         borderRadius: 20,
+                        color: colors.accentPrimary,
                         fontFamily: "ProductSans"
                     }} >
                         Forgot Password

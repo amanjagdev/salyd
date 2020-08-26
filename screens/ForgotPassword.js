@@ -2,21 +2,31 @@ import React from "react"
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    Dimensions
 } from "react-native"
+import Header from "../components/Header"
 
-const ForgotPassword = ()  => {
+const ForgotPassword = ({ navigation }) => {
     return (
-        <View style = {styles.container}>
-            <Text>Okay </Text> 
-        </View>
+        <>
+            <Header isBack navigation={navigation} >Forgot Password</Header>
+            <View style={styles.container}>
+                <Text style={{
+                    fontSize: 24,
+                    fontFamily: "ProductSans",
+                }}>No content Here yet </Text>
+            </View>
+        </>
     )
 }
 
-const styles = StyleSheet.create ({
-    container : {
-        flex : 1,
-        backgroundColor : "#ffffff"
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        justifyContent: "center",
+        height: Dimensions.get("screen").height - 100 ,
+        backgroundColor: "#fff"
     }
 })
 

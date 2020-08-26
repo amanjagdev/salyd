@@ -4,8 +4,6 @@ import { AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
-import * as eva from '@eva-design/eva';
-import { ApplicationProvider } from '@ui-kitten/components';
 
 //State
 import { GlobalProvider } from './context/GlobalState'
@@ -13,7 +11,6 @@ import { GlobalProvider } from './context/GlobalState'
 //Screens
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
-import Otp from "./screens/Otp";
 import MainApp from './screens/MainApp';
 import Splash from './screens/Splash';
 import Guest from './screens/Guest';
@@ -32,10 +29,10 @@ const App = () => {
     'ProductSansItalic': require('./assets/fonts/Product_Sans_Italic.ttf'),
     'ProductSansBold': require('./assets/fonts/Product_Sans_Bold.ttf'),
     'ProductSansBoldItalic': require('./assets/fonts/Product_Sans_Bold_Italic.ttf'),
-    'DMSansBold' : require('./assets/fonts/DMSans-Bold.ttf'),
-    'DMSansRegular' : require('./assets/fonts/DMSans-Regular.ttf'),
-    'PTSans' : require('./assets/fonts/Product_Sans_Regular.ttf'),
-    'PTSansBold' : require('./assets/fonts/Product_Sans_Bold.ttf')
+    'DMSansBold': require('./assets/fonts/DMSans-Bold.ttf'),
+    'DMSansRegular': require('./assets/fonts/DMSans-Regular.ttf'),
+    'PTSans': require('./assets/fonts/Product_Sans_Regular.ttf'),
+    'PTSansBold': require('./assets/fonts/Product_Sans_Bold.ttf')
   });
   console.disableYellowBox = true;
   useEffect(() => {
@@ -56,21 +53,18 @@ const App = () => {
 
   return (
     <GlobalProvider>
-      <ApplicationProvider {...eva} theme={eva['dark']}>
-        <NavigationContainer>
-          <StatusBar backgroundColor="white" />
-          <Stack.Navigator headerMode="none" initialRouteName={initialScreen}>
-            <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name="Onboarding" component = {Onboarding} />
-            <Stack.Screen name="Splash" component={Splash} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="MainApp" component={MainApp} />
-            <Stack.Screen name="Guest" component={Guest} />
-            <Stack.Screen name="Otp" component = {Otp} />
-            <Stack.Screen name="ForgotPassword" component = {ForgotPassword} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ApplicationProvider>
+      <NavigationContainer>
+        <StatusBar backgroundColor="white" />
+        <Stack.Navigator headerMode="none" initialRouteName={initialScreen}>
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Onboarding" component={Onboarding} />
+          <Stack.Screen name="Splash" component={Splash} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="MainApp" component={MainApp} />
+          <Stack.Screen name="Guest" component={Guest} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </GlobalProvider>
 
   )

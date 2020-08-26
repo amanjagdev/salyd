@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { TouchableOpacity, KeyboardAvoidingView, Text, View, StyleSheet, Alert, Dimensions } from 'react-native';
 import { Button, TextInput, ActivityIndicator } from 'react-native-paper';
 import Axios from 'axios'
@@ -8,7 +8,9 @@ import { apiUrl } from '../config/keys'
 //Componenents
 import Header from '../components/Header';
 import { colors } from '../constants/constant';
-import { cos } from 'react-native-reanimated';
+
+import firebase from "../config/firebase.js"
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 
 const SignUp = ({ navigation }) => {
     const [name, setName] = useState("")
@@ -17,25 +19,54 @@ const SignUp = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [submitting, isSubmitting] = useState(false);
 
-    const saveDetails = () => {
-        isSubmitting(true)
-        Axios.post(`${apiUrl}/signup`, {
-            name, phone, email, password
-        })
-        .then((res) => {
-            console.log(res.data);
-            if (res.data.error) {
-                Alert.alert(res.data.error)
-                }
-                else {
-                    isSubmitting(false)
-                    navigation.replace("Login")
-                }
-            })
-            .catch(err => {
-                isSubmitting(false);
-                console.log(err);
-            })
+    const [code, setCode] = useState('');
+    const [verificationId, setVerificationId] = useState(null);
+    const recaptchaVerifier = useRef(null);
+
+    // Function to be called when requesting for a verification code
+    const sendVerification = () => {
+        const phoneProvider = new firebase.auth.PhoneAuthProvider();
+        phoneProvider
+            .verifyPhoneNumber(phone, recaptchaVerifier.current)
+            .then(setVerificationId);
+    };
+
+    // Function to be called when confirming the verification code that we received
+    // from Firebase via SMS
+    const confirmCode = () => {
+        const credential = firebase.auth.PhoneAuthProvider.credential(
+            verificationId,
+            code
+        );
+        firebase
+            .auth()
+            .signInWithCredential(credential)
+            .then((result) => {
+                Axios.post(`${apiUrl}/signup`, {
+                    name, phone, email, password
+                })
+                    .then((res) => {
+                        console.log(res.data);
+                        if (res.data.error) {
+                            Alert.alert(res.data.error)
+                        }
+                        else {
+                            isSubmitting(false)
+                            navigation.replace("Login")
+                        }
+                    })
+                    .catch(err => {
+                        isSubmitting(false);
+                        console.log(err);
+                    })
+                console.log(result);
+            });
+    }
+
+    const submitForm = () => {
+        isSubmitting(true);
+        sendVerification();
+        isSubmitting(false);
     }
 
     const loginRedirect = () => {
@@ -47,6 +78,11 @@ const SignUp = ({ navigation }) => {
 
             <KeyboardAvoidingView behavior="position">
                 <Header isBack navigation={navigation}>Sign Up</Header>
+
+                <FirebaseRecaptchaVerifierModal
+                    ref={recaptchaVerifier}
+                    firebaseConfig={firebase.app().options}
+                />
 
                 <TextInput
                     label="Full name"
@@ -60,6 +96,7 @@ const SignUp = ({ navigation }) => {
                 <TextInput
                     label="Phone Number"
                     value={phone}
+                    keyboardType="phone-pad"
                     underlineColor="transparent"
                     theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
                     style={styles.inputbox}
@@ -89,7 +126,7 @@ const SignUp = ({ navigation }) => {
                     marginTop: 20,
                 }}>
                     {
-                        submitting ? <ActivityIndicator color={colors.accentPrimary} /> : <TouchableOpacity onPress={() => saveDetails()}>
+                        submitting ? <ActivityIndicator color={colors.accentPrimary} /> : <TouchableOpacity onPress={() => submitForm()}>
                             <View style={{
                                 alignItems: "center",
                                 backgroundColor: colors.accentPrimary,
@@ -109,6 +146,43 @@ const SignUp = ({ navigation }) => {
                         </TouchableOpacity>
                     }
                 </View>
+
+                {
+                    verificationId &&
+                    <>
+                        <TextInput
+                            label="Confirmation Code"
+                            onChangeText={setCode}
+                            keyboardType="number-pad"
+                            value={code}
+                            underlineColor="transparent"
+                            theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
+                            style={styles.inputbox}
+                        />
+
+                        <View style={{
+                            marginTop: 10,
+                            alignItems: "center"
+                        }}>
+                            <TouchableOpacity onPress={confirmCode}>
+                                <View style={{
+                                    alignItems: "center",
+                                    backgroundColor: colors.accentPrimary,
+                                    width: 100,
+                                    height: 40,
+                                    justifyContent: "space-around",
+                                    borderRadius: 10,
+                                }}>
+                                    <Text style={{
+                                        color: "white",
+                                        fontSize: 16,
+                                        fontFamily: "ProductSans"
+                                    }}>Confirm</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
 
                 <TouchableOpacity onPress={() => loginRedirect()}>
                     <Text style={{
