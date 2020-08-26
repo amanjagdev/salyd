@@ -13,6 +13,7 @@ import {
     Dimensions
 } from "react-native";
 import Axios from 'axios'
+import * as Google from "expo-google-app-auth"
 
 //State
 import { GlobalContext } from '../context/GlobalState';
@@ -27,10 +28,14 @@ import { colors } from "../constants/constant";
 const Login = ({ navigation }) => {
 
     const [email, setEmail] = useState("");
+    const [signedIn,setSignedIn] = useState(false);
+    const [name,setName] = useState("");
+    const [photoUrl,setPhotoUrl] = useState("");
     const [password, setPassword] = useState("");
     const [submitting, isSubmitting] = useState(false);
 
-    const { updateUser, user, token, updateToken } = useContext(GlobalContext)
+    const { updateUser, user, token, updateToken } = useContext(GlobalContext);
+
     const signin = () => {
         isSubmitting(true)
         Axios.post(`${apiUrl}/signin`, {
@@ -64,10 +69,31 @@ const Login = ({ navigation }) => {
     const forgotPass = () => {
         navigation.navigate("ForgotPassword")
     }
-    return (
+    const signinwithgoogle = async () => {
+        try {
+            const result = await Google.logInAsync({
+                androidClientId : "660122221015-ij45d8cg82f0b1kl68c09kq9o72t4eaj.apps.googleusercontent.com",
+                scopes : ["profile","email"]
+            })
 
+            if(result.type === "success") {
+                setSignedIn(true);
+                setName(result.user.name);
+                setPhotoUrl(result.user.photoUrl);         
+            }
+            else {
+                console.log("Cancelled");
+            }
+        }
+        catch (e) { 
+            console.log("error",e);
+        }
+    }
+    return (
+        
         <View style={{ ...styles.container, height: Dimensions.get("screen").height }}>
-            <KeyboardAvoidingView behavior="position">
+            {!signedIn ? (
+                <KeyboardAvoidingView behavior="position">
                 <Header isBack navigation={navigation}>Sign In</Header>
                 <TextInput
                     label="Email"
@@ -107,7 +133,8 @@ const Login = ({ navigation }) => {
                                     fontFamily: "ProductSans"
                                 }}>
                                     Login
-                    </Text>
+                                </Text>
+
                             </View>
                         </TouchableOpacity>
                     }
@@ -140,9 +167,46 @@ const Login = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
 
-            </KeyboardAvoidingView>
+                <View style={{
+                    alignItems: "center",
+                    marginTop: 20,
+                }}>
+                    <TouchableOpacity onPress={() => signinwithgoogle()}>
+                        <View style={{
+                            alignItems: "center",
+                            backgroundColor: colors.accentPrimary,
+                            width: 200,
+                            height: 40,
+                            justifyContent: "space-around",
+                            borderRadius: 10,
+                        }}>
+                            <Text style={{
+                                color: "white",
+                                fontSize: 16,
+                                fontFamily: "ProductSans"
+                            }}>
+                                Sign In With Google
+                            </Text>
+                                    
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                
+           </KeyboardAvoidingView>    
+            )  :(
+                <LoggedInPage name={name} photoUrl={photoUrl} />
+            )}
+            
         </View>
+    )
+}
 
+const LoggedInPage = (props) => {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Welcome:{props.name}</Text>
+        <Image style={styles.image} source={{ uri: props.photoUrl }} />
+      </View>
     )
 }
 
@@ -159,20 +223,17 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         fontFamily: "ProductSans"
     },
-    image: {
-        width: 200,
-        height: 200,
-        marginHorizontal: 100
+    header: {
+        marginTop : 100,
+        fontSize: 25
     },
-    button: {
-        margin: 10,
+      image: {
+        marginTop: 15,
         width: 150,
-        borderRadius: 30,
-        marginTop: 30,
-        marginHorizontal: 50,
-        marginBottom: 10,
-        color: colors.back,
-        fontFamily: "monospace"
+        height: 150,
+        borderColor: "rgba(0,0,0,0.2)",
+        borderWidth: 3,
+        borderRadius: 150
     },
     outlined: {
         borderColor: colors.back,
