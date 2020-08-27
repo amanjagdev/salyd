@@ -5,4 +5,5 @@ const localIPS = {
 
 const prodAddress = "https://salyd.herokuapp.com"
 
+export const localapiUrl = localIPS.kartik;
 export const apiUrl = prodAddress; 

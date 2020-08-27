@@ -1,25 +1,101 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, AsyncStorage, TouchableOpacity } from 'react-native';
+import React, { useContext,useState } from 'react';
+import { StyleSheet, Text, View, Image, Dimensions, AsyncStorage, TouchableOpacity,Modal,Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import { MaterialCommunityIcons, FontAwesome, Feather, Ionicons } from '@expo/vector-icons'
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import {Button as ButtonPaper} from "react-native-paper";
 
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
 import { colors } from '../../../constants/constant';
+import Axios from 'axios';
+import {localapiUrl} from "../../../config/keys";
 
 const width = Dimensions.get("window").width;
+
 const ViewProfile = ({ navigation }) => {
 
-    const { user } = useContext(GlobalContext);
-    const { _id, name, email, phone, password } = user;
+    //Definning states
+    const [modal,setModal] = useState(false);
+
+    const { user,token } = useContext(GlobalContext);
+    const { _id, name, email, phone, image } = user;
 
     const logout = async () => {
         const token = await AsyncStorage.removeItem("token")
         const user = await AsyncStorage.removeItem("user")
         if (!token) {
             navigation.replace("Login");
+        }
+    }
+    
+    const uploadPic = (file) => {
+        console.log(file,"In upload pic");
+        const formData = new FormData();
+        formData.append('image',file);
+        console.log(((formData._parts)[0])[1]);
+        Axios.post({
+            url: `${localapiUrl}/uploadpic`,
+            method: 'post',
+            headers: {
+                "Content-type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`
+            },
+            data: formData
+        }).then((response) => {
+            console.log(response.data);
+            Alert.alert(response.data);
+        }).catch((err) => {
+            Alert.alert(err);
+        })
+    }
+
+    const pickFromGallery = async () => {
+        const {granted} =  await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if(granted){
+            let data =  await ImagePicker.launchImageLibraryAsync({
+                mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                allowsEditing:true,
+                aspect:[1,1],
+                quality:0.5
+            })
+
+            if(!data.cancelled){
+                let newfile = { 
+                    uri:data.uri,
+                    type:`test/${data.uri.split(".")[1]}`,
+                    name:`test.${data.uri.split(".")[1]}`  
+                }
+                
+                console.log(newfile);
+                uploadPic(newfile.uri);
+            }
+        }
+    }
+
+    const pickFromCamera = async () => {
+        const {granted} =  await Permissions.askAsync(Permissions.CAMERA)
+        
+        if(granted){
+            let data =  await ImagePicker.launchCameraAsync({
+                mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                allowsEditing:true,
+                aspect:[1,1],
+                quality:0.5
+            })
+
+            if(!data.cancelled){
+                let newfile = { 
+                    uri:data.uri,
+                    type:`test/${data.uri.split(".")[1]}`,
+                    name:`test.${data.uri.split(".")[1]}` 
+                }
+
+                uploadPic(newfile.uri);
+            }
         }
     }
 
@@ -35,8 +111,13 @@ const ViewProfile = ({ navigation }) => {
             <View style={{ alignItems: "center" }}>
                 <Image
                     style={{ width: 140, height: 140, borderRadius: 140 / 2, marginTop: 50 }}
-                    source={require("../../../assets/person.jpg")}
+                    source={{uri :image}}
                 />
+
+                <TouchableOpacity onPress = {() => setModal(true)}>
+                    <Text style = {styles.changedp}> Change your profile picture</Text>
+                </TouchableOpacity>
+
             </View>
             <View style={{ alignItems: "center", margin: 15 }}>
                 <Text style={styles.name}> {name} </Text>
@@ -93,6 +174,38 @@ const ViewProfile = ({ navigation }) => {
                 <Button onPressFunction={() => logout()}>Logout</Button>
             </View>
 
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modal}
+                onRequestClose={()=>{
+                    setModal(false)
+                }}
+            >
+                <View style={styles.modalView}>
+                    <View style={styles.modalButtonView}>
+                        <ButtonPaper
+                            icon="camera"
+                            mode="contained"
+                            style = {styles.buttonpaper}
+                            onPress={() => pickFromCamera()}>
+                                Camera
+                        </ButtonPaper>
+                        
+                        <ButtonPaper
+                            icon="image-area"
+                            mode="contained"
+                            style = {styles.buttonpaper}
+                            onPress={() => pickFromGallery()}>
+                                Gallery
+                        </ButtonPaper>
+
+                    </View>
+
+                </View>
+
+            </Modal>
+
         </View>
     )
 }
@@ -110,6 +223,11 @@ const styles = StyleSheet.create({
     name: {
         fontFamily: "ProductSans",
         fontSize: 24,
+    },
+    changedp : {
+        fontFamily : "ProductSans",
+        fontSize : 20,
+        color : colors.back.accentPrimary
     },
     mycard: {
         margin: 3
@@ -131,6 +249,18 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: "#c0c0c0"
     },
+    modalView:{
+        position:"absolute",
+        bottom:2,
+        width:"100%",
+        backgroundColor:"white"
+
+    },
+    modalButtonView:{
+        flexDirection:"row",
+        justifyContent:"space-around",
+        padding:10
+    },
     button: {
         backgroundColor: colors.accentPrimary,
         color: colors.back,
@@ -139,6 +269,10 @@ const styles = StyleSheet.create({
         marginTop: 50,
         borderRadius: 10,
         fontFamily: "ProductSans"
+    },
+    buttonpaper : {
+        backgroundColor: colors.accentPrimary,
+        fontFamily : "ProductSans"
     },
     mytext: {
         fontSize: 18,
