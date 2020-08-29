@@ -115,8 +115,8 @@ const HomeMain = (props) => {
 
     return (
         <React.Fragment>
-        <View style={styles.container}>
             <Header isUser navigation={props.navigation}>Home</Header>
+        <View style={styles.container}>
             <ScrollView>
                 <KeyboardAvoidingView
                     behavior={Platform.OS == "ios" ? "padding" : "position"}

@@ -36,17 +36,18 @@ const ViewProfile = ({ navigation }) => {
         console.log(file,"In upload pic");
         const formData = new FormData();
         formData.append('image',file);
-        console.log(((formData._parts)[0])[1]);
-        Axios.post({
+        console.log(formData)
+        Axios({
             url: `${localapiUrl}/uploadpic`,
             method: 'post',
             headers: {
                 "Content-type": "multipart/form-data",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "Accept": `application/json`
             },
-            data: formData
+            body: formData
         }).then((response) => {
-            console.log(response.data);
+            console.log("i am herrrr");
             Alert.alert(response.data);
         }).catch((err) => {
             Alert.alert(err);
@@ -64,14 +65,14 @@ const ViewProfile = ({ navigation }) => {
             })
 
             if(!data.cancelled){
+                const uriParts = data.uri.split(".")
                 let newfile = { 
                     uri:data.uri,
-                    type:`test/${data.uri.split(".")[1]}`,
-                    name:`test.${data.uri.split(".")[1]}`  
+                    type:`image/${uriParts[uriParts.length - 1]}`,
+                    name:`${uriParts[0]}`  
                 }
-                
                 console.log(newfile);
-                uploadPic(newfile.uri);
+                uploadPic(newfile);
             }
         }
     }
