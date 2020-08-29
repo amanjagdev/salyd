@@ -13,7 +13,6 @@ import {
     Dimensions
 } from "react-native";
 import Axios from 'axios'
-import * as Google from "expo-google-app-auth"
 
 //State
 import { GlobalContext } from '../context/GlobalState';
@@ -28,9 +27,6 @@ import { colors } from "../constants/constant";
 const Login = ({ navigation }) => {
 
     const [email, setEmail] = useState("");
-    const [signedIn,setSignedIn] = useState(false);
-    const [name,setName] = useState("");
-    const [photoUrl,setPhotoUrl] = useState("");
     const [password, setPassword] = useState("");
     const [submitting, isSubmitting] = useState(false);
 
@@ -69,31 +65,11 @@ const Login = ({ navigation }) => {
     const forgotPass = () => {
         navigation.navigate("ForgotPassword")
     }
-    const signinwithgoogle = async () => {
-        try {
-            const result = await Google.logInAsync({
-                androidClientId : "660122221015-ij45d8cg82f0b1kl68c09kq9o72t4eaj.apps.googleusercontent.com",
-                scopes : ["profile","email"]
-            })
-
-            if(result.type === "success") {
-                setSignedIn(true);
-                setName(result.user.name);
-                setPhotoUrl(result.user.photoUrl);         
-            }
-            else {
-                console.log("Cancelled");
-            }
-        }
-        catch (e) { 
-            console.log("error",e);
-        }
-    }
+    
     return (
-        
+
         <View style={{ ...styles.container, height: Dimensions.get("screen").height }}>
-            {!signedIn ? (
-                <KeyboardAvoidingView behavior="position">
+            <KeyboardAvoidingView behavior="position">
                 <Header isBack navigation={navigation}>Sign In</Header>
                 <TextInput
                     label="Email"
@@ -167,46 +143,12 @@ const Login = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
 
-                <View style={{
-                    alignItems: "center",
-                    marginTop: 20,
-                }}>
-                    <TouchableOpacity onPress={() => signinwithgoogle()}>
-                        <View style={{
-                            alignItems: "center",
-                            backgroundColor: colors.accentPrimary,
-                            width: 200,
-                            height: 40,
-                            justifyContent: "space-around",
-                            borderRadius: 10,
-                        }}>
-                            <Text style={{
-                                color: "white",
-                                fontSize: 16,
-                                fontFamily: "ProductSans"
-                            }}>
-                                Sign In With Google
-                            </Text>
-                                    
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                
-           </KeyboardAvoidingView>    
-            )  :(
-                <LoggedInPage name={name} photoUrl={photoUrl} />
-            )}
-            
-        </View>
-    )
-}
 
-const LoggedInPage = (props) => {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Welcome:{props.name}</Text>
-        <Image style={styles.image} source={{ uri: props.photoUrl }} />
-      </View>
+
+            </KeyboardAvoidingView>
+
+
+        </View>
     )
 }
 
@@ -224,10 +166,10 @@ const styles = StyleSheet.create({
         fontFamily: "ProductSans"
     },
     header: {
-        marginTop : 100,
+        marginTop: 100,
         fontSize: 25
     },
-      image: {
+    image: {
         marginTop: 15,
         width: 150,
         height: 150,
