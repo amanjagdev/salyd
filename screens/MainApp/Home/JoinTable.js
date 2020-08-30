@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react"
-import { Button, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { CommonActions } from '@react-navigation/native';
 import { apiUrl } from '../../../config/keys';
-
+import { FontAwesome5 } from '@expo/vector-icons';
 import { GlobalContext } from "../../../context/GlobalState";
 
 import {
@@ -10,10 +10,13 @@ import {
     AsyncStorage,
     StyleSheet,
     Alert,
+    Text,
+    Image,
     Dimensions,
 } from "react-native";
 
 import Header from '../../../components/Header';
+import Button from '../../../components/Button';
 import { colors } from "../../../constants/constant";
 
 const JoinTable = (props) => {
@@ -21,7 +24,7 @@ const JoinTable = (props) => {
     const [localRoomId, setLocalRoomID] = useState(null);
     const [name, setName] = useState(null);
 
-    const { token, updateRoom} = useContext(GlobalContext)
+    const { token, updateRoom } = useContext(GlobalContext)
 
     const enterId = async () => {
         //If user has token(logged in) then let him/her enter only the roomId
@@ -102,48 +105,98 @@ const JoinTable = (props) => {
             <Header navigation={props.navigation} isBack >Join Table</Header>
             {token ? (
                 <View style={styles.container}>
+                    <View style={{
+                        margin: 40, alignItems: "center"
+                    }}>
+                        <Image source={require("../../../assets/code.png")} />
+                    </View>
+
+                    {/* SHARE ID  */}
+                    <View style={{
+                        flexDirection: "row",
+                        backgroundColor: "#d8ffcf",
+                        borderRadius: 10,
+                        padding: 20,
+                        alignItems: "center",
+                        marginBottom: 20
+                    }}>
+                        <FontAwesome5 style={{
+                            marginRight: 20
+                        }} name="lightbulb" size={24} color="black" />
+                        <Text style={{
+                            fontFamily: "ProductSans",
+                            marginRight: 30
+                        }}>Enter the Room Id you got from your colleagues to join the table</Text>
+                    </View>
 
                     <TextInput
-                        label="Enter room Id"
-                        mode="outlined"
-                        value={name}
-                        theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
-                        onChangeText={(text) => setLocalRoomID(text)} />
+                        label="Room Id"
+                        value={localRoomId}
+                        keyboardType="number-pad"
+                        underlineColor="transparent"
+                        theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
+                        style={styles.inputbox}
+                        onChangeText={(text) => setLocalRoomID(text)}
+                    />
 
-                    <Button
-                        mode="contained"
-                        color={colors.accentPrimary}
-                        style={{ ...styles.button, marginTop: 30 }}
-                        onPress={() => enterId()}
-                    >
-                        Join Room
-                    </Button>
+                    <View style={{
+                        marginTop: 20,
+                        alignItems: "center"
+                    }}>
+                        <Button onPressFunction={() => enterId()}>Join Room</Button>
+                    </View>
                 </View>)
                 :
                 (<View style={styles.container}>
 
+                    <View style={{
+                        margin: 40, alignItems: "center"
+                    }}>
+                        <Image source={require("../../../assets/code.png")} />
+                    </View>
+
+                    {/* SHARE ID  */}
+                    <View style={{
+                        flexDirection: "row",
+                        backgroundColor: "#d8ffcf",
+                        borderRadius: 10,
+                        padding: 20,
+                        alignItems: "center",
+                        marginBottom: 20
+                    }}>
+                        <FontAwesome5 style={{
+                            marginRight: 20
+                        }} name="lightbulb" size={24} color="black" />
+                        <Text style={{
+                            fontFamily: "ProductSans",
+                            marginRight: 30
+                        }}>Enter the Room Id you got from your colleagues to join the table</Text>
+                    </View>
+
                     <TextInput
-                        label="Enter room Id"
-                        mode="outlined"
+                        label="Room Id"
                         value={localRoomId}
-                        theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
-                        onChangeText={(text) => setLocalRoomID(text)} />
-
+                        keyboardType="number-pad"
+                        underlineColor="transparent"
+                        theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
+                        style={styles.inputbox}
+                        onChangeText={(text) => setLocalRoomID(text)}
+                    />
                     <TextInput
-                        label="Enter Name"
-                        mode="outlined"
+                        label="Name"
                         value={name}
-                        theme={{ roundness: 30, colors: { primary: colors.accentPrimary, background: colors.back } }}
-                        onChangeText={(text) => setName(text)} />
+                        underlineColor="transparent"
+                        theme={{ roundness: 20, colors: { primary: colors.accentPrimary } }}
+                        style={{ ...styles.inputbox, marginTop: 20 }}
+                        onChangeText={(text) => setName(text)}
+                    />
 
-                    <Button
-                        mode="contained"
-                        color={colors.accentPrimary}
-                        style={styles.button}
-                        onPress={() => enterId()}
-                    >
-                        Join Room
-                    </Button>
+                    <View style={{
+                        marginTop: 20,
+                        alignItems: "center"
+                    }}>
+                        <Button onPressFunction={() => enterId()}>Join Room</Button>
+                    </View>
                 </View>)
 
             }
@@ -172,6 +225,12 @@ const styles = StyleSheet.create({
     outlined: {
         borderColor: colors.back,
         borderWidth: 1
+    },
+    inputbox: {
+        paddingLeft: 10,
+        backgroundColor: "#ddffd9",
+        borderRadius: 20,
+        fontFamily: "ProductSans",
     },
 })
 
