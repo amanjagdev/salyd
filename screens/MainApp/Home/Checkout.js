@@ -1,10 +1,12 @@
 import React from 'react'
 import { FlatList, View, Dimensions, Modal, StyleSheet } from 'react-native'
-import { ActivityIndicator, Text, Button, Divider } from 'react-native-paper';
+import { ActivityIndicator, Text, Divider } from 'react-native-paper';
 import { CommonActions } from '@react-navigation/native';
 import socketIOClient from "socket.io-client";
 
 import Header from '../../../components/Header';
+import Button from '../../../components/Button';
+
 import { colors } from '../../../constants/constant';
 import { GlobalContext } from '../../../context/GlobalState';
 import { apiUrl } from '../../../config/keys'
@@ -18,7 +20,7 @@ const Checkout = ({ navigation }) => {
     const [content, setContent] = React.useState(true)
     const [processing, setProcessing] = React.useState(false)
 
-    const { order, globalTableId, user,restro,token } = React.useContext(GlobalContext)
+    const { order, globalTableId, user, restro, token } = React.useContext(GlobalContext)
 
     const OfflineContent = {
         title: "Offline",
@@ -37,15 +39,15 @@ const Checkout = ({ navigation }) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token                
+                "Authorization": "Bearer " + token
             },
             body: JSON.stringify({
                 "tableId": globalTableId,
                 "orderId": orderId,
                 "menu": order.menu,
-                "name" : restro.name,
-                "address" : restro.address,
-                "date" : newDate
+                "name": restro.name,
+                "address": restro.address,
+                "date": newDate
             })
         }).then((res) => res.json())
             .then((data) => {
@@ -53,7 +55,7 @@ const Checkout = ({ navigation }) => {
                     Alert.alert("Sorry, something went wrong");
                 }
                 else {
-                    socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId,"restroId" : restro._id });
+                    socket.emit("orderPlaced", { globalTableId, "menu": order.menu, "username": user.name, orderId, "restroId": restro._id });
                     socket.on("paid", (oID) => {
                         if (oID === orderId) {
                             navigation.dispatch(
@@ -96,10 +98,7 @@ const Checkout = ({ navigation }) => {
                         </View>
 
                         <Button
-                            mode="contained"
-                            color={colors.accentPrimary}
-                            style={{ ...styles.button, ...styles.outlined }}
-                            onPress={() => {
+                            onPressFunction={() => {
                                 setVisible(!visible);
                             }}
                         >
@@ -109,77 +108,117 @@ const Checkout = ({ navigation }) => {
                 </View>
             </Modal>
             <Header navigation={navigation} isBack>Checkout</Header>
-            <View style={{ margin: 15, marginTop: 0 }}>
-                <View>
-                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>Your Order : {order.orderID}</Text>
-                    <View style={{
-                        maxHeight: 300,
-                    }}>
-                        <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                            <Text style={{ flex: 1, fontWeight: "bold" }}>Name</Text>
-                            <Text style={{ flex: 1, fontWeight: "bold" }}>Quantity</Text>
-                            <Text style={{ flex: 1, fontWeight: "bold" }}>Price</Text>
-                            <Text style={{ flex: 1, fontWeight: "bold" }}>Total Price</Text>
+            <View style={{ margin: 20, marginTop: 15 }}>
+                <View style={{
+                    backgroundColor: "white",
+                    borderRadius: 20,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5
+                }}>
+                    <View style={{ padding: 20, paddingBottom: 15 }}>
+                        <Text style={{
+                            fontSize: 20,
+                            marginBottom: 10,
+                            fontFamily: "ProductSansBold",
+                        }}>Order</Text>
+                        <View style={{
+                            maxHeight: 300,
+                        }}>
+                            <View style={{ marginVertical: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                                <Text style={{ flex: 1, color: "#00821a", fontFamily: "ProductSansBold" }}>Name</Text>
+                                <Text style={{ flex: 1, color: "#00821a", fontFamily: "ProductSansBold" }}>Quantity</Text>
+                                <Text style={{ flex: 1, color: "#00821a", fontFamily: "ProductSansBold" }}>Price</Text>
+                                <Text style={{ flex: 1, color: "#00821a", fontFamily: "ProductSansBold" }}>Total Price</Text>
+                            </View>
+                            <FlatList
+                                data={order.menu}
+                                renderItem={({ item }) => (
+                                    item.count ?
+                                        <View style={{ marginVertical: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                                            <Text style={{ flex: 1, fontFamily: "ProductSans" }}>{item.item}</Text>
+                                            <Text style={{ flex: 1, fontFamily: "ProductSans" }}>{item.count}</Text>
+                                            <Text style={{ flex: 1, fontFamily: "ProductSans" }}>₹{item.price}</Text>
+                                            <Text style={{ flex: 1, fontFamily: "ProductSans" }}>₹{item.price * item.count}</Text>
+                                        </View> : null
+                                )}
+                            />
                         </View>
-                        <FlatList
-                            data={order.menu}
-                            renderItem={({ item }) => (
-                                item.count ?
-                                    <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                                        <Text style={{ flex: 1 }}>{item.item}</Text>
-                                        <Text style={{ flex: 1 }}>{item.count}</Text>
-                                        <Text style={{ flex: 1 }}>{item.price}</Text>
-                                        <Text style={{ flex: 1 }}>{item.price * item.count}</Text>
-                                    </View> : null
-                            )}
-                        />
+                    </View>
+                    <View style={{
+                        height: 50,
+                        borderBottomEndRadius: 20,
+                        borderBottomLeftRadius: 20,
+                        backgroundColor: "#2ce66d",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "space-around"
+                    }}>
+                        <Text style={{
+                            fontFamily: "ProductSansBold",
+                            color: "#fff",
+                            fontSize: 22
+                        }}>Total</Text>
+                        <Text style={{
+                            fontSize: 22,
+                            textAlign: "right",
+                            color: "#fff",
+                            marginLeft: 10,
+                            fontFamily: "ProductSansBold"
+                        }}>₹ 300</Text>
                     </View>
                 </View>
 
-                <Text style={{ fontSize: 20, fontWeight: "bold", marginVertical: 15, marginBottom: 0 }}>Pay for your Order</Text>
-                <Text style={{ color: "#555" }}>Pay your Bill using one of the preffered methods</Text>
-
                 <View style={{
-                    marginTop: 10, flexDirection: "row", justifyContent: "space-around", alignItems: "center"
+                    backgroundColor: "white",
+                    padding: 20,
+                    borderRadius: 20,
+                    marginTop: 20,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5
                 }}>
-                    <Button
-                        mode="contained"
-                        color={colors.accentPrimary}
-                        dark style={{ ...styles.button }}
-                        onPress={() => { setContent(true); setVisible(true) }}
-                    >
-                        Pay Offline
-                    </Button>
+                    <Text style={{ fontSize: 20, fontFamily: "ProductSansBold", marginBottom: 15 }}>Pay for your Order</Text>
+                    <Text style={{ color: "#555", fontFamily: "ProductSans" }}>Pay your Bill using one of the preffered methods</Text>
 
-                    <Button
-                        mode="contained"
-                        color={colors.accentPrimary}
-                        style={{ ...styles.button }}
-                        onPress={() => { setContent(false); setVisible(true) }}
-                        dark
-                    >
-                        Pay Online
-                    </Button>
+                    <View style={{
+                        marginTop: 10, flexDirection: "row", justifyContent: "space-around", alignItems: "center"
+                    }}>
+                        <Button colorBack="#54cfff" onPressFunction={() => { setContent(true); setVisible(true) }}> Pay Offline</Button>
+                        <Button colorBack="#ffaa54" onPressFunction={() => { setContent(false); setVisible(true) }}> Pay Online</Button>
+                    </View>
                 </View>
 
-                <Text style={{ fontSize: 20, fontWeight: "bold", marginVertical: 15, marginBottom: 0 }}>Confirm Order</Text>
-                <Text style={{ color: "#555" }}>Pay your Bill using one of the preffered methods</Text>
-                {
-                    processing ?
-                        <View style={{ marginTop: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ color: colors.accentPrimary, marginRight: 10 }} >Processing</Text>
-                            <ActivityIndicator animating={true} color={colors.accentPrimary} />
-                        </View> :
-                        <Button
-                            mode="contained"
-                            color={colors.accentPrimary}
-                            dark
-                            style={{ ...styles.button }}
-                            onPress={() => checkIfPaid()}
-                        >
-                            Confirm
+                <View style={{
+                    backgroundColor: "white",
+                    padding: 20,
+                    marginTop: 20,
+                    borderRadius: 20,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5
+                }}>
+                    <Text style={{ fontSize: 20, fontFamily: "ProductSansBold", marginBottom: 15 }}>Confirm Order</Text>
+                    <Text style={{ color: "#555", fontFamily: "ProductSans", marginBottom: 10 }}>Pay your Bill using one of the preffered methods</Text>
+                    {
+                        processing ?
+                            <View style={{ marginTop: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ color: colors.accentPrimary, marginRight: 10, fontFamily: "ProductSans" }} >Processing</Text>
+                                <ActivityIndicator animating={true} color={colors.accentPrimary} />
+                            </View> :
+                            <Button
+                                onPressFunction={() => checkIfPaid()}
+                            >
+                                Confirm
                 </Button>
-                }
+                    }
+                </View>
 
             </View>
         </View >

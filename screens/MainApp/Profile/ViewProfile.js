@@ -1,6 +1,5 @@
 import React, { useContext,useState } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, AsyncStorage, TouchableOpacity,Modal,Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import { MaterialCommunityIcons, FontAwesome, Feather, Ionicons } from '@expo/vector-icons'
