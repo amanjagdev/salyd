@@ -1,6 +1,6 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/amanjagdev/salyd.svg)](https://github.com/amanjagdev/salyd/graphs/contributors/)
 [![GitHub stars](https://img.shields.io/github/stars/amanjagdev/salyd.svg?style=social&label=Star&maxAge=2592000)](https://github.com/amanjagdev/salyd/stargazers/)
-[![GitHub forks](https://img.shields.io/github/forks/amanjagdev/salyd.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/amanjagdev/salyd/network/)
+[![GitHub forks](https://img.shields.io/github/forks/amanjagdev/salyd.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/amanjagdev/salyd/network/members/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 <!-- [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/amanjagdev/salyd/badges/) -->
@@ -18,7 +18,6 @@
     Bringing flawless contactless dinning experience 
     <br />
     <br />
-    <a href="https://github.com/amanjagdev/salyd/issues">View Demo</a>
     ·
     <a href="https://github.com/amanjagdev/salyd/issues">Report Bug</a>
     ·
@@ -34,6 +33,7 @@
     -   [Built With](#built-with)
 -   [Getting Started](#getting-started)
     -   [Prerequisites](#prerequisites)
+    -   [Referenced Repositories](#referenced-repositories)
     -   [Installation](#installation)
 -   [Usage](#usage)
 -   [Roadmap](#roadmap)
@@ -94,6 +94,16 @@ Install node,npm & Expo
 [Install npm](https://www.npmjs.com/get-npm)
 
 [Install Expo](https://docs.expo.io/)
+
+For implemnting Google OAuth , set up your own firebase config and place the file with name "firebase.js" in config folder at the root location.
+
+[Refer this](https://firebase.google.com/docs/auth/web/google-signin)
+
+### Referenced Repositories
+
+[Salyd Server](https://github.com/kg-kartik/salyd-server)
+
+[Salyd Restaurant](https://github.com/amanjagdev/salyd-restro)
 
 ### Installation
 
