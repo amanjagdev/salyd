@@ -46,6 +46,11 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
+<p align ="center">
+
+<img src = "screenshots/1.png" height="400" width = "200" >
+
+
 This project aims to bring a flawless contactless dinning experience, where the customers coming to the restaurant can scan the qr code and get the menu on their respective screens. 
 
 ### Here's what we provide to the customers
@@ -118,11 +123,58 @@ expo start
 
 <!-- USAGE EXAMPLES -->
 
-<!-- ## Usage
+## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources. -->
-<!-- 
-_For more examples, please refer to the [Documentation](https://example.com)_ -->
+* Firstly, you will get option to either signup or login in the app.
+
+<p align ="center">
+
+<img src = "screenshots/2.png" height="400" width = "200" >
+
+* Signup in the app if you are not logged in. You can also signup using Google Oauth. 
+
+<p align ="center">
+
+<img src = "screenshots/3.png" height="400" width = "200" >
+
+* After that, you can scan the qr code or enter the tableId to join a particular table as an admin.
+
+
+<p align ="center">
+
+<img src = "screenshots/4.png" height="400" width = "200" >
+
+
+* On successful joinning of table, you will get a unique Room Id which can be shared with the other table members to let them join that particular table as guest. Admin can also set permission for other table members to either only view the menu or edit it.
+ 
+<p align ="center">
+
+<img src = "screenshots/5.png" height="400" width = "200" >
+
+* The other table members can join the table with that unique Room Id either by loginning in or as guest users.
+
+<p align ="center">
+
+<img src = "screenshots/6.png" height="400" width = "200" >
+
+
+* Logged in users can also view and edit profile.They can also view recent orders if any.
+
+<p align ="center">
+
+<img src = "screenshots/7.png" height="400" width = "200" >
+
+*Admin after successfully setting permission will be taken to menu screen where admin and all the table members can select menu items(depending upon permission) and proceed for placing the order.
+
+<p align ="center">
+
+<img src = "screenshots/8.png" height="400" width = "200" >
+
+* Here admin will get the description and price of the menu items. And then can proceed for payment by choosing either of the payment options mentioned.As soon as the payment is confirmed from restauarant side, order will be confirmed.
+
+<p align ="center">
+
+<img src = "screenshots/10.png" height="400" width = "200" >
 
 <!-- ROADMAP -->
 
