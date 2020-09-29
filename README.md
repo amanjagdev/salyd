@@ -3,7 +3,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/amanjagdev/salyd.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/amanjagdev/salyd/network/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
-[![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/amanjagdev/salyd/badges/)
+<!-- [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/amanjagdev/salyd/badges/) -->
 
 <!-- PROJECT LOGO -->
 <br />
@@ -12,10 +12,11 @@
     <img src="assets/logo.jpg" alt="Logo" width="200" height="200">
   </a>
 
-  <h3 align="center">Salyd</h3>
+   <h1 align="center">Salyd </h1>
 
   <p align="center">
     Bringing flawless contactless dinning experience 
+    <br />
     <br />
     <a href="https://github.com/amanjagdev/salyd/issues">View Demo</a>
     ·
@@ -37,15 +38,13 @@
 -   [Usage](#usage)
 -   [Roadmap](#roadmap)
 -   [Contributing](#contributing)
--   [License](#license)
 -   [Contact](#contact)
--   [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 This project aims to bring a flawless contactless dinning experience, where the customers coming to the restaurant can scan the qr code and get the menu on their respective screens. 
 
@@ -119,11 +118,11 @@ expo start
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+<!-- ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources. -->
+<!-- 
+_For more examples, please refer to the [Documentation](https://example.com)_ -->
 
 <!-- ROADMAP -->
 
@@ -143,24 +142,15 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 <!-- CONTACT -->
 
 ## Contact
 
 <!-- <Names> -->
 
-Project Link: [https://github.com/amanjagdev/salyd](https://github.com/amanjagdev/salyd)
+Aman Jagdev - [GitHub](https://github.com/amanjagdev) - amankumarjagdev@gmail.com
 
-<!-- ACKNOWLEDGEMENTS -->
+Kartik Goel - [GitHub](https://github.com/kg-kartik) - goel.kartik39@gmail.com
 
-## Acknowledgements
+<p align = "center" >Made with :purple_heart: for :india: </p>
 
--   []()
--   []()
--   []()
