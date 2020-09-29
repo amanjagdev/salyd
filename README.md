@@ -9,16 +9,13 @@
 <br />
 <p align="center">
   <a href="https://github.com/amanjagdev/salyd">
-    <img src="assets/logo.jpg" alt="Logo" width="80" height="80">
+    <img src="assets/logo.jpg" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">Salyd</h3>
 
   <p align="center">
-    YOUR_SHORT_DESCRIPTION
-    <br />
-    <a href="https://github.com/amanjagdev/salyd"><strong>Explore the docs »</strong></a>
-    <br />
+    Bringing flawless contactless dinning experience 
     <br />
     <a href="https://github.com/amanjagdev/salyd/issues">View Demo</a>
     ·
@@ -51,17 +48,34 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 
+
+
 ### Built With
 
--   []()
--   []()
--   []()
+<img alt="Python" src="https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat&logo=EXPO&labelColor=f3f3f3&logoColor=000">
+
+<img alt="Python" src="https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
+
+<img alt="Python" src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white" />
+
+<img alt="Python" src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=white" />
+
+<img alt="Python" src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" />
+
 
 <!-- GETTING STARTED -->
 
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
+
+### Prerequisites
+
+Install node,npm & Expo
+
+[Install npm](https://www.npmjs.com/get-npm)
+
+[Install Expo](https://docs.expo.io/)
 
 ### Installation
 
@@ -71,16 +85,22 @@ To get a local copy up and running follow these simple steps.
 git clone https://github.com/amanjagdev/salyd.git
 ```
 
-2. Install packages
+3. Install Expo Cli if you haven't already
 
 ```sh
-npm install | yarn 
+npm install -g expo-cli
 ```
 
-3. Install Expo Dependencies
+3. Install packages
 
 ```sh
-expo install
+npm install
+```
+
+4. Build expo project and Run the bundler
+
+```sh
+expo start
 ```
 
 <!-- USAGE EXAMPLES -->
