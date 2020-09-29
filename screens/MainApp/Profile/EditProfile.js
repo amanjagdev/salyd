@@ -1,22 +1,88 @@
-import React, { useContext } from 'react'
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Button } from 'react-native-paper';
+import React, { useContext, useState } from 'react'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import { MaterialCommunityIcons, FontAwesome, Feather, Ionicons } from '@expo/vector-icons'
+import { Button as ButtonPaper } from "react-native-paper";
 
 //Components
 import Header from '../../../components/Header'
+import Button from '../../../components/Button'
 
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
 import { colors } from '../../../constants/constant';
+import { localapiUrl } from '../../../config/keys';
+import Axios from 'axios';
 
 const heightOfScreen = Dimensions.get("window").height;
 
 const ViewProfile = ({ navigation }) => {
-    const { user } = useContext(GlobalContext);
-    
+
+    //Definning states
+    const [modal, setModal] = useState(false);
+    const { user, token } = useContext(GlobalContext);
+
     const saveProfile = () => {
         console.log("Updated Profile");
         navigation.navigate('ViewProfile')
+    }
+    const uploadPic = (file) => {
+        Axios({
+            url: `${localapiUrl}/uploadpic`,
+            method: 'post',
+            headers: {
+                "Content-type": `application/json`,
+                "Authorization": `Bearer ${token}`,
+                "Accept": `application/json`
+            },
+            body: {imgb64: file}
+        }).then((response) => {
+            console.log("i am herrrr");
+            console.log(response)
+        }).catch((err) => {
+            console.error(err)
+        })
+    }
+
+    const pickFromGallery = async () => {
+        const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if (granted) {
+            let data = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 0.5,
+				base64: true,
+            })
+
+            if (!data.cancelled) {
+                uploadPic(data.base64)
+            }
+        }
+    }
+
+    const pickFromCamera = async () => {
+        const { granted } = await Permissions.askAsync(Permissions.CAMERA)
+
+        if (granted) {
+            let data = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 0.5
+            })
+
+            if (!data.cancelled) {
+                let newfile = {
+                    uri: data.uri,
+                    type: `test/${data.uri.split(".")[1]}`,
+                    name: `test.${data.uri.split(".")[1]}`
+                }
+
+                uploadPic(newfile.uri);
+            }
+        }
     }
 
     return (
@@ -26,18 +92,49 @@ const ViewProfile = ({ navigation }) => {
                 <Text style={{
                     fontSize: 20, fontWeight: "bold"
                 }}>Hello {user.name}</Text>
+                <TouchableOpacity onPress={() => setModal(true)}>
+                    <Text style={styles.changedp}> Change your profile picture</Text>
+                </TouchableOpacity>
                 <Button
-                    mode="contained"
-                    color={colors.accentPrimary}
-                    style={styles.button}
-                    onPress={() => saveProfile()}
+                    onPressFunction={() => saveProfile()}
                 >
                     Save
                 </Button>
                 <View style={styles.recentOrders}>
                     <Text>Recent Orders </Text>
                 </View>
-            </View  >
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modal}
+                    onRequestClose={() => {
+                        setModal(false)
+                    }}
+                >
+                    <View style={styles.modalView}>
+                        <View style={styles.modalButtonView}>
+                            <ButtonPaper
+                                icon="camera"
+                                mode="contained"
+                                style={styles.buttonpaper}
+                                onPress={() => pickFromCamera()}>
+                                Camera
+                        </ButtonPaper>
+
+                            <ButtonPaper
+                                icon="image-area"
+                                mode="contained"
+                                style={styles.buttonpaper}
+                                onPress={() => pickFromGallery()}>
+                                Gallery
+                        </ButtonPaper>
+
+                        </View>
+
+                    </View>
+
+                </Modal>
+            </View>
         </View>
     )
 }

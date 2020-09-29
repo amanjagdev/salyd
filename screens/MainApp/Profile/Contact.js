@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Dimensions, Linking, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, Linking, Image, Dimensions } from 'react-native';
 import Header from '../../../components/Header';
-import { Button } from 'react-native-paper'
-import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons'
-import { GlobalContext } from '../../../context/GlobalState';
+import Button from '../../../components/Button';
 import { colors } from '../../../constants/constant';
-const width = Dimensions.get("window").width;
+import { FontAwesome5 } from '@expo/vector-icons';
 
-const Contact = ({navigation}) => {
-    const phone = 7017666017
-    const email = "mohanjipuri@gmail.com"
+const Contact = ({ navigation }) => {
+    const details = {
+        phone: "8077XXXXXX",
+        email: "salyd@mail.com",
+        address: "Esteria Towers\n Times Square Callison Lane\n Portland, DE 97205",
+    };
+
     const openDial = () => {
         if (Platform.OS === "android") {
             Linking.openURL(`tel:${phone}`)
@@ -18,55 +20,94 @@ const Contact = ({navigation}) => {
             Linking.openURL(`telprompt:${phone}`)
         }
     }
-    const { restro } = React.useContext(GlobalContext)
+
     return (
-        <View style={styles.container}>
-                <KeyboardAvoidingView behavior="position">
-                    <Header navigation={navigation} isBack>Contact Us</Header>
+        <React.Fragment>
+            <Header navigation={navigation} isBack>Contact Us</Header>
+            <View style={styles.container}>
+                {/* TOP SECTION  */}
+                <View style={{
+                    margin: 50,
+                    flexDirection: "column",
+                    alignItems: "center"
+                }}>
+                    <Image style={{
+                        height: 150, width: 150
+                    }} source={require('../../../assets/logo_col.png')} />
+                    <Text style={{
+                        fontFamily: "ProductSansBold",
+                        fontSize: 32,
+                        marginTop: 15,
+                        color: colors.accentPrimary
+                    }}>Salyd</Text>
+                </View >
 
-                    <Text style={styles.title}> Contact</Text>
+                {/* MIDDLE SECTION  */}
+                <View style={{
+                    margin: 30,
+                    padding: 20,
+                    borderRadius: 20,
+                    flexDirection: "column",
+                    backgroundColor: "white",
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5
+                }}>
+                    <Text style={{
+                        fontFamily: "ProductSansBold",
+                        fontSize: 22,
+                        textAlign: "center"
+                    }}> Details </Text>
 
-                    <View style={styles.cardContainer}>
-
-                        <TouchableOpacity>
-                            <View style={styles.mycard}>
-
-                                <View style={styles.cardContent}>
-                                    <FontAwesome name="address-card" style={styles.icon} />
-                                    <Text style={styles.mytext}>{ restro && (restro.name + " ," + restro.address)}</Text>
-                                </View>
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => {
-                            Linking.openURL(`mailto:${email}`)
-                        }}>
-                            <View style={styles.mycard}>
-                                <View style={styles.cardContent}>
-                                    <MaterialCommunityIcons name="email" style={styles.icon} />
-                                    <Text style={styles.mytext}>{email}</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-
-                        <Button
-                            mode="contained"
-                            onPress={() => openDial()}
-                            style={styles.button}>
-                            Call Us
-                    </Button>
-
+                    <View style={{ flexDirection: "row", marginTop: 15, alignItems: "center" }}>
+                        <FontAwesome5 name="phone" size={24} color="#54cfff" />
+                        <Text style={{
+                            fontFamily: "ProductSansBold",
+                            marginLeft: 10
+                        }}> {details.phone} </Text>
                     </View>
-                </KeyboardAvoidingView>
-        </View>
+
+                    <View style={{ flexDirection: "row", marginTop: 15, alignItems: "center" }}>
+                        <FontAwesome5 name="at" size={24} color="#ffaa54" />
+                        <Text style={{
+                            fontFamily: "ProductSansBold",
+                            marginLeft: 10
+                        }}> {details.email} </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", marginTop: 15, alignItems: "flex-start" }}>
+                        <FontAwesome5 name="home" size={24} color="#ff707e" />
+                        <Text style={{
+                            fontFamily: "ProductSansBold",
+                            marginLeft: 10
+                        }}> {details.address} </Text>
+                    </View>
+
+                </View >
+
+
+                {/* BITTOM SECTION  */}
+                <View style={{
+                    width: "100%",
+                    alignItems: "center",
+                    position: "absolute",
+                    bottom: 30
+                }}>
+                    <Text style={{
+                        fontSize: 18,
+                        fontFamily: "ProductSans"
+                    }}>Made with <FontAwesome5 name="heart" size={18} color="red" /> by Salyd Team</Text>
+                </View>
+            </View >
+        </React.Fragment >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
+        height: Dimensions.get("screen").height - 110
     },
     title: {
         fontFamily: "DMSansRegular",

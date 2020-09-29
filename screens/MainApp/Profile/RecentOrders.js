@@ -165,7 +165,7 @@ const RecentOrders = (props) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#ffffff",
-        height: Dimensions.get("screen").height
+        height: Dimensions.get("screen").height - 120
     },
     image: {
         height: height * 0.2,
