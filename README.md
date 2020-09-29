@@ -47,10 +47,25 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
+This project aims to bring a flawless contactless dinning experience, where the customers coming to the restaurant can scan the qr code and get the menu on their respective screens. 
 
+### Here's what we provide to the customers
 
+- Customers can scan the QR code placed on their respective table.
+- They can join particular room as guest users by entering the unique Room Id.
+- Admin of the table can grant members of the table different permissions like view only and edit.
+- Customers can place and pay order in just few clicks.
+- They can view recent orders history with the proper bill of the orders.
+
+### Here's what we provide to the restaurants
+
+- A Web portal for menu management to add/edit items according to the need from any platform.
+- It also provides with the live order and payment status of respective table.
+- Push notification on successful placement of order and payment of the order.
 
 ### Built With
+
+<p float ="right">
 
 <img alt="Python" src="https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat&logo=EXPO&labelColor=f3f3f3&logoColor=000">
 
@@ -62,12 +77,11 @@
 
 <img alt="Python" src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" />
 
-
+</p>
 <!-- GETTING STARTED -->
 
 ## Getting Started
-
-To get a local copy up and running follow these simple steps.
+To get a local copy up and for running the project locally, follow these simple steps.
 
 ### Prerequisites
 
