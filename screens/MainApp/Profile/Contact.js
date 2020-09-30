@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Linking, Image, Dimensions } from 'react-native';
 import Header from '../../../components/Header';
-import Button from '../../../components/Button';
 import { colors } from '../../../constants/constant';
 import { FontAwesome5 } from '@expo/vector-icons';
 

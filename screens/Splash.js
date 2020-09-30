@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Button from '../components/Button'
-import { colors } from '../constants/constant';
+
 const Splash = ({ navigation }) => {
     const login = () => {
         navigation.push("Login")

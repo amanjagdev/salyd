@@ -8,22 +8,14 @@ import {
     ScrollView,
     Image
 } from 'react-native';
-import { Card } from 'react-native-paper'
 import Header from '../../../components/Header';
-
 
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
 import { apiUrl } from "../../../config/keys";
-import { colors } from '../../../constants/constant';
 
-const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 var totalPrice = [];
-
-const randomNum = () => {
-    console.log
-};
 
 const RecentOrders = (props) => {
     const { token } = useContext(GlobalContext);
@@ -42,7 +34,6 @@ const RecentOrders = (props) => {
     }, [])
 
 
-    console.log(order, "recent order");
     return (
         <SafeAreaView>
             <Header navigation={props.navigation} isBack>Recent Orders</Header>
@@ -104,7 +95,6 @@ const RecentOrders = (props) => {
                                     height: 100,
                                     width: 100
                                 }} source={require(`../../../assets/vectors/${4}.png`)} />
-                                {/* }} source={require(`../../../assets/vectors/${Math.floor(Math.random()*2 + 2).toString()}.png`)} /> */}
                             </View>
 
                             <View style={{
@@ -134,11 +124,7 @@ const RecentOrders = (props) => {
                                     </View>
                                 ))}
                             </View>
-
-
                         </View>
-
-
 
                         <View style={{
                             paddingTop: 10,

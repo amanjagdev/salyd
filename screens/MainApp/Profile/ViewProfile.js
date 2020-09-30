@@ -7,8 +7,6 @@ import { MaterialCommunityIcons, FontAwesome, Feather, Ionicons } from '@expo/ve
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
 import { colors } from '../../../constants/constant';
-import Axios from 'axios';
-import { localapiUrl } from "../../../config/keys";
 
 const width = Dimensions.get("window").width;
 

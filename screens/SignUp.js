@@ -9,7 +9,7 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import { Button, TextInput, ActivityIndicator } from "react-native-paper";
+import {TextInput, ActivityIndicator } from "react-native-paper";
 import Axios from "axios";
 import * as Google from "expo-google-app-auth";
 
@@ -17,6 +17,7 @@ import { apiUrl } from "../config/keys";
 
 //Componenents
 import Header from "../components/Header";
+import Button from "../components/Button";
 import { colors } from "../constants/constant";
 
 import firebase from "../config/firebase.js";
@@ -189,28 +190,7 @@ const SignUp = ({ navigation }) => {
           {submitting ? (
             <ActivityIndicator color={colors.accentPrimary} />
           ) : (
-            <TouchableOpacity onPress={() => submitForm()}>
-              <View
-                style={{
-                  alignItems: "center",
-                  backgroundColor: colors.accentPrimary,
-                  width: 100,
-                  height: 40,
-                  justifyContent: "space-around",
-                  borderRadius: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontFamily: "ProductSans",
-                  }}
-                >
-                  SignUp
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <Button onPressFunction={() => submitForm()}>Logout</Button>
           )}
         </View>
 

@@ -12,7 +12,7 @@ import Button from '../../../components/Button'
 //Context
 import { GlobalContext } from '../../../context/GlobalState';
 import { colors } from '../../../constants/constant';
-import { localapiUrl } from '../../../config/keys';
+import {apiUrl } from '../../../config/keys';
 import Axios from 'axios';
 
 const heightOfScreen = Dimensions.get("window").height;
@@ -29,7 +29,7 @@ const ViewProfile = ({ navigation }) => {
     }
     const uploadPic = (file) => {
         Axios({
-            url: `${localapiUrl}/uploadpic`,
+            url: `${apiUrl}/uploadpic`,
             method: 'post',
             headers: {
                 "Content-type": `application/json`,

@@ -12,7 +12,6 @@ import {
   Image,
   AsyncStorage,
   Dimensions,
-  ImageBackground
 } from "react-native"
 import Axios from "axios";
 

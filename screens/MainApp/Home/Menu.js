@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Searchbar } from "react-native-paper";
 import socketIOClient from "socket.io-client";
-import { CommonActions } from "@react-navigation/native";
 import { GlobalContext } from "../../../context/GlobalState";
 
 import {
@@ -10,12 +9,9 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Alert,
     FlatList,
-    Dimensions,
 } from "react-native";
 
-import Axios from "axios";
 import { apiUrl } from "../../../config/keys";
 import Header from "../../../components/Header";
 import { colors } from "../../../constants/constant";
@@ -32,6 +28,7 @@ const Menu = (props) => {
     const [user, setUser] = useState({});
     const [search, setSearch] = useState("");
     const [data_temp, setdata_temp] = useState([]);
+
     useEffect(() => {
         const getPermission = async () => {
             const userId = await AsyncStorage.getItem("userId");
@@ -162,6 +159,7 @@ const Menu = (props) => {
             socket.emit("countChange", menu, globalTableId);
         }
     };
+
     //Decreasing the no of items
     const decrementCounter = (id, index) => {
         if (id === menu[index]._id) {

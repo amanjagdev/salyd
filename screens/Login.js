@@ -8,8 +8,6 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     StyleSheet,
-    Alert,
-    Image,
     Dimensions
 } from "react-native";
 import Axios from 'axios'
@@ -17,11 +15,12 @@ import Axios from 'axios'
 //State
 import { GlobalContext } from '../context/GlobalState';
 
-//Congig
+//Config
 import { apiUrl } from '../config/keys';
 
 //Components
 import Header from '../components/Header';
+import Button from "../components/Button";
 import { colors } from "../constants/constant";
 
 const Login = ({ navigation }) => {
@@ -41,6 +40,8 @@ const Login = ({ navigation }) => {
             .then(async (res) => {
                 updateToken(res.data.token)
                 updateUser(res.data.user)
+                
+                //Updating asyncstorage for persistence
                 await AsyncStorage.setItem('token', res.data.token);
                 await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
                 isSubmitting(false)
@@ -94,25 +95,9 @@ const Login = ({ navigation }) => {
                     marginTop: 20,
                 }}>
                     {
-                        submitting ? < ActivityIndicator color={colors.accentPrimary} /> : <TouchableOpacity onPress={() => signin()}>
-                            <View style={{
-                                alignItems: "center",
-                                backgroundColor: colors.accentPrimary,
-                                width: 100,
-                                height: 40,
-                                justifyContent: "space-around",
-                                borderRadius: 10,
-                            }}>
-                                <Text style={{
-                                    color: "white",
-                                    fontSize: 16,
-                                    fontFamily: "ProductSans"
-                                }}>
-                                    Login
-                                </Text>
-
-                            </View>
-                        </TouchableOpacity>
+                        submitting ? < ActivityIndicator color={colors.accentPrimary} /> : (
+                            <Button onPressFunction={() => signin()}>Logout</Button>
+                        )
                     }
                 </View>
 
