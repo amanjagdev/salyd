@@ -1,6 +1,6 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/amanjagdev/salyd.svg)](https://github.com/amanjagdev/salyd/graphs/contributors/)
-[![GitHub stars](https://img.shields.io/github/stars/amanjagdev/salyd.svg?style=social&label=Star&maxAge=2592000)](https://github.com/amanjagdev/salyd/stargazers/)
-[![GitHub forks](https://img.shields.io/github/forks/amanjagdev/salyd.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/amanjagdev/salyd/network/members/)
+[![GitHub stars](https://img.shields.io/github/stars/amanjagdev/salyd?style=social&label=Star&maxAge=2592000)](https://github.com/amanjagdev/salyd/stargazers/)
+[![GitHub forks](https://img.shields.io/github/forks/amanjagdev/salyd?style=social&label=Fork&maxAge=2592000)](https://github.com/amanjagdev/salyd/network/members/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 <!-- [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/amanjagdev/salyd/badges/) -->
@@ -15,13 +15,18 @@
    <h1 align="center">Salyd </h1>
 
   <p align="center">
-    Bringing flawless contactless dinning experience 
+    Bringing flawless contactless dining experience 
     <br />
     <br />
     ·
     <a href="https://github.com/amanjagdev/salyd/issues">Report Bug</a>
     ·
     <a href="https://github.com/amanjagdev/salyd/issues">Request Feature</a>
+    ·
+    <br />
+    <a href="https://github.com/amanjagdev/salyd-restro">Restraunt Repo</a>
+    ·
+    <a href="https://github.com/kg-kartik/salyd-server">Server Repo</a>
   </p>
 </p>
 
@@ -71,15 +76,15 @@ This project aims to bring a flawless contactless dinning experience, where the 
 
 <p float ="right">
 
-<img alt="Python" src="https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat&logo=EXPO&labelColor=f3f3f3&logoColor=000">
+<img alt="Expo" src="https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat&logo=EXPO&labelColor=f3f3f3&logoColor=000">
 
-<img alt="Python" src="https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
+<img alt="JavaScript" src="https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
 
-<img alt="Python" src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white" />
+<img alt="MongoDb" src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white" />
 
-<img alt="Python" src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=white" />
+<img alt="React" src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=white" />
 
-<img alt="Python" src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" />
+<img alt="Node" src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" />
 
 </p>
 <!-- GETTING STARTED -->
