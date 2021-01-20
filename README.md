@@ -24,9 +24,6 @@
     <a href="https://github.com/amanjagdev/salyd/issues">Request Feature</a>
     ·
     <br />
-    <a href="https://github.com/amanjagdev/salyd-restro">Restraunt Repo</a>
-    ·
-    <a href="https://github.com/kg-kartik/salyd-server">Server Repo</a>
   </p>
 </p>
 
