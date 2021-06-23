@@ -60,6 +60,7 @@ This project aims to bring a flawless contactless dinning experience, where the 
 - Customers can scan the QR code placed on their respective table.
 - They can join particular room as guest users by entering the unique Room Id.
 - Admin of the table can grant members of the table different permissions like view only and edit.
+- All the members in a particular room can thus edit the menu in real time.
 - Customers can place and pay order in just few clicks.
 - They can view recent orders history with the proper bill of the orders.
 
